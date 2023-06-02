@@ -9,6 +9,12 @@ import vo.*;
 public class CartDao {
 	//장바구니 내 상품 보기
 	public HashMap<String, Object> selectCart(String id) throws Exception {
+		//유효성검사
+		if(id == null) {
+			System.out.println("answer클래스, AnswerContent값 확인");
+			return null;
+		}
+		
 		Cart cart = null;
 		ProductImg productImg = null;
 		DBUtil dbUtil = new DBUtil();
@@ -54,6 +60,12 @@ public class CartDao {
 	}
 	//장바구니 상품 추가 
 	public int insertCart(Cart cart) throws Exception {
+		//유효성검사
+		if(cart == null || cart.getId() == null) {
+			System.out.println("cart클래스, Id값 확인");
+			return 0;
+		}
+		
 		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -71,6 +83,12 @@ public class CartDao {
 	
 	//장바구니 상품 수정
 	public int updateCart(Cart cart) throws Exception {
+		//유효성검사
+		if(cart == null || cart.getId() == null) {
+			System.out.println("cart클래스, Id값 확인");
+			return 0;
+		}
+		
 		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();

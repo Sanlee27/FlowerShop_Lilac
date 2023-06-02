@@ -32,10 +32,12 @@ public class AddressDao {
 	
 	//주소번호가 없으면 추가, 번호가 있을때는 마지막일정 업데이트
 	public int updateAddress(Address address) throws Exception {
+		//유효성검사
 		if(address == null || address.getId() ==null || address.getAddress() == null) {
 			System.out.println("address클래스, id, 주소값 확인");
 			return 0;
 		}
+		
 		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -67,7 +69,7 @@ public class AddressDao {
 			);
 		addressdelStmt.setInt(1, addressNo);
 			
-		addressNo = addressdelStmt.executeUpdate();
-			return addressNo;
+		row = addressdelStmt.executeUpdate();
+			return row;
 		} 
 }

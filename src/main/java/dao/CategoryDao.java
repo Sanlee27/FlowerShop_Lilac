@@ -31,11 +31,13 @@ public class CategoryDao {
 	
 	//카테고리 추가
 	public int insertCategory(Category category) throws Exception {
-		int row = 0;
+		//유효성검사
 		if(category == null || category.getCategoryName() == null) {
 			System.out.println("category클래스, name값 확인");
 			return 0;
 		}
+		
+		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement categoryInsStmt = conn.prepareStatement(
@@ -49,13 +51,14 @@ public class CategoryDao {
 	
 	//카테고리 수정
 	public int updateCategory(Category oriCategory, Category newCategory) throws Exception {
-		int row = 0;
-		
+		//유효성검사
 		if(oriCategory == null || newCategory == null || 
 				oriCategory.getCategoryName() == null || newCategory.getCategoryName() == null ) {
 			System.out.println("category클래스, name값 확인");
 			return 0;
 		}
+		
+		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement categoryUpStmt = conn.prepareStatement(
@@ -71,12 +74,13 @@ public class CategoryDao {
 	
 	//카테고리 삭제
 	public int deleteCategory(String categoryName) throws Exception {
-		int row = 0; // 업데이트 실행 후 영향을 받은 행의 수
-		
+		//유효성검사
 		if(categoryName == null) {
 			System.out.println("categoryName값 확인");
 			return 0;
 		}
+		
+		int row = 0; // 업데이트 실행 후 영향을 받은 행의 수
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement categoryDelStmt = conn.prepareStatement(
