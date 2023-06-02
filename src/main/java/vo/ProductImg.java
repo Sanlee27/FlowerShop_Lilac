@@ -1,8 +1,8 @@
 package vo;
 
-public class Product_img {
+public class ProductImg {
 	private int productNo;
-	private String productORiFilename;
+	private String productOriFilename;
 	private String productSaveFilename;
 	private String productFiletype;
 	private String createdate;
@@ -14,11 +14,11 @@ public class Product_img {
 	public void setProductNo(int productNo) {
 		this.productNo = productNo;
 	}
-	public String getProductORiFilename() {
-		return productORiFilename;
+	public String getProductOriFilename() {
+		return productOriFilename;
 	}
-	public void setProductORiFilename(String productORiFilename) {
-		this.productORiFilename = productORiFilename;
+	public void setProductOriFilename(String productORiFilename) {
+		this.productOriFilename = productORiFilename;
 	}
 	public String getProductSaveFilename() {
 		return productSaveFilename;

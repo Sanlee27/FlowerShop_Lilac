@@ -1,8 +1,8 @@
 package vo;
 
-public class Review_img {
+public class ReviewImg {
 	private int orderNo;
-	private String reviewORiFilename;
+	private String reviewOriFilename;
 	private String reviewSaveFilename;
 	private String reviewFiletype;
 	private String createdate;
@@ -14,11 +14,11 @@ public class Review_img {
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	public String getReviewORiFilename() {
-		return reviewORiFilename;
+	public String getReviewOriFilename() {
+		return reviewOriFilename;
 	}
-	public void setReviewORiFilename(String reviewORiFilename) {
-		this.reviewORiFilename = reviewORiFilename;
+	public void setReviewOriFilename(String reviewORiFilename) {
+		this.reviewOriFilename = reviewORiFilename;
 	}
 	public String getReviewSaveFilename() {
 		return reviewSaveFilename;
