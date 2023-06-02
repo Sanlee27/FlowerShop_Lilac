@@ -59,12 +59,32 @@ public class CategoryDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement categoryUpStmt = conn.prepareStatement(
-				"UPDATE category SET category_name = ? WHERE category_name = ?"
+				"UPDATE category SET category_name = ?, updatedate = now() WHERE category_name = ?"
 			);
 		categoryUpStmt.setString(1, newCategory.getCategoryName());
 		categoryUpStmt.setString(2, oriCategory.getCategoryName());
 		
 		row = categoryUpStmt.executeUpdate();
+		
+		return row;
+	}
+	
+	//카테고리 삭제
+	public int deleteCategory(String categoryName) throws Exception {
+		int row = 0; // 업데이트 실행 후 영향을 받은 행의 수
+		
+		if(categoryName == null) {
+			System.out.println("categoryName값 확인");
+			return 0;
+		}
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement categoryDelStmt = conn.prepareStatement(
+				"DELETE FROM category WHERE category_name = ?"
+			);
+		categoryDelStmt.setString(1, categoryName);
+		
+		row = categoryDelStmt.executeUpdate();
 		
 		return row;
 	}
