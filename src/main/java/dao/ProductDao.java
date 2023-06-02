@@ -69,7 +69,7 @@ public class ProductDao {
 			p.setProductSaleCnt(rs.getInt("product_sale_cnt"));
 			
 			ProductImg pi = new ProductImg();
-			pi.setProductOriFilename(rs.getString("product_ori_file"));
+			pi.setProductOriFilename(rs.getString("product_ori_filename"));
 			pi.setProductSaveFilename(rs.getString("product_save_filename"));
 			pi.setProductFiletype(rs.getString("product_filetype"));
 			
@@ -97,7 +97,7 @@ public class ProductDao {
 		Connection conn = dbUtil.getConnection();
 		
 		// productNo에 해당하는 상세정보 가져오는 쿼리
-		String sql = "SELECT p.*, pimg.product_ori_filename, pimg.product_save_filename, pimg.product_filetype, d.discount_rate, ifnull(ROUND((1 - d.discount_rate) * p.product_price), p.product_price) discount_price FROM product p LEFT OUTER join product_img pimg ON p.product_no = pimg.product_no LEFT OUTER JOIN  discount d ON p.product_no = d.product_no where product_no = ?";
+		String sql = "SELECT p.*, pimg.product_ori_filename, pimg.product_save_filename, pimg.product_filetype, d.discount_rate, ifnull(ROUND((1 - d.discount_rate) * p.product_price), p.product_price) discount_price FROM product p LEFT OUTER join product_img pimg ON p.product_no = pimg.product_no LEFT OUTER JOIN  discount d ON p.product_no = d.product_no where p.product_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// ?값 세팅
@@ -115,7 +115,7 @@ public class ProductDao {
 			p.setProductStock(rs.getInt("product_stock"));
 			
 			ProductImg pi = new ProductImg();
-			pi.setProductOriFilename(rs.getString("product_ori_file"));
+			pi.setProductOriFilename(rs.getString("product_ori_filename"));
 			pi.setProductSaveFilename(rs.getString("product_save_filename"));
 			pi.setProductFiletype(rs.getString("product_filetype"));
 			
@@ -152,7 +152,7 @@ public class ProductDao {
 		
 		// product 테이블에 데이터를 추가하는 쿼리
 		String productSql = "insert into product(category_name, product_name, product_price, product_status, product_info, product_stock, createdate, updatedate) values(?, ?, ?, ?, ?, ?, now(), now())";
-		PreparedStatement productStmt = conn.prepareStatement(productSql);
+		PreparedStatement productStmt = conn.prepareStatement(productSql, PreparedStatement.RETURN_GENERATED_KEYS);
 		
 		// ?값 세팅
 		productStmt.setString(1, product.getCategoryName());
@@ -173,7 +173,7 @@ public class ProductDao {
 		}
 
 		// product_img에 데이터를 추가하는 쿼리
-		String productImgSql = "insert into product_img values(?, ?, ?, ?, now(), now()";
+		String productImgSql = "insert into product_img values(?, ?, ?, ?, now(), now())";
 		PreparedStatement productImgStmt = conn.prepareStatement(productImgSql);
 		
 		// ?값 세팅
@@ -284,7 +284,7 @@ public class ProductDao {
 			p.setProductStatus(rs.getString("product_status"));
 			
 			ProductImg pi = new ProductImg();
-			pi.setProductOriFilename(rs.getString("product_ori_file"));
+			pi.setProductOriFilename(rs.getString("product_ori_filename"));
 			pi.setProductSaveFilename(rs.getString("product_save_filename"));
 			pi.setProductFiletype(rs.getString("product_filetype"));
 			
@@ -328,7 +328,7 @@ public class ProductDao {
 			p.setProductStatus(rs.getString("product_status"));
 			
 			ProductImg pi = new ProductImg();
-			pi.setProductOriFilename(rs.getString("product_ori_file"));
+			pi.setProductOriFilename(rs.getString("product_ori_filename"));
 			pi.setProductSaveFilename(rs.getString("product_save_filename"));
 			pi.setProductFiletype(rs.getString("product_filetype"));
 			
