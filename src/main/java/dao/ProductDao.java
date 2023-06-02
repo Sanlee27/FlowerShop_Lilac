@@ -48,7 +48,7 @@ public class ProductDao {
 		}
 		
 		// 전체상품 리스트를 불러오는 쿼리(할인된 가격 포함, 검색어/정렬기준에 해당하는 결과)
-		String sql = "SELECT p.product_no, p.product_name, p.product_price, p.product_status, pimg.product_ori_filename, pimg.product_save_filename, pimg.product_filetype, d.discount_rate, ifnull(ROUND((1 - d.discount_rate) * p.product_price), p.product_price) discount_price FROM product p LEFT OUTER join product_img pimg ON p.product_no = pimg.product_no LEFT OUTER JOIN  discount d ON p.product_no = d.product_no " + searchQuery + " " + orderQuery + " limit ?, ?";
+		String sql = "SELECT p.product_no, p.product_name, p.product_price, p.product_status, p.product_sale_cnt, pimg.product_ori_filename, pimg.product_save_filename, pimg.product_filetype, d.discount_rate, ifnull(ROUND((1 - d.discount_rate) * p.product_price), p.product_price) discount_price FROM product p LEFT OUTER join product_img pimg ON p.product_no = pimg.product_no LEFT OUTER JOIN  discount d ON p.product_no = d.product_no " + searchQuery + " " + orderQuery + " limit ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// ?값 세팅
@@ -66,6 +66,7 @@ public class ProductDao {
 			p.setProductName(rs.getString("product_name"));
 			p.setProductPrice(rs.getInt("product_price"));
 			p.setProductStatus(rs.getString("product_status"));
+			p.setProductSaleCnt(rs.getInt("product_sale_cnt"));
 			
 			ProductImg pi = new ProductImg();
 			pi.setProductOriFilename(rs.getString("product_ori_file"));
