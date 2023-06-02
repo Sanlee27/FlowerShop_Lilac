@@ -17,8 +17,8 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// id_list에 id, pw, 활성화여부 Y 입력
-		// 가입시 활성화 여부 무조건 Y로 <> 비활성화_N일시 회원탈퇴처리된걸로?  id_list 테이블에 updatedate 컬럼 추가 필요 > 비밀번호,비활성화 변경
-		String idSql = "INSERT INTO id_list(id, last_pw, active, creatdate) values (?, PASSWORD(?), 'Y', NOW()"; 
+		// 가입시 활성화 여부 무조건 Y로
+		String idSql = "INSERT INTO id_list(id, last_pw, active, createdate) values (?, PASSWORD(?), 'Y', NOW())"; 
 		PreparedStatement idStmt = conn.prepareStatement(idSql);
 		idStmt.setString(1, id);
 		idStmt.setString(2, lastPw);
@@ -31,7 +31,7 @@ public class CustomerDao {
 		}
 		
 		// pw_history에 id, pw 입력
-		String pwSql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW()";
+		String pwSql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
 		PreparedStatement pwStmt = conn.prepareStatement(pwSql);
 		pwStmt.setString(1, id);
 		pwStmt.setString(2, lastPw);
@@ -58,9 +58,9 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// 값 입력 쿼리
-		String insertInfoSql = "INSERT INTO customer(cstm_name, cstm_address, cstm_email, cstm_birth, cstm_gender, cstm_phone, cstm_agree, createdate, updatedate) VALUES (?,?,?,?,?,?,?,?,?,?, NOW(), NOW())";
+		String insertInfoSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_gender, cstm_phone, cstm_agree, createdate, updatedate) VALUES (?,?,?,?,?,?,?,?, NOW(), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(insertInfoSql);
-		stmt.setString(1, cstm.getId()); // id는 가입시 id_list테이블에 입력된 값과 동일
+		stmt.setString(1, cstm.getId());
 		stmt.setString(2, cstm.getCstmName());
 		stmt.setString(3, cstm.getCstmAddress());
 		stmt.setString(4, cstm.getCstmEmail());
@@ -79,16 +79,130 @@ public class CustomerDao {
 	}
 	
 	// 로그인
-	// 로그인 시 활성화 여부 Y일때(id_list - active = 'Y') 마지막 로그인 일자 (customer - cstm_last_login) 업데이트
-	// 아이디 - 비밀번호 확인
+	public int loginCstm(Id id) throws Exception {
+		// 아이디 - 비밀번호 확인
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 로그인정보 확인 쿼리
+		String loginSql = "SELECT id FROM id_list WHERE id = ? AND last_pw = PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(loginSql);
+		stmt.setString(1, id.getId());
+		stmt.setString(2, id.getLastPw());
+		// 실행
+		ResultSet loginRs = stmt.executeQuery();
+		
+		if(loginRs.next()){ // 로그인 성공
+			System.out.println("로그인성공");
+		}
+		return row;
+	}
 	
+	// 로그인 시 활성화 여부 Y일때(id_list - active = 'Y') 마지막 로그인 일자 (customer - cstm_last_login) 업데이트
+	public int updateLastlogin(Id id) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 활성화 여부 Y인지?
+		String active = null;
+		String ckActiveSql = "SELECT active FROM id_list WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(ckActiveSql);
+		stmt.setString(1, id.getId());
+		// 결과
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			active = rs.getString(1);
+		}
+		
+		// 활성화 여부 Y라면 마지막 로그인 일자 현재로 업데이트
+		if(active.equals("Y")) {
+			int updateRow = 0;
+			// 마지막 일자 업데이트 쿼리
+			String updateLoginDateSql = "UPDATE customer SET cstm_last_login = NOW() WHERE id = ?";
+			PreparedStatement updLogStmt = conn.prepareStatement(updateLoginDateSql);
+			updLogStmt.setString(1, id.getId());
+			// 결과
+			updateRow = updLogStmt.executeUpdate();
+			
+			return updateRow;
+		}
+		
+		return row;
+	}
+	
+	// 변경 시 중복(이전) 비밀번호 확인(pw_history테이블)
+	public int checkPw(Id id) throws Exception {
+		int ckPwRow = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 이전 비밀번호 확인 메소드
+		String chPwSql = "SELECT COUNT(*) FROM pw_history WHERE id = ? AND pw = ?";
+		PreparedStatement chPwStmt = conn.prepareStatement(chPwSql);
+		chPwStmt.setString(1, id.getId());
+		chPwStmt.setString(2, id.getLastPw());
+		// 실행
+		ResultSet chPwRs = chPwStmt.executeQuery();
+		if(chPwRs.next()) {
+			ckPwRow = chPwRs.getInt(1);
+		}
+		return ckPwRow;
+	}
 	
 	// 비밀번호 변경
-	// 변경 시 이전 비밀번호 확인(pw_history테이블)
-	
-	// 변경 실행시
-	// id_list테이블에 변경 값 업데이트, pw_history테이블 값 insert
-	// pw_history 이력 개수 몇개인지, 3개 이상일 경우 가장 오래된(생성일자 가장 작은_min(createdate)) 번호 삭제 
+	public int updatePw(Id id) throws Exception {
+		// id_list 변경
+		int newPwRow = 0;
+		//  pw_history 입력
+		int pwHstryRow = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// id_list_비밀번호 변경에 변경값 업데이트
+		String newPwSql = "UPDATE id_list SET last_pw = PASSWORD(?) WHERE id = ?"; // 비밀번호 변경값 입력
+		PreparedStatement newPwStmt = conn.prepareStatement(newPwSql);
+		newPwStmt.setString(1, id.getLastPw());
+		newPwStmt.setString(2, id.getId());
+		// 실행
+		newPwRow = newPwStmt.executeUpdate();
+		// System.out.println("newPwRow : " + row);
+		
+		// pw_history_비밀번호 이력에 id, pw 입력
+		String pwHstrySql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
+		PreparedStatement pwHstryStmt = conn.prepareStatement(pwHstrySql);
+		pwHstryStmt.setString(1, id.getId());
+		pwHstryStmt.setString(2, id.getLastPw());
+		// 실행
+		pwHstryRow = pwHstryStmt.executeUpdate();
+		// System.out.println("pwHstryRow : " + pwHstryRow);
+		
+		// pw_history 이력 개수 몇개인지
+		int pwCnt = 0;
+		String pwCntSql = "SELECT COUNT(*) FROM pw_history WHERE id = ?";
+		PreparedStatement pwCntStmt = conn.prepareStatement(pwCntSql);
+		pwCntStmt.setString(1, id.getId());
+		// 실행
+		ResultSet pwCntRs = pwCntStmt.executeQuery();
+		if(pwCntRs.next()) {
+			pwCnt = pwCntRs.getInt(1);
+		}
+		// 3개 이상일 경우 가장 오래된(생성일자 가장 작은_min(createdate)) 번호 삭제 
+		if(pwCnt > 3) {
+			int delPwHstryRow = 0;
+			// 이력 중 가장 오래된거 하나 삭제
+			String delPwHstrySql = "DELETE FROM pw_history WHERE id = ? AND createdate = (SELECT min(createdate) FROM pw_history WHERE id = ?)";
+			PreparedStatement delPwHstryStmt = conn.prepareStatement(delPwHstrySql);
+			delPwHstryStmt.setString(1, id.getId());
+			delPwHstryStmt.setString(2, id.getId());
+			// 실행
+			delPwHstryRow = delPwHstryStmt.executeUpdate();
+			// System.out.println("delPwHstryRow : " + delPwHstryRow);
+		}
+		return newPwRow;
+	}
 	
 	// ===================
 	// 고객 정보 출력
@@ -98,7 +212,7 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// 고객 정보 출력 쿼리
-		String cstmInfoSql = "SELECT id, cstm_name cstmName, cstm_address cstmtAddress, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_phone cstmPhone, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastlogin, cstm_agree cstmAgree, createdate FROM customer WHERE id = ?";
+		String cstmInfoSql = "SELECT id, cstm_name cstmName, cstm_address cstmAddress, cstm_email cstmEmail, cstm_birth cstmBirth, cstm_gender cstmGender, cstm_phone cstmPhone, cstm_rank cstmRank, cstm_point cstmPoint, cstm_last_login cstmLastlogin, cstm_agree cstmAgree, createdate FROM customer WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(cstmInfoSql);
 		stmt.setString(1, id);
 		// rs.set
@@ -152,14 +266,12 @@ public class CustomerDao {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
-		// 고객 정보 삭제 쿼리 // 수정 필요_현재 쿼리 > 아이디까지 전부 삭제..활성화 여부를 n으로 변경? 사용 못하게,,
+		// 고객 정보 삭제 쿼리 
 		PreparedStatement stmt = conn.prepareStatement("DELETE FROM customer WHERE id = ?");
 		stmt.setString(1, cstm.getId());	
-		
+			
 		row = stmt.executeUpdate();
 		
 		return row;
 	}
 }
-	
-	// 고객 정보 개수
