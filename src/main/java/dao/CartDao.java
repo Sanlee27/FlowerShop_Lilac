@@ -1,18 +1,22 @@
 package dao;
 
 import java.sql.*;
+import java.util.*;
+
 import util.DBUtil;
 import vo.*;
 
 public class CartDao {
 	//장바구니 내 상품 보기
-	public Cart selectCart(String id) throws Exception {
+	public HashMap<String, Object> selectCart(String id) throws Exception {
 		Cart cart = null;
+		ProductImg productImg = null;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement cartSelStmt = conn.prepareStatement(
 				"SELECT product_no productNo, id, cart_cnt cartCnt FROM cart WHERE id = ? ORDER BY cart_no"
 			);
+		
 		cartSelStmt.setString(1, id);
 		
 		ResultSet cartSelRs = cartSelStmt.executeQuery();
@@ -23,9 +27,31 @@ public class CartDao {
 			cart.setId(cartSelRs.getString("id"));
 			cart.setCartCnt(cartSelRs.getInt("cartCnt"));
 		}
-		return cart;
-	}
+		
+		//이미지 쿼리 필요 - no 같은 번호의 이미지 내놔
+		
+		PreparedStatement cartImgStmt = conn.prepareStatement(
+				"SELECT product_no productNo, product_ori_filename productOriFilename, product_save_filename productSaveFilename, product_filetype productFiletype FROM product_img WHERE product_no = ?"
+			);
+		cartImgStmt.setInt(1, cart.getProductNo());
+		
+		ResultSet cartImgRs = cartImgStmt.executeQuery();
+		
+		if(cartImgRs.next()) {
+			productImg = new ProductImg();
+			productImg.setProductNo(cartImgRs.getInt("productNo"));
+			productImg.setProductOriFilename(cartImgRs.getString("productOriFilename"));
+			productImg.setProductSaveFilename(cartImgRs.getString("productSaveFilename"));
+			productImg.setProductFiletype(cartImgRs.getString("productFiletype"));
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("cart", cart);
+		map.put("productImg", productImg);
 	
+		return map;
+	
+	}
 	//장바구니 상품 추가 
 	public int insertCart(Cart cart) throws Exception {
 		int row = 0;
