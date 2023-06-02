@@ -133,7 +133,7 @@ public class CustomerDao {
 		return row;
 	}
 	
-	// 변경 시 중복(이전) 비밀번호 확인(pw_history테이블)
+	// 중복(이전) 비밀번호 확인(pw_history테이블)
 	public int checkPw(Id id) throws Exception {
 		int ckPwRow = 0;
 		// DB메소드
@@ -263,6 +263,7 @@ public class CustomerDao {
 	// 고객삭제_회원탈퇴_아이디가 남게,, 
 	public int deleteCustomer(Customer cstm) throws Exception{
 		int row = 0;
+		// 삭제
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
@@ -272,6 +273,22 @@ public class CustomerDao {
 			
 		row = stmt.executeUpdate();
 		
+		return row;
+	}
+		
+	
+	// 탈퇴하면 id_list active 비활성화 처리
+	public int updActId(String id) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 비활성화로 변경
+		PreparedStatement stmt = conn.prepareStatement("UPDATE id_list SET active = 'N' WHERE id = ?");
+		stmt.setString(1, id);
+		
+		row = stmt.executeUpdate();
+				
 		return row;
 	}
 }
