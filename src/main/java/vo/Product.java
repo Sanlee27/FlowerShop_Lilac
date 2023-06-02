@@ -8,6 +8,7 @@ public class Product {
 	private String productStatus;
 	private String productInfo;
 	private int productStock;
+	private int productSaleCnt;
 	private String createdate;
 	private String updatedate;
 	
@@ -52,6 +53,12 @@ public class Product {
 	}
 	public void setProductStock(int productStock) {
 		this.productStock = productStock;
+	}
+	public int getProductSaleCnt() {
+		return productSaleCnt;
+	}
+	public void setProductSaleCnt(int productSaleCnt) {
+		this.productSaleCnt = productSaleCnt;
 	}
 	public String getCreatedate() {
 		return createdate;
