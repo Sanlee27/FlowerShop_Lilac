@@ -122,37 +122,26 @@ public class QuestionDao {
 	
 	//문의글 입력 -> addQuestion.jsp 
 		//입력페이지에 표시될 항목: //q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate
-	public Question addQuestion(int productNo, String id, String qCategory, String qTitle, String qContent ) throws Exception {
-		
-		Question question = null;
+	public int addQuestion(Question question) throws Exception {
+		//영향받은 행의 수
+		int row = 0;
 		
 		//db접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO question (product_no, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW()");
-		stmt.setInt(1, productNo);
-		stmt.setString(2, id);
-		stmt.setString(3, qCategory);
-		stmt.setString(4, qTitle);
-		stmt.setString(5, qContent);
-		ResultSet questionRs = stmt.executeQuery();
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO question (product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW()");
+		stmt.setInt(1, question.getProductNo());
+		stmt.setString(2, question.getId());
+		stmt.setString(3, question.getqCategory());
+		stmt.setString(4, question.getqTitle());
+		stmt.setString(5, question.getqContent());
 		
-		if(questionRs.next()) {
-			question = new Question();
-			question.setqNo(questionRs.getInt("qNo"));
-			question.setProductNo(questionRs.getInt("productNo"));
-			question.setId(questionRs.getString("id"));
-			question.setqCategory(questionRs.getString("qCategory"));
-			question.setqAnswer(questionRs.getString("qAnswer"));
-			question.setqTitle(questionRs.getString("qTitle"));
-			question.setUpdatedate(questionRs.getString("updatedate"));
-			question.setCreatedate(questionRs.getString("createdate"));
+		row = stmt.executeUpdate();
+		
 
-		}
-	
-		return question;
+		return row;
 		
 		
 	}
