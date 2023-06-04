@@ -7,47 +7,70 @@ import vo.*;
 public class CustomerDao {
 	
 	// 회원가입
+	// 0) 아이디 중복체크
 	// 1) id_list테이블에 값 insert, 동시에 pw_history테이블에 값 insert (id_list - id = pw_history - id / id_list - last_pw = pw_history - pw)
 	// 2) 이 후 customer테이블에 회원가입 시 입력한 정보 insert
 	
+	// 0)
+	public int checkId(String id) throws Exception {
+		int ckIdRow = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 아이디가 있는지 id_list에서 확인
+		String ckIdSql = "SELECT COUNT(*) FROM id_list WHERE id = ?";
+		PreparedStatement ckIdStmt = conn.prepareStatement(ckIdSql);
+		ckIdStmt.setString(1, id);
+		
+		ResultSet ckIdRs = ckIdStmt.executeQuery();
+		if(ckIdRs.next()) {
+			ckIdRow = ckIdRs.getInt(1);
+		}
+		return ckIdRow;
+	}
+	
 	// 1)
-	public int insertId(String id, String lastPw) throws Exception {
+	public int insertId(Id id) throws Exception {
 		int row = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
-		// id_list에 id, pw, 활성화여부 Y 입력
-		// 가입시 활성화 여부 무조건 Y로
-		String idSql = "INSERT INTO id_list(id, last_pw, active, createdate) values (?, PASSWORD(?), 'Y', NOW())"; 
-		PreparedStatement idStmt = conn.prepareStatement(idSql);
-		idStmt.setString(1, id);
-		idStmt.setString(2, lastPw);
-		// 실행
-		int idRow = idStmt.executeUpdate();
-		// System.out.println("idRow : " + idRow);
+		// 중복검사, 중복이 없다면 실행
+		int checkId = checkId(id.getId());
+		if(checkId == 0) {
+			// id_list에 id, pw, 활성화여부 Y 입력
+			// 가입시 활성화 여부 무조건 Y로
+			String idSql = "INSERT INTO id_list(id, last_pw, active, createdate) values (?, PASSWORD(?), 'Y', NOW())"; 
+			PreparedStatement idStmt = conn.prepareStatement(idSql);
+			idStmt.setString(1, id.getId());
+			idStmt.setString(2, id.getLastPw());
+			
+			// 실행
+			int idRow = idStmt.executeUpdate();
+			// System.out.println("idRow : " + idRow);
+			
+			if(idRow == 0) { // id_list 값 입력이 안될경우
+				return idRow;
+			}
 		
-		if(idRow == 0) { // id_list 값 입력이 안될경우
-			return idRow;
+			// pw_history에 id, pw 입력
+			String pwSql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
+			PreparedStatement pwStmt = conn.prepareStatement(pwSql);
+			pwStmt.setString(1, id.getId());
+			pwStmt.setString(2, id.getLastPw());
+			// 실행
+			int pwRow = pwStmt.executeUpdate();
+			// System.out.println("pwRow : " + pwRow);
+			
+			if(pwRow == 0) { // pw_history 값 입력이 안될경우
+				return pwRow;
+			}
+			
+			// id_list, pw_history에 값이 동시에 정상 입력될 경우 정상 실행
+			if(idRow > 0 && pwRow > 0) {  
+				row = 1;
+			}
 		}
-		
-		// pw_history에 id, pw 입력
-		String pwSql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
-		PreparedStatement pwStmt = conn.prepareStatement(pwSql);
-		pwStmt.setString(1, id);
-		pwStmt.setString(2, lastPw);
-		// 실행
-		int pwRow = pwStmt.executeUpdate();
-		// System.out.println("pwRow : " + pwRow);
-		
-		if(pwRow == 0) { // pw_history 값 입력이 안될경우
-			return pwRow;
-		}
-		
-		// id_list, pw_history에 값이 동시에 정상 입력될 경우 정상 실행
-		if(idRow > 0 && pwRow > 0) {  
-			row = 1;
-		}
-		
 		return row;
 	}
 	
@@ -161,6 +184,7 @@ public class CustomerDao {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
+		
 		// id_list_비밀번호 변경에 변경값 업데이트
 		String newPwSql = "UPDATE id_list SET last_pw = PASSWORD(?) WHERE id = ?"; // 비밀번호 변경값 입력
 		PreparedStatement newPwStmt = conn.prepareStatement(newPwSql);
@@ -168,7 +192,7 @@ public class CustomerDao {
 		newPwStmt.setString(2, id.getId());
 		// 실행
 		newPwRow = newPwStmt.executeUpdate();
-		// System.out.println("newPwRow : " + row);
+		System.out.println("newPwRow : " + newPwRow);
 		
 		// pw_history_비밀번호 이력에 id, pw 입력
 		String pwHstrySql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
@@ -177,7 +201,7 @@ public class CustomerDao {
 		pwHstryStmt.setString(2, id.getLastPw());
 		// 실행
 		pwHstryRow = pwHstryStmt.executeUpdate();
-		// System.out.println("pwHstryRow : " + pwHstryRow);
+		System.out.println("pwHstryRow : " + pwHstryRow);
 		
 		// pw_history 이력 개수 몇개인지
 		int pwCnt = 0;
@@ -199,10 +223,14 @@ public class CustomerDao {
 			delPwHstryStmt.setString(2, id.getId());
 			// 실행
 			delPwHstryRow = delPwHstryStmt.executeUpdate();
-			// System.out.println("delPwHstryRow : " + delPwHstryRow);
+			System.out.println("delPwHstryRow : " + delPwHstryRow);
 		}
 		return newPwRow;
 	}
+	
+	// 휴면계정(3개월)시 active N으로 변경
+	
+	
 	
 	// ===================
 	// 고객 정보 출력
