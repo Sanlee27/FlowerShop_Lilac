@@ -1,6 +1,8 @@
 package dao;
 
 import java.sql.*;
+import java.time.LocalDate;
+
 import util.DBUtil;
 import vo.*;
 
@@ -35,9 +37,6 @@ public class CustomerDao {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
-		// 중복검사, 중복이 없다면 실행
-		int checkId = checkId(id.getId());
-		if(checkId == 0) {
 			// id_list에 id, pw, 활성화여부 Y 입력
 			// 가입시 활성화 여부 무조건 Y로
 			String idSql = "INSERT INTO id_list(id, last_pw, active, createdate) values (?, PASSWORD(?), 'Y', NOW())"; 
@@ -70,7 +69,6 @@ public class CustomerDao {
 			if(idRow > 0 && pwRow > 0) {  
 				row = 1;
 			}
-		}
 		return row;
 	}
 	
@@ -97,7 +95,6 @@ public class CustomerDao {
 		if(row == 0) {
 			System.out.println("insert customerInfo error : " + row);
 		}
-		
 		return row;
 	}
 	
@@ -117,6 +114,7 @@ public class CustomerDao {
 		ResultSet loginRs = stmt.executeQuery();
 		
 		if(loginRs.next()){ // 로그인 성공
+			row = 1;
 			System.out.println("로그인성공");
 		}
 		return row;
@@ -155,6 +153,7 @@ public class CustomerDao {
 		
 		return row;
 	}
+	// ++ 현재 비밀번호랑 같은지 확인 id_list
 	
 	// 중복(이전) 비밀번호 확인(pw_history테이블)
 	public int checkPw(Id id) throws Exception {
@@ -163,7 +162,7 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// 이전 비밀번호 확인 메소드
-		String chPwSql = "SELECT COUNT(*) FROM pw_history WHERE id = ? AND pw = ?";
+		String chPwSql = "SELECT COUNT(*) FROM pw_history WHERE id = ? AND pw = PASSWORD(?)";
 		PreparedStatement chPwStmt = conn.prepareStatement(chPwSql);
 		chPwStmt.setString(1, id.getId());
 		chPwStmt.setString(2, id.getLastPw());
@@ -229,8 +228,22 @@ public class CustomerDao {
 	}
 	
 	// 휴면계정(3개월)시 active N으로 변경
-	
-	
+	/* SELECT cstm_last_login FROM customer WHERE id = "user1" 로 로그인일자 구한뒤에
+	 * 3개월이 지난것들을 update해주고 active >> N으로 그 후에? 끝
+	 */ 
+	public int ckSleepId2(String id) throws Exception {
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		int row = 0;
+		String sql = "UPDATE id_list SET active = 'N' WHERE id = '?' AND DATEDIFF(NOW(), (SELECT cstm_last_login) FROM customer WHERE id = '?')) > 90";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setString(2, id);
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
 	
 	// ===================
 	// 고객 정보 출력
@@ -289,7 +302,7 @@ public class CustomerDao {
 	}
 	
 	// 고객삭제_회원탈퇴_아이디가 남게,, 
-	public int deleteCustomer(Customer cstm) throws Exception{
+	public int deleteCustomer(String id) throws Exception{
 		int row = 0;
 		// 삭제
 		// DB메소드
@@ -297,26 +310,17 @@ public class CustomerDao {
 		Connection conn = dbUtil.getConnection();
 		// 고객 정보 삭제 쿼리 
 		PreparedStatement stmt = conn.prepareStatement("DELETE FROM customer WHERE id = ?");
-		stmt.setString(1, cstm.getId());	
+		stmt.setString(1, id);	
 			
 		row = stmt.executeUpdate();
+		// 탈퇴 회원 비활성화 처리
+		PreparedStatement stmt2 = conn.prepareStatement("UPDATE id_list SET active = 'N' WHERE id = ?");
+		stmt2.setString(1, id);
 		
-		return row;
-	}
-		
-	
-	// 탈퇴하면 id_list active 비활성화 처리
-	public int updActId(String id) throws Exception {
-		int row = 0;
-		// DB메소드
-		DBUtil dbUtil = new DBUtil(); 
-		Connection conn = dbUtil.getConnection();
-		// 비활성화로 변경
-		PreparedStatement stmt = conn.prepareStatement("UPDATE id_list SET active = 'N' WHERE id = ?");
-		stmt.setString(1, id);
-		
-		row = stmt.executeUpdate();
+		row += stmt.executeUpdate();
 				
 		return row;
 	}
+	// 추가 회원통계(ex 연령 통계, 성별 통꼐등)
 }
+

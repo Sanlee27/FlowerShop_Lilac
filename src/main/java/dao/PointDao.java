@@ -43,11 +43,17 @@ public class PointDao {
 		// 고객 포인트에 포인트 반영
 		String customerSql = "update customer set cstm_point = cstm_point + ? where id = ?";
 		PreparedStatement customerStmt = conn.prepareStatement(customerSql);
-		
 		// ?값 세팅
 		customerStmt.setInt(1, changePoint);
 		customerStmt.setString(2, id);
 		
+		row += customerStmt.executeUpdate();
+
+		// customer에 저장된 point를 기준으로 rank값을 변경해주는 쿼리 필요.
+		
 		return row;
+		
 	}
+	// 등급별 포인트 적립 반영은 jsp에서 처리
+	
 }

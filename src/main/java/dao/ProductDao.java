@@ -6,6 +6,7 @@ import util.*;
 
 public class ProductDao {
 	// 전체상품 리스트를 반환하는 메서드
+	// (추가가능할시) 고객통계 기반 추천(ex. 연령별 성별별 등)
 	public ArrayList<HashMap<String, Object>> getAllProductList(String searchCategory, String searchName, String order, int startRow, int rowPerPage) throws Exception{
 		// 결과를 담아줄 HashMap타입 ArrayList선언
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();

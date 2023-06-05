@@ -5,6 +5,8 @@ import util.DBUtil;
 import vo.*;
 
 public class AnswerDao {
+	// qNo를 받아서 그 번호에 해당하는 Answer데이터를 가져오는 메소드 추가 필요
+	
 	//답변 추가
 	public int insertAnswer(Answer answer) throws Exception {
 		//유효성검사

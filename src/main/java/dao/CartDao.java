@@ -34,6 +34,7 @@ public class CartDao {
 			cart.setCartCnt(cartSelRs.getInt("cartCnt"));
 		}
 		
+		/*
 		//이미지 쿼리 필요 - no 같은 번호의 이미지 내놔
 		
 		PreparedStatement cartImgStmt = conn.prepareStatement(
@@ -50,7 +51,7 @@ public class CartDao {
 			productImg.setProductSaveFilename(cartImgRs.getString("productSaveFilename"));
 			productImg.setProductFiletype(cartImgRs.getString("productFiletype"));
 		}
-		
+		*/
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cart", cart);
 		map.put("productImg", productImg);

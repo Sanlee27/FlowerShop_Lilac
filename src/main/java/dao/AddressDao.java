@@ -30,7 +30,7 @@ public class AddressDao {
 		return addressList;
 	}
 	
-	//주소번호가 없으면 추가, 번호가 있을때는 마지막일정 업데이트
+	//address_no(주소번호)가 없으면 추가, 번호가 있을때는 adrress_lastdate(마지막일정) 업데이트
 	public int updateAddress(Address address) throws Exception {
 		//유효성검사
 		if(address == null || address.getId() ==null || address.getAddress() == null) {

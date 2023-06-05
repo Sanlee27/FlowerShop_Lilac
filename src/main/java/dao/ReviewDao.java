@@ -12,7 +12,7 @@ public class ReviewDao {
 	
 	//상품 상세페이지 후기 출력 ->product.jsp //where 절에 order no가져옴
 	//보이는 이미지 없음
-		
+	// 정렬 날짜 최신순으로
 
 	public ArrayList<Review> reviewProduct (int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -48,6 +48,7 @@ public class ReviewDao {
 	
 	//후기 전체 리스트 출력
 	//보이는 이미지 없음
+	// 정렬 날짜 최신순으로
 	
 	public  ArrayList <Review> reviewList(int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -216,11 +217,12 @@ public class ReviewDao {
 		//update 쿼리
 		
 		PreparedStatement modStmt = conn.prepareStatement(
-				"UPDATE review SET order_no = ?, review_title= ?, review_content=?, createdate= NOW(), updatedate = NOW() WHERE order_no = ?"
+				"UPDATE review SET review_title= ?, review_content=?, createdate= NOW(), updatedate = NOW() WHERE order_no = ?"
 				);
-		modStmt.setInt(1, review.getOrderNo());
-		modStmt.setString(2, review.getReviewTitle());
-		modStmt.setString(3, review.getReviewContent());
+		
+		modStmt.setString(1, review.getReviewTitle());
+		modStmt.setString(2, review.getReviewContent());
+		modStmt.setInt(3, review.getOrderNo());
 		
 		row = modStmt.executeUpdate();
 		

@@ -45,7 +45,7 @@ public class QuestionDao {
 		
 	
 
-	//고객 별 문의내역 출력 -> cstmQnaList.jsp 
+	//고객 별 문의내역 출력 -> cstmQnaList.jsp 만들어줘야함(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
 	//쿼리문 : SELECT q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate FROM question WHERE q_no=? ORDER BY q_no
 	public ArrayList<Question> Questioncust (int qNo, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -121,6 +121,7 @@ public class QuestionDao {
 	
 
 	//상품 상세페이지에서 문의 출력 -> product.jsp //WHERE절에 q_no 받아와서 답변이 'Y'인 것만 출력 ID = ?
+	// 매개변수에 product_no추가해서 product_no에 해당하는 리스트만 받아오도록 변경, 답변은 Y/N 관계없이 전부나오게
 	
 	public ArrayList<Question> QuestionProduct (int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -264,4 +265,6 @@ public class QuestionDao {
 		
 		return row;
 	}
+	
+	// q_no 받아서 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
 }
