@@ -20,22 +20,22 @@ public class QuestionDao {
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		String sql = "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_answer LIKE 'N' ORDER BY q_no LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		PreparedStatement selectStmt = conn.prepareStatement(sql);
+		selectStmt.setInt(1, beginRow);
+		selectStmt.setInt(2, rowPerPage);
+		ResultSet selectRs = selectStmt.executeQuery();
+		while(selectRs.next()) {
 			Question m = new Question();
 			
-				m.setqNo(rs.getInt("qNo"));
-				m.setProductNo(rs.getInt("productNo"));
-				m.setId(rs.getString("id"));
-				m.setqCategory(rs.getString("qCategory"));
-				m.setqAnswer(rs.getString("qAnswer"));
-				m.setqTitle(rs.getString("qTitle"));
-				m.setqContent(rs.getString("qContent"));
-				m.setCreatedate(rs.getString("createdate"));
-				m.setCreatedate(rs.getString("updatedate"));
+				m.setqNo(selectRs.getInt("qNo"));
+				m.setProductNo(selectRs.getInt("productNo"));
+				m.setId(selectRs.getString("id"));
+				m.setqCategory(selectRs.getString("qCategory"));
+				m.setqAnswer(selectRs.getString("qAnswer"));
+				m.setqTitle(selectRs.getString("qTitle"));
+				m.setqContent(selectRs.getString("qContent"));
+				m.setCreatedate(selectRs.getString("createdate"));
+				m.setCreatedate(selectRs.getString("updatedate"));
 				
 				list.add(m);
 		}
@@ -57,29 +57,67 @@ public class QuestionDao {
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		String sql =  "SELECT q_no qNo, product_no productNo, id , q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question  WHERE q_no=? ORDER BY q_no LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, qNo);
-		stmt.setInt(2, beginRow);
-		stmt.setInt(3, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		PreparedStatement custStmt = conn.prepareStatement(sql);
+		custStmt.setInt(1, qNo);
+		custStmt.setInt(2, beginRow);
+		custStmt.setInt(3, rowPerPage);
+		ResultSet custRs = custStmt.executeQuery();
+		while(custRs.next()) {
 			Question m = new Question();
 			
-				m.setqNo(rs.getInt("qNo"));
-				m.setProductNo(rs.getInt("productNo"));
-				m.setId(rs.getString("id"));
-				m.setqCategory(rs.getString("qCategory"));
-				m.setqAnswer(rs.getString("qAnswer"));
-				m.setqTitle(rs.getString("qTitle"));
-				m.setqContent(rs.getString("qContent"));
-				m.setCreatedate(rs.getString("createdate"));
-				m.setCreatedate(rs.getString("updatedate"));
+				m.setqNo(custRs.getInt("qNo"));
+				m.setProductNo(custRs.getInt("productNo"));
+				m.setId(custRs.getString("id"));
+				m.setqCategory(custRs.getString("qCategory"));
+				m.setqAnswer(custRs.getString("qAnswer"));
+				m.setqTitle(custRs.getString("qTitle"));
+				m.setqContent(custRs.getString("qContent"));
+				m.setCreatedate(custRs.getString("createdate"));
+				m.setCreatedate(custRs.getString("updatedate"));
 				
 				list.add(m);
 		}
 		
 		return list;
 	}
+	
+	//전체 문의 리스트 출력
+	
+	public  ArrayList <Question> questionList(int beginRow, int rowPerPage) throws Exception{
+		//반환할 리스트
+		ArrayList<Question> list = new ArrayList<>();
+		
+		//db접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			//sql 전송, 결과셋 반환해 리스트에 저장
+			String sql = " SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no ORDER BY q_no LIMIT ?, ?";
+			PreparedStatement qListStmt = conn.prepareStatement(sql);
+			
+			qListStmt.setInt(1, beginRow);
+			qListStmt.setInt(2, rowPerPage);
+			ResultSet qListRs = qListStmt.executeQuery();
+			
+			while(qListRs.next()) {
+				Question q = new Question();
+
+					q.setqNo(qListRs.getInt("qNo"));
+					q.setProductNo(qListRs.getInt("productNo"));
+					q.setId(qListRs.getString("setId"));
+					q.setqCategory(qListRs.getString("qCategory"));
+					q.setqAnswer(qListRs.getString("qAnswer"));
+					q.setqTitle(qListRs.getString("qTitle"));
+					q.setqContent(qListRs.getString("qContent"));
+					q.setCreatedate(qListRs.getString("createdate"));
+					q.setUpdatedate(qListRs.getString("updatedate"));
+					list.add(q);
+			}
+			
+			return list;
+		}
+	
+		
 	
 
 	//상품 상세페이지에서 문의 출력 -> product.jsp //WHERE절에 q_no 받아와서 답변이 'Y'인 것만 출력 ID = ?
@@ -94,23 +132,23 @@ public class QuestionDao {
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		String sql =   "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_answer LIKE 'Y' ORDER BY q_no LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement prodStmt = conn.prepareStatement(sql);
 
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
+		prodStmt.setInt(1, beginRow);
+		prodStmt.setInt(2, rowPerPage);
+		ResultSet prodRs = prodStmt.executeQuery();
+		while(prodRs.next()) {
 			Question m = new Question();
 			
-				m.setqNo(rs.getInt("qNo"));
-				m.setProductNo(rs.getInt("productNo"));
-				m.setId(rs.getString("id"));
-				m.setqCategory(rs.getString("qCategory"));
-				m.setqAnswer(rs.getString("qAnswer"));
-				m.setqTitle(rs.getString("qTitle"));
-				m.setqContent(rs.getString("qContent"));
-				m.setCreatedate(rs.getString("createdate"));
-				m.setCreatedate(rs.getString("updatedate"));
+				m.setqNo(prodRs.getInt("qNo"));
+				m.setProductNo(prodRs.getInt("productNo"));
+				m.setId(prodRs.getString("id"));
+				m.setqCategory(prodRs.getString("qCategory"));
+				m.setqAnswer(prodRs.getString("qAnswer"));
+				m.setqTitle(prodRs.getString("qTitle"));
+				m.setqContent(prodRs.getString("qContent"));
+				m.setCreatedate(prodRs.getString("createdate"));
+				m.setCreatedate(prodRs.getString("updatedate"));
 				
 				list.add(m);
 		}
@@ -131,14 +169,14 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO question (product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW()");
-		stmt.setInt(1, question.getProductNo());
-		stmt.setString(2, question.getId());
-		stmt.setString(3, question.getqCategory());
-		stmt.setString(4, question.getqTitle());
-		stmt.setString(5, question.getqContent());
+		PreparedStatement addStmt = conn.prepareStatement("INSERT INTO question (product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW()");
+		addStmt.setInt(1, question.getProductNo());
+		addStmt.setString(2, question.getId());
+		addStmt.setString(3, question.getqCategory());
+		addStmt.setString(4, question.getqTitle());
+		addStmt.setString(5, question.getqContent());
 		
-		row = stmt.executeUpdate();
+		row = addStmt.executeUpdate();
 		
 
 		return row;
@@ -160,9 +198,9 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement stmt = conn.prepareStatement("SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no = ?");
-		stmt.setInt(1, qNo);
-		ResultSet questionRs = stmt.executeQuery();
+		PreparedStatement oneStmt = conn.prepareStatement("SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no = ?");
+		oneStmt.setInt(1, qNo);
+		ResultSet questionRs = oneStmt.executeQuery();
 		
 		if(questionRs.next()) {
 			question = new Question();
@@ -195,15 +233,15 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement stmt = conn.prepareStatement("UPDATE question SET q_no = ?, id=?, q_category=?, q_answer=?, q_title = ?, q_content = ?, updatedate = NOW() WHERE q_no = ?");
+		PreparedStatement modStmt = conn.prepareStatement("UPDATE question SET q_no = ?, id=?, q_category=?, q_answer=?, q_title = ?, q_content = ?, updatedate = NOW() WHERE q_no = ?");
 		//물음표 6개
-		stmt.setInt(1, question.getqNo());
-		stmt.setString(2, question.getId());
-		stmt.setString(3, question.getqCategory());
-		stmt.setString(4, question.getqAnswer());
-		stmt.setString(5, question.getqTitle());
-		stmt.setString(6, question.getqContent());
-		row = stmt.executeUpdate();
+		modStmt.setInt(1, question.getqNo());
+		modStmt.setString(2, question.getId());
+		modStmt.setString(3, question.getqCategory());
+		modStmt.setString(4, question.getqAnswer());
+		modStmt.setString(5, question.getqTitle());
+		modStmt.setString(6, question.getqContent());
+		row = modStmt.executeUpdate();
 		
 		return row;
 	}
@@ -220,9 +258,9 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement stmt = conn.prepareStatement("DELETE FROM question WHERE q_no = ?");
-		stmt.setInt(1, qNo);
-		row = stmt.executeUpdate();
+		PreparedStatement delStmt = conn.prepareStatement("DELETE FROM question WHERE q_no = ?");
+		delStmt.setInt(1, qNo);
+		row = delStmt.executeUpdate();
 		
 		return row;
 	}

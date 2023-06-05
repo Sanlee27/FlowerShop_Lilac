@@ -24,20 +24,20 @@ public class ReviewDao {
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no ORDER BY order_no LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement reviewStmt = conn.prepareStatement(sql);
 		
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
+		reviewStmt.setInt(1, beginRow);
+		reviewStmt.setInt(2, rowPerPage);
+		ResultSet reviewRs = reviewStmt.executeQuery();
 		
-		while(rs.next()) {
+		while(reviewRs.next()) {
 			Review m = new Review();
 			
-				m.setOrderNo(rs.getInt("orderNo"));
-				m.setReviewTitle(rs.getString("reviewTitle"));
-				m.setReviewContent(rs.getString("reviewContent"));
-				m.setCreatedate(rs.getString("createdate"));
-				m.setUpdatedate(rs.getString("updatedate"));
+				m.setOrderNo(reviewRs.getInt("orderNo"));
+				m.setReviewTitle(reviewRs.getString("reviewTitle"));
+				m.setReviewContent(reviewRs.getString("reviewContent"));
+				m.setCreatedate(reviewRs.getString("createdate"));
+				m.setUpdatedate(reviewRs.getString("updatedate"));
 				list.add(m);
 		}
 		
@@ -58,20 +58,20 @@ public class ReviewDao {
 			Connection conn = dbUtil.getConnection();
 			
 			//sql 전송, 결과셋 반환해 리스트에 저장
-			String sql = " SELECT order_no, review_title, createdate, updatedate FROM review WHERE order_no ORDER BY order_no LIMIT ?, ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			String sql = " SELECT order_no orderNo, review_title reviewTitle, createdate, updatedate FROM review WHERE order_no ORDER BY order_no LIMIT ?, ?";
+			PreparedStatement rListStmt = conn.prepareStatement(sql);
 			
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-			ResultSet rs = stmt.executeQuery();
+			rListStmt.setInt(1, beginRow);
+			rListStmt.setInt(2, rowPerPage);
+			ResultSet rListRs = rListStmt.executeQuery();
 			
-			while(rs.next()) {
+			while(rListRs.next()) {
 				Review m = new Review();
 
-					m.setOrderNo(rs.getInt("orderNo"));
-					m.setReviewTitle(rs.getString("reviewTitle"));
-					m.setCreatedate(rs.getString("createdate"));
-					m.setUpdatedate(rs.getString("updatedate"));
+					m.setOrderNo(rListRs.getInt("orderNo"));
+					m.setReviewTitle(rListRs.getString("reviewTitle"));
+					m.setCreatedate(rListRs.getString("createdate"));
+					m.setUpdatedate(rListRs.getString("updatedate"));
 					list.add(m);
 			}
 			
@@ -96,24 +96,24 @@ public class ReviewDao {
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		//select 쿼리
 		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no=? ORDER BY order_no";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, orderNo);
-		ResultSet rs = stmt.executeQuery();
+		PreparedStatement oneStmt = conn.prepareStatement(sql);
+		oneStmt.setInt(1, orderNo);
+		ResultSet oneRs = oneStmt.executeQuery();
 		
-		if(rs.next()) {
+		if(oneRs.next()) {
 			review = new Review();
-			review.setOrderNo(rs.getInt("orderNo"));
-			review.setReviewTitle(rs.getString("reviewTitle"));
-			review.setReviewContent(rs.getString("reviewContent"));
-			review.setCreatedate(rs.getString("createdate"));
-			review.setUpdatedate(rs.getString("updatedate"));
+			review.setOrderNo(oneRs.getInt("orderNo"));
+			review.setReviewTitle(oneRs.getString("reviewTitle"));
+			review.setReviewContent(oneRs.getString("reviewContent"));
+			review.setCreatedate(oneRs.getString("createdate"));
+			review.setUpdatedate(oneRs.getString("updatedate"));
 
 		}
 		
 		//이미지 쿼리
 		
 		PreparedStatement imageStmt = conn.prepareStatement(
-				"SELECT order_no orderNo, review_ori_filename reviewOriFilename, review_save_filename reviewSaveFilename, review_filetype reviewFiletype, createdate, updatedate FROM review_img WHERE order_no=1 ORDER BY order_no"
+				"SELECT order_no orderNo, review_ori_filename reviewOriFilename, review_save_filename reviewSaveFilename, review_filetype reviewFiletype, createdate, updatedate FROM review_img WHERE order_no=? ORDER BY order_no"
 				);
 		imageStmt.setInt(1, review.getOrderNo());
 		ResultSet imageRs = imageStmt.executeQuery();
@@ -156,16 +156,16 @@ public class ReviewDao {
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		//insert 쿼리
 		//insert into review (order_no, review_title, review_content, createdate, updatedate) VALUES (?, ?, ?, NOW(), NOW());
-		PreparedStatement stmt = conn.prepareStatement(
+		PreparedStatement addStmt = conn.prepareStatement(
 				"insert into review (order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate) VALUES (?, ?, ?, NOW(), NOW())"
 				);
-		stmt.setInt(1, review.getOrderNo());
-		stmt.setString(2, review.getReviewTitle());
-		stmt.setString(3, review.getReviewContent());
-		row = stmt.executeUpdate();
+		addStmt.setInt(1, review.getOrderNo());
+		addStmt.setString(2, review.getReviewTitle());
+		addStmt.setString(3, review.getReviewContent());
+		row = addStmt.executeUpdate();
 		
 		//쿼리 실행 후 orderNo 값 가져오기
-		ResultSet imgRs = stmt.getGeneratedKeys(); //getGeneratedKeys(): AutoIncrement 키값 가져오기
+		ResultSet imgRs = addStmt.getGeneratedKeys(); //getGeneratedKeys(): AutoIncrement 키값 가져오기
 		int orderNo = 0;
 		
 		if(imgRs.next()) {
@@ -215,14 +215,14 @@ public class ReviewDao {
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		//update 쿼리
 		
-		PreparedStatement stmt = conn.prepareStatement(
+		PreparedStatement modStmt = conn.prepareStatement(
 				"UPDATE review SET order_no = ?, review_title= ?, review_content=?, createdate= NOW(), updatedate = NOW() WHERE order_no = ?"
 				);
-		stmt.setInt(1, review.getOrderNo());
-		stmt.setString(2, review.getReviewTitle());
-		stmt.setString(3, review.getReviewContent());
+		modStmt.setInt(1, review.getOrderNo());
+		modStmt.setString(2, review.getReviewTitle());
+		modStmt.setString(3, review.getReviewContent());
 		
-		row = stmt.executeUpdate();
+		row = modStmt.executeUpdate();
 		
 		//리뷰이미지 update 쿼리
 		PreparedStatement imgStmt = conn.prepareStatement(
@@ -254,11 +254,11 @@ public class ReviewDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장		
-		PreparedStatement stmt = conn.prepareStatement(
+		PreparedStatement delStmt = conn.prepareStatement(
 				"delete from review where order_no=?"
 				);
-		stmt.setInt(1, orderNo);
-		row = stmt.executeUpdate();
+		delStmt.setInt(1, orderNo);
+		row = delStmt.executeUpdate();
 	return row; 
 	}
 	
