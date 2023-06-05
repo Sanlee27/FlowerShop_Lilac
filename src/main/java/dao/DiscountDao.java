@@ -2,11 +2,11 @@ package dao;
 
 import vo.*;
 import java.sql.*;
-
+import java.time.LocalDate;
 
 import util.DBUtil;
 
-public class DisocountDao {
+public class DiscountDao {
 	// Discount.java 파일 추가
 	// 제품별 할인기간 중복 확인 필요..
 	
@@ -68,15 +68,14 @@ public class DisocountDao {
 		return row;
 	}
 	
-	// 할인율 삭제
-	// 기존 생각 > 날짜를 오늘과 비교해 start or end가 지났다면 discount_rate를 0으로 update(변경)하려고 함. 
+	// 할인율 개별 삭제(기간 관계 없이)
 	public int delDiscountRate(int discountNo) throws Exception {
 		int row = 0;
 	    // DB메소드
 	    DBUtil dbUtil = new DBUtil();
 	    Connection conn = dbUtil.getConnection();
 		
-	    // 할인 삭제 
+	    // 할인 삭제 > discount_end <= 오늘 날짜 인 것들 일괄 삭제 할수 있게.
 	    // String delSql = "UPDATE discount SET discount_rate = 0, updatedate = NOW() WHERE product_no = ? AND (discount_start > ? OR discount_end < ?)";
 	    String delSql = "DELETE FROM discount WHERE discount_no = ?";
 	    PreparedStatement stmt = conn.prepareStatement(delSql);
@@ -88,4 +87,27 @@ public class DisocountDao {
 	    return row;
 	}
 	
+	// 할인율 삭제(기간 지난것만)
+		public int delDiscountRateByDate() throws Exception {
+			int row = 0;
+		    // DB메소드
+		    DBUtil dbUtil = new DBUtil();
+		    Connection conn = dbUtil.getConnection();
+		    // 현재 날짜 구하기
+			LocalDate now = LocalDate.now();
+			// 현재 날짜에서 3개월 이전의 날짜 계산
+	        LocalDate limitDate = now.minusMonths(3);
+	        // 3개월 이전 날짜 String 변수에 저장
+	        String sleeplimitDate = limitDate.toString();
+	        
+		    // 할인 삭제 > discount_end <= 오늘 날짜 인 것들 일괄 삭제 할수 있게.
+		    String delSql = "DELETE FROM discount WHERE discount_end < ?";
+		    PreparedStatement stmt = conn.prepareStatement(delSql);
+		    stmt.setString(1, sleeplimitDate);
+		    
+		    // 실행
+		    row = stmt.executeUpdate();
+		    
+		    return row;
+		}
 }
