@@ -23,8 +23,8 @@ public class PointDao {
 		return cstm;
 	}
 	
-	// 포인트 이력 추가
-	public int pointHistory(Point point) throws Exception {
+	// 포인트 이력 추가 & 고객 포인트 반영
+	public int updatePoint(Point point, String id) throws Exception {
 		int row = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -38,16 +38,16 @@ public class PointDao {
 		
 		row = addPtHistoryStmt.executeUpdate();
 		
+		int changePoint = point.getPointPm().equals("-") ? point.getPoint() * -1 : point.getPoint();
+		
+		// 고객 포인트에 포인트 반영
+		String customerSql = "update customer set cstm_point = cstm_point + ? where id = ?";
+		PreparedStatement customerStmt = conn.prepareStatement(customerSql);
+		
+		// ?값 세팅
+		customerStmt.setInt(1, changePoint);
+		customerStmt.setString(2, id);
+		
 		return row;
-	}
-	
-	// 상품별 포인트? 하나 살때마다 몇포인트씩 > 등급별 퍼센티지로?
-	public int productPoint(Product product) throws Exception {
-		Product procduct = new Product();
-		// DB메소드
-		DBUtil dbUtil = new DBUtil(); 
-		Connection conn = dbUtil.getConnection();
-		// 상품별로 포인트 얼마씩 적립할지
-	return 0;
 	}
 }
