@@ -19,7 +19,7 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql = "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_answer LIKE 'N' ORDER BY q_no LIMIT ?, ?";
+		String sql = "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_answer LIKE 'N' ORDER BY q_no DESC LIMIT ?, ?";
 		PreparedStatement selectStmt = conn.prepareStatement(sql);
 		selectStmt.setInt(1, beginRow);
 		selectStmt.setInt(2, rowPerPage);
@@ -44,10 +44,35 @@ public class QuestionDao {
 	}
 		
 	
+	// q_no 받아서 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
+	
+	public int updatdQuestionByPage(int qNo) throws Exception {
+		//sql 실행시 영향받은 행의 수
+		int row = 0;
+		
+		//db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		//sql 전송, 결과셋 반환 후 저장
+		PreparedStatement updateStmt = conn.prepareStatement("UPDATE question SET q_answer='Y', updatedate = NOW() WHERE q_no = ?");
+		
+		//물음표 1개
+		updateStmt.setInt(1, qNo);
 
-	//고객 별 문의내역 출력 -> cstmQnaList.jsp 만들어줘야함(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
+		row = updateStmt.executeUpdate();
+		
+		return row;
+	}
+	
+	
+	
+	
+	
+
+	//고객 별 문의내역 출력 -> cstmQnaList.jsp(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
 	//쿼리문 : SELECT q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate FROM question WHERE q_no=? ORDER BY q_no
-	public ArrayList<Question> Questioncust (int qNo, int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<Question> Questioncust (String id, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
 				ArrayList<Question> list = new ArrayList<>();
 				
@@ -56,9 +81,9 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql =  "SELECT q_no qNo, product_no productNo, id , q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question  WHERE q_no=? ORDER BY q_no LIMIT ?, ?";
+		String sql =  "SELECT q_no qNo, product_no productNo, id , q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question  WHERE id=? ORDER BY q_no DESC LIMIT ?, ?";
 		PreparedStatement custStmt = conn.prepareStatement(sql);
-		custStmt.setInt(1, qNo);
+		custStmt.setString(1, id);
 		custStmt.setInt(2, beginRow);
 		custStmt.setInt(3, rowPerPage);
 		ResultSet custRs = custStmt.executeQuery();
@@ -92,7 +117,7 @@ public class QuestionDao {
 			Connection conn = dbUtil.getConnection();
 			
 			//sql 전송, 결과셋 반환해 리스트에 저장
-			String sql = " SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no ORDER BY q_no LIMIT ?, ?";
+			String sql = " SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no ORDER BY q_no DESC LIMIT ?, ?";
 			PreparedStatement qListStmt = conn.prepareStatement(sql);
 			
 			qListStmt.setInt(1, beginRow);
@@ -120,10 +145,10 @@ public class QuestionDao {
 		
 	
 
-	//상품 상세페이지에서 문의 출력 -> product.jsp //WHERE절에 q_no 받아와서 답변이 'Y'인 것만 출력 ID = ?
+	//상품 상세페이지에서 문의 출력 -> product.jsp 
 	// 매개변수에 product_no추가해서 product_no에 해당하는 리스트만 받아오도록 변경, 답변은 Y/N 관계없이 전부나오게
 	
-	public ArrayList<Question> QuestionProduct (int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<Question> QuestionProduct (int productNo, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
 				ArrayList<Question> list = new ArrayList<>();
 				
@@ -132,11 +157,11 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql =   "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_answer LIKE 'Y' ORDER BY q_no LIMIT ?, ?";
+		String sql =   "SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE product_no=? ORDER BY q_no DESC LIMIT ?, ?";
 		PreparedStatement prodStmt = conn.prepareStatement(sql);
-
-		prodStmt.setInt(1, beginRow);
-		prodStmt.setInt(2, rowPerPage);
+		prodStmt.setInt(1, productNo);
+		prodStmt.setInt(2, beginRow);
+		prodStmt.setInt(3,rowPerPage);
 		ResultSet prodRs = prodStmt.executeQuery();
 		while(prodRs.next()) {
 			Question m = new Question();
@@ -266,5 +291,9 @@ public class QuestionDao {
 		return row;
 	}
 	
-	// q_no 받아서 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
+
+	
+	
+	
+	
 }

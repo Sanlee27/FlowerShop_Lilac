@@ -23,7 +23,7 @@ public class ReviewDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no ORDER BY order_no LIMIT ?, ?";
+		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no ORDER BY order_no DESC LIMIT ?, ?";
 		PreparedStatement reviewStmt = conn.prepareStatement(sql);
 		
 		reviewStmt.setInt(1, beginRow);
@@ -59,7 +59,7 @@ public class ReviewDao {
 			Connection conn = dbUtil.getConnection();
 			
 			//sql 전송, 결과셋 반환해 리스트에 저장
-			String sql = " SELECT order_no orderNo, review_title reviewTitle, createdate, updatedate FROM review WHERE order_no ORDER BY order_no LIMIT ?, ?";
+			String sql = " SELECT order_no orderNo, review_title reviewTitle, createdate, updatedate FROM review WHERE order_no ORDER BY order_no DESC LIMIT ?, ?";
 			PreparedStatement rListStmt = conn.prepareStatement(sql);
 			
 			rListStmt.setInt(1, beginRow);
