@@ -8,6 +8,12 @@ import vo.*;
 public class AddressDao {
 	//배송지이력 리스트 
 	public ArrayList<Address> selectHistoryAddress(String id) throws Exception {
+		//유효성검사
+		if(id == null) {
+			System.out.println("id값 확인");
+			return null;
+		}
+				
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement addressStmt = conn.prepareStatement(
@@ -41,6 +47,7 @@ public class AddressDao {
 		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
+		
 		if(address.getAddressNo() == 0) {
 			PreparedStatement addressStmt = conn.prepareStatement(
 					"INSERT INTO address(id, address_lastdate, address, createdate, updatedate) VALUES(?, now(), ?, now(), now())"
@@ -49,13 +56,16 @@ public class AddressDao {
 			addressStmt.setString(2, address.getAddress());
 			
 			row = addressStmt.executeUpdate();
+			
 			return row;
 		} 
+		
 		PreparedStatement addressUpStmt = conn.prepareStatement(
 				"UPDATE address SET address_lastdate = now() WHERE address_no = ?"
 				);
 		addressUpStmt.setInt(1, address.getAddressNo());
 		row = addressUpStmt.executeUpdate();
+		
 		return row;
 	}
 	
@@ -70,6 +80,7 @@ public class AddressDao {
 		addressdelStmt.setInt(1, addressNo);
 			
 		row = addressdelStmt.executeUpdate();
-			return row;
-		} 
+		
+		return row;
+	} 
 }

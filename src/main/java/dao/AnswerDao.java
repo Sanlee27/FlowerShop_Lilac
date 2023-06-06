@@ -29,6 +29,7 @@ public class AnswerDao {
 		
 		return row; 
 	}
+	
 	//답변 수정
 	public int updateAnswer(Answer answer) throws Exception {
 		//유효성검사

@@ -8,15 +8,14 @@ import vo.*;
 
 public class CartDao {
 	//장바구니 내 상품 보기
-	public HashMap<String, Object> selectCart(String id) throws Exception {
+	public Cart selectCart(String id) throws Exception {
 		//유효성검사
 		if(id == null) {
-			System.out.println("answer클래스, AnswerContent값 확인");
+			System.out.println("id값 확인");
 			return null;
 		}
 		
 		Cart cart = null;
-		ProductImg productImg = null;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement cartSelStmt = conn.prepareStatement(
@@ -33,30 +32,8 @@ public class CartDao {
 			cart.setId(cartSelRs.getString("id"));
 			cart.setCartCnt(cartSelRs.getInt("cartCnt"));
 		}
-		
-		/*
-		//이미지 쿼리 필요 - no 같은 번호의 이미지 내놔
-		
-		PreparedStatement cartImgStmt = conn.prepareStatement(
-				"SELECT product_no productNo, product_ori_filename productOriFilename, product_save_filename productSaveFilename, product_filetype productFiletype FROM product_img WHERE product_no = ?"
-			);
-		cartImgStmt.setInt(1, cart.getProductNo());
-		
-		ResultSet cartImgRs = cartImgStmt.executeQuery();
-		
-		if(cartImgRs.next()) {
-			productImg = new ProductImg();
-			productImg.setProductNo(cartImgRs.getInt("productNo"));
-			productImg.setProductOriFilename(cartImgRs.getString("productOriFilename"));
-			productImg.setProductSaveFilename(cartImgRs.getString("productSaveFilename"));
-			productImg.setProductFiletype(cartImgRs.getString("productFiletype"));
-		}
-		*/
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("cart", cart);
-		map.put("productImg", productImg);
 	
-		return map;
+		return cart;
 	
 	}
 	//장바구니 상품 추가 
@@ -105,17 +82,23 @@ public class CartDao {
 	}
 	
 	//장바구니 상품 삭제
-	public int deleteCart(int cartNo) throws Exception {
+	public int deleteCart(String id) throws Exception {
+		//유효성검사
+		if(id == null) {
+			System.out.println("id값 확인");
+			return 0;
+		}
+		
 		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement CartDelStmt = conn.prepareStatement(
-				"DELETE FROM cart WHERE cart_no = ?"
+				"DELETE FROM cart WHERE id = ?"
 			);
-		CartDelStmt.setInt(1, cartNo);
+		CartDelStmt.setString(1, id);
 		
 		row = CartDelStmt.executeUpdate();
-		return row;
 		
+		return row;
 	}
 }

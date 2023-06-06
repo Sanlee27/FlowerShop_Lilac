@@ -26,6 +26,7 @@ public class CategoryDao {
 			c.setUpdatedate(categoryRs.getString("updatedate"));
 			categoryList.add(c);
 		}
+		
 		return categoryList;
 	}
 	
