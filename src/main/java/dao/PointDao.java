@@ -23,7 +23,7 @@ public class PointDao {
 		return cstm;
 	}
 	
-	// 포인트 이력 추가 & 고객 포인트 반영
+	// 포인트 이력 추가 & 고객 포인트 반영, 고객 포인트에 따른 등급 변경
 	public int updatePoint(Point point, String id) throws Exception {
 		int row = 0;
 		// DB메소드
@@ -48,8 +48,14 @@ public class PointDao {
 		customerStmt.setString(2, id);
 		
 		row += customerStmt.executeUpdate();
-
+		
+		// 고객 포인트에 따라 등급 변경
 		// customer에 저장된 point를 기준으로 rank값을 변경해주는 쿼리 필요.
+		String customerRankSql = "UPDATE customer SET cstm_rank = CASE WHEN cstm_point < 1000 THEN '씨앗' WHEN cstm_point BETWEEN 1000 AND 3000 THEN '새싹' WHEN cstm_point > 5000 THEN '꽃' ELSE cstm_rank END WHERE id = ?";
+		PreparedStatement cstmRankStmt = conn.prepareStatement(customerRankSql);
+		cstmRankStmt.setString(1, id);
+		
+		row += cstmRankStmt.executeUpdate();
 		
 		return row;
 		
