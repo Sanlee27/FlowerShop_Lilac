@@ -4,13 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Lilac</title>
-	<link href="style.css" type="text/css" rel="stylesheet">
+	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="script.js" type="text/javascript" defer></script>
+	<script src="<%=request.getContextPath() %>/script.js" type="text/javascript" defer></script>
 	<!-- data-aos 라이브러리 -->
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-	<link rel="icon" href="images/favicon.png"/>
+	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 </head>
 <body>
 	<div>
