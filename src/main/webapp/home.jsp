@@ -123,15 +123,6 @@
 						59,900
 					</div>
 				</div>
-				<div>
-					<img src="product/wedding1.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						웨딩용 부케
-						<br>
-						59,900
-					</div>
-				</div>
 			</div>
 			
 		</div>
