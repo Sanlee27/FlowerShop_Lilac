@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import util.DBUtil;
 import vo.*;
 
@@ -213,6 +216,7 @@ public class CustomerDao {
 		return row;
 	}
 	
+	// 마지막 로그인 일자 업데이트
 	public int updLastLogin(Id id) throws Exception {
 		int row = 0;
 		// DB메소드
@@ -411,35 +415,62 @@ public class CustomerDao {
 				
 		return row;
 	}
-	// 추가 회원통계(ex 연령 통계, 성별 통꼐등)
+	
+	// 회원통계_연령별
+	public ArrayList<HashMap<String, Object>> ageStats() throws Exception {
+		// 결과값 담길 ArrayList 선언
+		ArrayList<HashMap<String, Object>> ageList = new ArrayList<HashMap<String, Object>>();
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 연령별 인원 통계
+		String ageStatsSql = "SELECT"
+						+ "			CASE WHEN age < 20 THEN '10대'"
+						+ "			    WHEN age BETWEEN 20 AND 29 THEN '20대'"
+						+ "			    WHEN age BETWEEN 30 AND 39 THEN '30대'"
+						+ "			    WHEN age BETWEEN 40 AND 49 THEN '40대'"
+						+ "			    WHEN age BETWEEN 50 AND 59 THEN '50대'"
+						+ "			    WHEN age >= 60 THEN '60대 이상'"
+						+ "			    END 연령대, COUNT(*) 인원"
+						+ "	FROM(SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cstm_birth, '%Y') age FROM customer) a"
+						+ "	GROUP BY 연령대"
+						+ "	ORDER BY 연령대;";
+		PreparedStatement stmt = conn.prepareStatement(ageStatsSql);
+		
+		ResultSet ageRs = stmt.executeQuery();
+		while(ageRs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("연령대", ageRs.getString("연령대"));
+			map.put("인원", ageRs.getInt("인원"));
+			ageList.add(map);
+		}
+		return ageList;
+	}
+	
+	// 회원통계_성별별
+	public ArrayList<HashMap<String, Object>> genStats() throws Exception{
+		// 결과값 담길 ArrayList 선언
+		ArrayList<HashMap<String, Object>> genList = new ArrayList<HashMap<String, Object>>();
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 연령별 인원 통계
+		String genStatsSql = "SELECT cstm_gender 성별, COUNT(*) 인원 FROM customer GROUP BY cstm_gender";
+		PreparedStatement stmt = conn.prepareStatement(genStatsSql);
+		
+		ResultSet genRs = stmt.executeQuery();
+		while(genRs.next()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("성별", genRs.getString("성별"));
+			map.put("인원", genRs.getInt("인원"));
+			genList.add(map);
+		}
+		return genList;
+	}
 	// id 성별 생일 나이 리스트
 	/*
 	SELECT id, cstm_gender, cstm_birth, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cstm_birth, '%Y') age
 	FROM customer;
-	 */
-	
-	// 연령별 인원통계 쿼리
-	/*
-	SELECT 
-		   CASE WHEN age < 20 THEN '10대'
-			    WHEN age BETWEEN 20 AND 29 THEN '20대'
-			    WHEN age BETWEEN 30 AND 39 THEN '30대'
-			    WHEN age BETWEEN 40 AND 49 THEN '40대'
-			    WHEN age BETWEEN 50 AND 59 THEN '50대'
-			    WHEN age >= 60 THEN '60대 이상'
-			    END 연령대,
-		   COUNT(*) 인원
-	FROM(
-		SELECT id, cstm_gender, cstm_birth, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cstm_birth, '%Y') age
-		FROM customer
-		) c
-	GROUP BY 연령대
-	ORDER BY 연령대;
-	*/
-	
-	// 성별 통계 쿼리
-	/*
-	SELECT cstm_gender 성별, COUNT(*) 인원 FROM customer GROUP BY cstm_gender; 
 	 */
 }
 
