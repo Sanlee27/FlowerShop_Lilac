@@ -2,7 +2,7 @@
 <div class="main-menu-container">
 	<div class="main-menu">
 		<div>
-			<img src="./images/logo.png" width="250px">
+			<img src="<%=request.getContextPath() %>/images/logo.png" width="250px">
 		</div>
 		<nav>
 			<a herf="">상품보기</a>
@@ -12,10 +12,10 @@
 		</nav>
 		<div class="icons">
 			<a href="">
-				<img src="./images/cart.png">
+				<img src="<%=request.getContextPath() %>/images/cart.png">
 			</a>
 			<a>
-				<img src="./images/login.png">
+				<img src="<%=request.getContextPath() %>/images/login.png">
 			</a>
 		</div>
 	</div>
