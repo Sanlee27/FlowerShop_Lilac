@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap');
 
 *{
 	margin : 0;
@@ -8,6 +8,7 @@
 	font-family: 'Noto Serif KR', serif;
 	color: #888888;	
 }
+/* 메인메뉴 부분 */
 .main-menu-container{
 	z-index: 1;
 	position: fixed;
@@ -33,11 +34,6 @@
 .main-menu nav a + a{
 	margin-left: 25px;
 }
-.divide-line{
-	width: 100%;
-	height: 2px;
-	background-color: pink;
-}
 .icons img{
 	width: 50px;
 	height: 50px;
@@ -51,42 +47,95 @@
 	background-color: darkgray;
 	cursor: pointer
 }
+.divide-line{
+	width: 100%;
+	height: 2px;
+	background-color: pink;
+}
 
+/* 이미지 슬라이드 부분 */
 .image-slide{
 	overflow: hidden;
 	position:relative;
-	width: 1280px;
+	width: 100%;
+	height: 853px;
 	margin: 180px auto 0;
 }
 .image-slide .images{
 	display: flex;
-	width: 3840px;
+	width: 300%;
+	height: inherit;
 }
 .image-slide .images li{
 	position: relative;
-	width: 1280px;
-	height: 853px;
+	width: 100%;
 	list-style: none;
 }
 .image-slide .images li .comment{
 	position: absolute;
-	top: 80%;
-	left: calc(50% - 250px);
-	width: 500px;
-	background-color: rgba(249, 245, 242, 0.5);
+	width:	700px;
+	background-color: rgba(0, 0, 0, 0);
 	color: dimgray;
-	font-size: 30px;
-	font-weight: bold;
+	font-size: 50px;
+	font-weight: 700;
+	text-align: left;
+}
+.image-slide .images .main1{
+	background-color: RGB(247, 229, 229);
+}
+.image-slide .images .main1 .comment{
+	top: 70%;
+	left: calc(45% - 350px);
+}
+
+.image-slide .images .main2{
+	background-color: #bdbdbd;
+}
+.image-slide .images .main2 .comment{
+	top: 12%;
+	left: calc(50% - 350px);
 	text-align: center;
 }
-.down-arrow{
+.image-slide .images .main3{
+	background-color: #e6ded3;
+}
+.image-slide .images .main3 .comment{
+	top: 80%;
+	left: calc(50% - 350px);
 	text-align: center;
+}
+.image-slide .images li img{
+	position: absolute;
+	left: calc(50% - 640px);
+	width: 1280px;
+	height: 853px;
+}
+.image-slide .images li .comment{
+	position: absolute;
+	top: 70%;
+	left: calc(45% - 350px);
+	width:	700px;
+	background-color: rgba(0, 0, 0, 0);
+	color: dimgray;
+	font-size: 50px;
+	font-weight: 700;
+	text-align: left;
+}
+.image-slide .images li .comment span{
+	font-size: 40px;
+	font-weight: normal;
+	background-color: rgba(0, 0, 0, 0);
+}
+.down-arrow{
 	margin: 40px;
+	text-align: center;
 }
 .down-arrow img{
 	width: 50px;
 	height: 50px;
 }
+
+/* 신상품 리스트 부분 */
 .new-product{
 	width: 1280px;
 	margin: 0px auto;
@@ -100,18 +149,19 @@
 	margin-top: 50px;
 }
 .new-product .products > div{
-	width: 270px;
+	width: 350px;
 	border-radius: 4px;
 	border: 2px solid silver;
 	margin-top: 30px;
-	padding: 10px;
+	padding: 20px;
 }
 .new-product .products > div > img{
 	position: relative;
-	width: 250px;
-	height: 200px;
+	width: 300px;
+	height: 250px;
 	margin: 10px;
 }
 .new-product .products > div > .content{
 	margin: 20px;
+	font-size: 20px;
 }

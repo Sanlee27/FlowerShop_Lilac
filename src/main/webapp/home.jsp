@@ -17,23 +17,35 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 		<div class="image-slide">
 			<ul class="images">
-				<li>
-					<img src="images/basket.jpg">
-					<div class="comment">꽃바구니 19,900원 부터</div>
+				<li class="main1">
+					<img src="images/main1.jpg">
+					<div class="comment">
+						분위기 전환이 필요할때
+						<br>
+						<span>화사한 꽃병으로 거실을 더 환하게!</span>
+					</div>
 				</li>
-				<li>
-					<img src="images/pot.jpg">
-					<div class="comment">화분종류 9,900원 부터</div>
+				<li class="main2">
+					<img src="images/main2.jpg">
+					<div class="comment">
+						선물이 필요할때
+						<br>
+						<span>화려한 꽃바구니로 마음을 전하세요!</span>
+					</div>
 				</li>
-				<li>
-					<img src="images/bouquet.jpg">
-					<div class="comment">부케 주문제작 가능</div>
+				<li class="main3">
+					<img src="images/main3.jpg">
+					<div class="comment">
+						아주 특별한 날에도
+						<br>
+						<span>주문제작 부케로 특별하게!</span>
+					</div>
 				</li>
 			</ul>
 		</div>
 		
 		<div class="down-arrow">
-			<img src="images/down-arrow.png">
+				<img src="images/down-arrow.png">
 		</div>
 		
 		<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
@@ -100,6 +112,15 @@
 						백합 화분
 						<br>
 						19,900
+					</div>
+				</div>
+				<div>
+					<img src="product/wedding1.jpg">
+					<div class="divide-line"></div>
+					<div class="content">
+						웨딩용 부케
+						<br>
+						59,900
 					</div>
 				</div>
 				<div>

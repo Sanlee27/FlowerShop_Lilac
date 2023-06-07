@@ -3,7 +3,7 @@ setInterval(slide,3000);
 
 function slide() {
 		$('.images').animate({
-		marginLeft: -1280
+		"marginLeft": "-100%"
 		},1000,slideNext);
 }
 
