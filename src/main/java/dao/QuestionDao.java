@@ -165,7 +165,7 @@ public class QuestionDao {
 
 					q.setqNo(qListRs.getInt("qNo"));
 					q.setProductNo(qListRs.getInt("productNo"));
-					q.setId(qListRs.getString("setId"));
+					//q.setId(qListRs.getString("setId"));
 					q.setqCategory(qListRs.getString("qCategory"));
 					q.setqAnswer(qListRs.getString("qAnswer"));
 					q.setqTitle(qListRs.getString("qTitle"));
