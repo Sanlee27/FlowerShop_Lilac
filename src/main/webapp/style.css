@@ -33,7 +33,7 @@ del{
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
-.list-wrapper5, .list-wrapper6, .list-wrapper8{
+.list-wrapper5, .list-wrapper6, .list-wrapper9{
 	width: 100%;
 	text-align: center;
 }
@@ -50,12 +50,12 @@ del{
 .list-wrapper6 .list-item{
 	grid-template-columns: 10% 10% 20% 40% 10% 10%;
 }
-.list-wrapper8 .list-item{
+.list-wrapper9 .list-item{
 	grid-template-columns: 10% 20% 15% 10% 10% 10% 15% 5% 5%;
 }
 .list-wrapper5 .list-item:first-of-type,
 .list-wrapper6 .list-item:first-of-type,
-.list-wrapper8 .list-item:first-of-type {
+.list-wrapper9 .list-item:first-of-type {
 	border-top: 2px solid pink;
 }
 
