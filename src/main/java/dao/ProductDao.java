@@ -1,5 +1,8 @@
 package dao;
 import java.util.*;
+
+import org.mariadb.jdbc.export.Prepare;
+
 import java.sql.*;
 import vo.*;
 import util.*;
@@ -345,5 +348,28 @@ public class ProductDao {
 		}
 		
 		return list;
+	}
+	
+	// 카테고리별 상품 개수를 반환하는 메서드
+	public int getCategoryProductCnt(String categoryName) throws Exception {
+		// 결과값을 반환할 int타입 변수 선언
+		int result = 0;
+		
+		// Connection 가져오기
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 카테고리별 상품 개수를 가져오는 쿼리
+		String sql = "select count(*) from product where category_name = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// 쿼리 실행 후 결과값 저장
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = rs.getInt("count(*)");
+		}
+		
+		return result;
 	}
 }
