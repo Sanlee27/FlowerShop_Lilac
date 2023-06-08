@@ -363,6 +363,9 @@ public class ProductDao {
 		String sql = "select count(*) from product where category_name = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
+		// ?값 세팅
+		stmt.setString(1, categoryName);
+		
 		// 쿼리 실행 후 결과값 저장
 		ResultSet rs = stmt.executeQuery();
 		

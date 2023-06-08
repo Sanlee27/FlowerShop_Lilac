@@ -14,7 +14,7 @@ public class CategoryDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement categoryStmt = conn.prepareStatement(
-				"SELECT category_name categoryName, createdate, updatedate FROM category ORDER BY categoryName"
+				"SELECT category_name categoryName, substring(createdate,1,10) createdate, substring(updatedate,1,10) updatedate FROM category ORDER BY categoryName"
 			);
 		ResultSet categoryRs = categoryStmt.executeQuery();
 		
