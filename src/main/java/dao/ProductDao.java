@@ -35,19 +35,19 @@ public class ProductDao {
 		}
 		
 		// 정렬부분 매개변수값 있으면 추가
-		String orderQuery = "";
+		String orderQuery = "order by p.product_no";
 		if(order != null && !order.equals("")) {
 			if(order.equals("판매량많은순")) {
-				orderQuery += "order by product_sale_cnt desc";
+				orderQuery = "order by product_sale_cnt desc";
 			}
 			if(order.equals("가격높은순")) {
-				orderQuery += "order by discount_price desc";
+				orderQuery = "order by discount_price desc";
 			}
 			if(order.equals("가격낮은순")) {
-				orderQuery += "order by discount_price";
+				orderQuery = "order by discount_price";
 			}
 			if(order.equals("할인율높은순")) {
-				orderQuery += "order by discount_rate desc";
+				orderQuery = "order by discount_rate desc";
 			}
 		}
 		
