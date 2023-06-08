@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap');
 
+/* 공통태그 */
 *{
 	margin : 0;
 	padding : 0;
@@ -10,6 +11,13 @@
 }
 a{
 	text-decoration: none;
+}
+del{
+	color: #999999;
+	font-size: 15px;
+}
+.price{
+	color: red;
 }
 /* 메인메뉴 부분 */
 .main-menu-container{
@@ -54,7 +62,10 @@ a{
 	height: 2px;
 	background-color: pink;
 }
-
+.container{
+	width: 1280px;
+	margin: 120px auto 0;
+}
 /* 이미지 슬라이드 부분 */
 .image-slide{
 	overflow: hidden;
@@ -117,6 +128,8 @@ a{
 	font-weight: normal;
 	background-color: rgba(0, 0, 0, 0);
 }
+
+/* deco */
 .down-arrow{
 	margin: 40px;
 	text-align: center;

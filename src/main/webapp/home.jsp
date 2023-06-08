@@ -4,17 +4,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Lilac</title>
+	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
+	<!-- jQuery, home부분 js파일 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="<%=request.getContextPath() %>/script.js" type="text/javascript" defer></script>
-	<!-- data-aos 라이브러리 -->
+	<script src="<%=request.getContextPath() %>/script/homeScript.js" type="text/javascript" defer></script>
+	<!-- data-aos 라이브러리(fade up구현해주는 - 스크롤이벤트) -->
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 </head>
 <body>
 	<div>
+		<!-- 메인메뉴 -->
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+		
+		<!-- 이미지 슬라이드 부분 -->
 		<div class="image-slide">
 			<ul class="images">
 				<li class="main1">
@@ -44,10 +50,12 @@
 			</ul>
 		</div>
 		
+		<!-- deco -->
 		<div class="down-arrow">
 				<img src="images/down-arrow.png">
 		</div>
 		
+		<!-- 신상품 보여주는 부분 -->
 		<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
 			<h2>신상품</h2>
 			<div class="products">
@@ -57,7 +65,9 @@
 					<div class="content">
 						화려한 꽃 바구니
 						<br>
-						29,900
+						<del>29,900</del>
+						<br>
+						<span class="price">19,900</span>
 					</div>
 				</div>
 				<div>
