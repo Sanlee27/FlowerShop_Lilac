@@ -35,7 +35,7 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 	
 		//총 행을 구하는 sql문
-		String pageSql = "SELECT COUNT(*) FROM question where q_answer = 'N";
+		String pageSql = "SELECT COUNT(*) FROM question where q_answer = 'N'";
 		PreparedStatement pageStmt = conn.prepareStatement(pageSql);
 		ResultSet pageRs = pageStmt.executeQuery();
 		if(pageRs.next()) {
