@@ -130,11 +130,13 @@ public class CustomerDao {
 		stmt.setString(2, pw);
 		
 		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
-			row = 1;
-			System.out.println("로그인성공");
-		} else {
-			System.out.println("로그인실패");
+		if (rs.next()) {
+	        row = rs.getInt(1);
+	        if (row > 0) {
+	            System.out.println("로그인성공");
+	        } else {
+	            System.out.println("로그인실패");
+	        }
 		}
 		return row;
 	}
@@ -176,7 +178,7 @@ public class CustomerDao {
 	// 활성화여부 확인해주는거 하나랑 활성화여부 변경해주는거 하나랑 last_login업데이트 해주는거 하나
 	
 	// 활성화 여부 확인
-	public String ckActive(Id id) throws Exception {
+	public String ckActive(String id) throws Exception {
 		String active = "";	
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -184,7 +186,7 @@ public class CustomerDao {
 		// 활성화 여부 확인
 		String ckActSql = "SELECT active FROM id_list WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(ckActSql);
-		stmt.setString(1, id.getId());
+		stmt.setString(1, id);
 		
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
@@ -199,6 +201,7 @@ public class CustomerDao {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
+		CustomerDao dao = new CustomerDao();
 		// 활성화 변경
 		if(id.getActive().equals("Y")) {
 			String YToNSql = "UPDATE id_list SET active = 'N' WHERE id = ?";
@@ -217,7 +220,7 @@ public class CustomerDao {
 	}
 	
 	// 마지막 로그인 일자 업데이트
-	public int updLastLogin(Id id) throws Exception {
+	public int updLastLogin(String id) throws Exception {
 		int row = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -225,7 +228,7 @@ public class CustomerDao {
 		// last_login 업데이트
 		String updLastLoginSql = "UPDATE customer SET cstm_last_login = NOW() WHERE id = ?";
 		PreparedStatement stmt = conn.prepareStatement(updLastLoginSql);
-		stmt.setString(1, id.getId());
+		stmt.setString(1, id);
 		
 		row = stmt.executeUpdate();
 		
@@ -233,12 +236,12 @@ public class CustomerDao {
 	}
 	
 	// 휴면계정(3개월)시 active N으로 변경
-	public int ckSleepId2(String id) throws Exception {
+	public int ckSleepId(String id) throws Exception {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		int row = 0;
-		String sql = "UPDATE id_list SET active = 'N' WHERE id = '?' AND DATEDIFF(NOW(), (SELECT cstm_last_login) FROM customer WHERE id = '?')) > 90";
+		String sql = "UPDATE id_list SET active = 'N' WHERE id = '?' AND DATEDIFF(NOW(), (SELECT cstm_last_login FROM customer WHERE id = '?')) > 90";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		stmt.setString(2, id);

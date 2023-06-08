@@ -7,8 +7,30 @@ import vo.*;
 
 
 public class QuestionDao {
-
-	//미답변한 q&a '만' 출력 -> employees.jsp
+	
+	//페이징을 위한 메서드 만들기
+			public int selectQuestionCnt() throws Exception {
+				int row = 0;
+				
+		//db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+		//총 행을 구하는 sql문
+			int totalRow = 0;
+			String pageSql = "SELECT COUNT(*) FROM question";
+			PreparedStatement pageStmt = conn.prepareStatement(pageSql);
+			ResultSet pageRs = pageStmt.executeQuery();
+				if(pageRs.next()) {
+					row = pageRs.getInt(1);
+				}
+				return row;
+			}
+			
+	
+	
+	
+	//미답변한 q&a '만' 출력하는 메서드 -> employees.jsp
 	//쿼리문: SELECT * FROM question WHERE q_answer LIKE 'N';
 	public ArrayList<Question> selectQuestionByPage (int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -70,7 +92,7 @@ public class QuestionDao {
 	
 	
 
-	//고객 별 문의내역 출력 -> cstmQnaList.jsp(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
+	//고객 별 문의내역 출력하는 메서드 -> cstmQnaList.jsp(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
 	//쿼리문 : SELECT q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate FROM question WHERE q_no=? ORDER BY q_no
 	public ArrayList<Question> Questioncust (String id, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -106,7 +128,7 @@ public class QuestionDao {
 		return list;
 	}
 	
-	//전체 문의 리스트 출력
+	//전체 문의 리스트 출력하는 메서드
 	
 	public  ArrayList <Question> questionList(int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
@@ -145,7 +167,7 @@ public class QuestionDao {
 		
 	
 
-	//상품 상세페이지에서 문의 출력 -> product.jsp 
+	//상품 상세페이지에서 문의 출력하는 메서드 -> product.jsp 
 	// 매개변수에 product_no추가해서 product_no에 해당하는 리스트만 받아오도록 변경, 답변은 Y/N 관계없이 전부나오게
 	
 	public ArrayList<Question> QuestionProduct (int productNo, int beginRow, int rowPerPage) throws Exception{
@@ -184,7 +206,7 @@ public class QuestionDao {
 	
 	
 	
-	//문의글 입력 -> addQuestion.jsp 
+	//문의글 입력하는 메서드 -> addQuestionAction.jsp 
 		//입력페이지에 표시될 항목: //q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate
 	public int addQuestion(Question question) throws Exception {
 		//영향받은 행의 수
@@ -195,12 +217,13 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement addStmt = conn.prepareStatement("INSERT INTO question (product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW()");
-		addStmt.setInt(1, question.getProductNo());
-		addStmt.setString(2, question.getId());
-		addStmt.setString(3, question.getqCategory());
-		addStmt.setString(4, question.getqTitle());
-		addStmt.setString(5, question.getqContent());
+		PreparedStatement addStmt = conn.prepareStatement("INSERT INTO question (q_no qNo, product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, ?, NOW(),NOW()");
+		addStmt.setInt(1, question.getqNo());
+		addStmt.setInt(2, question.getProductNo());
+		addStmt.setString(3, question.getId());
+		addStmt.setString(4, question.getqCategory());
+		addStmt.setString(5, question.getqTitle());
+		addStmt.setString(6, question.getqContent());
 		
 		row = addStmt.executeUpdate();
 		
