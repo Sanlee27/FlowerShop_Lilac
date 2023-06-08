@@ -24,9 +24,6 @@
 	}
 	// 클래스 객체 생성
 	CustomerDao dao = new CustomerDao();
-	Id idList = new Id();
-	idList.setId(id);
-	idList.setLastPw(pw);
 	
 	// 1) id, pw 맞는지 확인
 	int login = dao.ckIdPw(id, pw);
@@ -39,7 +36,12 @@
 	// 로그인 세션정보 저장 추가++++
 	String ckId = dao.ckId(id);
 	System.out.println("로그인된 아이디는 : " + ckId + "입니다");
-	if(ckId.equals("관리자")){
+	if(ckId.equals("관리자1")){
+		session.setAttribute("관리자1", id);
+		response.sendRedirect(request.getContextPath()+"/employees.jsp");
+		return;
+	} else if(ckId.equals("관리자2")){
+		session.setAttribute("관리자2", id);
 		response.sendRedirect(request.getContextPath()+"/employees.jsp");
 		return;
 	} else if(ckId.equals("없는 회원")){
@@ -57,12 +59,13 @@
 		if(active.equals("Y")){
 			// last_login 날짜 로그인한 시점으로 변경
 			int addLastLogin = dao.updLastLogin(id);
+			session.setAttribute("고객", id);
 			response.sendRedirect(request.getContextPath()+"/home.jsp");
 			return;
 		// 활성화 여부가 N = 휴면계정이면
 		} else {
 			msg = URLEncoder.encode("휴면계정입니다. 다시 로그인해주세요.","UTF-8");
-			response.sendRedirect(request.getContextPath()+"/cstm/login.jsp?msg="+msg);
+			response.sendRedirect(request.getContextPath()+"/cstm/login.jsp?id="+id+"&msg="+msg);
 			return;
 		}
 	}
