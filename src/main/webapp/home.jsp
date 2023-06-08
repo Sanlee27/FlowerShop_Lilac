@@ -49,7 +49,7 @@
 		</div>
 		
 		<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
-			<h1>신상품</h1>
+			<h2>신상품</h2>
 			<div class="products">
 				<div>
 					<img src="product/basket1.jpg">

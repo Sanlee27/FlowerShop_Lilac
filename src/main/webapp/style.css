@@ -128,7 +128,7 @@ a{
 
 /* 신상품 리스트 부분 */
 .new-product{
-	width: 1280px;
+	width: 1150px;
 	margin: 0px auto;
 	padding: 50px 0;
 	text-align: center;
@@ -140,7 +140,7 @@ a{
 	margin-top: 20px;
 }
 .new-product .products > div{
-	width: 270px;
+	width: 250px;
 	border-radius: 4px;
 	border: 2px solid silver;
 	margin-top: 30px;
@@ -148,8 +148,8 @@ a{
 }
 .new-product .products > div > img{
 	position: relative;
-	width: 250px;
-	height: 200px;
+	width: 220px;
+	height: 170px;
 	margin: 10px;
 }
 .new-product .products > div > .content{
