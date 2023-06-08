@@ -53,9 +53,9 @@ del{
 .list-wrapper9 .list-item{
 	grid-template-columns: 10% 20% 15% 10% 10% 10% 15% 5% 5%;
 }
-.list-wrapper5 .list-item:first-of-type,
-.list-wrapper6 .list-item:first-of-type,
-.list-wrapper9 .list-item:first-of-type {
+.list-wrapper5 > .list-item:first-of-type,
+.list-wrapper6 > .list-item:first-of-type,
+.list-wrapper9 > .list-item:first-of-type {
 	border-top: 2px solid pink;
 }
 
@@ -66,7 +66,7 @@ del{
 	border-radius: 4px;
 	background-color: pink;
 }
-.list-item a:hover, button{
+.list-item a:hover, button:hover{
 	background-color: #888888;
 	color: pink;
 }
@@ -76,6 +76,7 @@ del{
 input{
 	width: 100%;
 	border-radius: 4px;
+	border: 1px solid whitesmoke;
 	padding: 5px;
 }
 
