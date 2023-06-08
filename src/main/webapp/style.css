@@ -40,13 +40,12 @@ del{
 .list-item{
 	display: grid;
 	place-items: center;
-	grid-template-columns: 10% 10% 20% 40% 10% 10%;
 	width: 100%;
 	height: 50px;
 	border-bottom: 1px solid #999999;
 }
 .list-wrapper5 .list-item{
-	grid-template-columns: repeat(20%, 5);
+	grid-template-columns: 20% 20% 20% 20% 20%;
 }
 .list-wrapper6 .list-item{
 	grid-template-columns: 10% 10% 20% 40% 10% 10%;
@@ -54,22 +53,30 @@ del{
 .list-wrapper8 .list-item{
 	grid-template-columns: 10% 20% 10% 10% 10% 10% 10% 10%;
 }
-.list-item:first-of-type {
+.list-wrapper5 .list-item:first-of-type,
+.list-wrapper6 .list-item:first-of-type,
+.list-wrapper8 .list-item:first-of-type {
 	border-top: 2px solid pink;
 }
-.list-item a{
+
+.list-item a, button{
 	display: grid;
 	place-items: center;
 	padding: 5px 10px;
 	border-radius: 4px;
 	background-color: pink;
 }
-.list-item a:hover{
+.list-item a:hover, button{
 	background-color: #888888;
 	color: pink;
 }
 .marginTop50{
 	margin-top: 50px;
+}
+input{
+	width: 100%;
+	border-radius: 4px;
+	padding: 5px;
 }
 
 /* 메인메뉴 부분 */
