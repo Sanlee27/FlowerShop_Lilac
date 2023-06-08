@@ -9,27 +9,41 @@ import vo.*;
 public class QuestionDao {
 	
 	//페이징을 위한 메서드 만들기
-			public int selectQuestionCnt() throws Exception {
-				int row = 0;
-				
+	public int selectQuestionCnt() throws Exception {
+		int row = 0;
+		
 		//db 접속
-			DBUtil dbUtil = new DBUtil();
-			Connection conn = dbUtil.getConnection();
-			
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+	
 		//총 행을 구하는 sql문
-			int totalRow = 0;
-			String pageSql = "SELECT COUNT(*) FROM question";
-			PreparedStatement pageStmt = conn.prepareStatement(pageSql);
-			ResultSet pageRs = pageStmt.executeQuery();
-				if(pageRs.next()) {
-					row = pageRs.getInt(1);
-				}
-				return row;
-			}
+		String pageSql = "SELECT COUNT(*) FROM question";
+		PreparedStatement pageStmt = conn.prepareStatement(pageSql);
+		ResultSet pageRs = pageStmt.executeQuery();
+		if(pageRs.next()) {
+			row = pageRs.getInt(1);
+		}
+		return row;
+	}
 			
+	//페이징을 위한 메서드 만들기
+	public int selectNoAnswerCnt() throws Exception {
+		int row = 0;
+		
+		//db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
 	
-	
-	
+		//총 행을 구하는 sql문
+		String pageSql = "SELECT COUNT(*) FROM question where q_answer = 'N";
+		PreparedStatement pageStmt = conn.prepareStatement(pageSql);
+		ResultSet pageRs = pageStmt.executeQuery();
+		if(pageRs.next()) {
+			row = pageRs.getInt(1);
+		}
+		return row;
+	}
+
 	//미답변한 q&a '만' 출력하는 메서드 -> employees.jsp
 	//쿼리문: SELECT * FROM question WHERE q_answer LIKE 'N';
 	public ArrayList<Question> selectQuestionByPage (int beginRow, int rowPerPage) throws Exception{

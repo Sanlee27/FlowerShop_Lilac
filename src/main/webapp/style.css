@@ -28,6 +28,11 @@ del{
 	width: 1280px;
 	margin: 120px auto 0;
 }
+.flex-wrapper{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
 
 /* 메인메뉴 부분 */
 .main-menu-container{
