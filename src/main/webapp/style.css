@@ -45,6 +45,9 @@ del{
 	border-bottom: 1px solid #999999;
 }
 
+.list-wrapperql .list-item{
+	grid-template-columns: 20% 20% 20% 20% 20%;
+}
 .list-wrapper5 .list-item{
 	grid-template-columns: 30% 30% 30% 5% 5%;
 }
@@ -57,8 +60,9 @@ del{
 
 [class*='list-wrapper'] > .list-item:first-of-type {
 	border-top: 2px solid pink;
+	font-weight: bold;	
+	font-size: 18px;
 }
-
 .list-item a, button{
 	display: grid;
 	place-items: center;
@@ -75,6 +79,9 @@ del{
 }
 .marginTop50{
 	margin-top: 50px;
+}
+.marginTop20{
+	margin-top: 20px;
 }
 input{
 	width: 100%;

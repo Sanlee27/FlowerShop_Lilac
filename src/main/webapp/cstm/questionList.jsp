@@ -74,17 +74,52 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- css파일 -->
+	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
+	<!-- 브라우저 탭에 보여줄 아이콘 -->
+	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 </head>
 <body>
-<h1>questionList</h1>
+<div>
+<!-- 메인메뉴 -->
+		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+</div>
+<div class="container">
+	
+	<div class="list-wrapperql marginTop50">
+		<h2>문의리스트</h2>
+		<div class="list-item marginTop20">
+			<div>문의번호</div>
+			<!-- <div>id</div> -->
+			<div>카테고리</div>
+			<div>제목</div>
+			<div>업로드일자</div>
+			<div>답변여부</div>
+		</div>
+		<%
+			for(Question m : list){
+		%>
+				<div class="list-item">
+					<div><%=m.getqNo() %></div>
+					<div><%=m.getqCategory() %></div>
+					<div><%=m.getqTitle() %></div>
+					<div><%=m.getCreatedate() %></div>
+					<div><%=m.getqAnswer() %></div>
+				</div>
+		<%
+			}
+		%>
+	</div>
+</div>
+<%-- <h1>questionList</h1>
 	<table>
 		<tr>
-			<th>qNo</th>
-			<!-- <th>id</th> -->
-			<th>qCategory</th>
-			<th>qAnswer</th>
-			<th>qTitle</th>
-			<th>createdate</th>
+			<div>qNo</div>
+			<!-- <div>id</div> -->
+			<div>qCategory</div>
+			<div>qAnswer</div>
+			<div>qTitle</div>
+			<div>createdate</div>
 
 		</tr>
 		<tr>
@@ -126,7 +161,7 @@
 			}
 		%>
 		
-	</table>
+	</table> --%>
 
 
 
