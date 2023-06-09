@@ -33,7 +33,7 @@ del{
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
-.list-wrapper5, .list-wrapper6, .list-wrapper9{
+[class*='list-wrapper']{
 	width: 100%;
 	text-align: center;
 }
@@ -44,8 +44,9 @@ del{
 	height: 50px;
 	border-bottom: 1px solid #999999;
 }
+
 .list-wrapper5 .list-item{
-	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-columns: 30% 30% 30% 5% 5%;
 }
 .list-wrapper6 .list-item{
 	grid-template-columns: 10% 10% 20% 40% 10% 10%;
@@ -53,9 +54,8 @@ del{
 .list-wrapper9 .list-item{
 	grid-template-columns: 10% 20% 15% 10% 10% 10% 15% 5% 5%;
 }
-.list-wrapper5 > .list-item:first-of-type,
-.list-wrapper6 > .list-item:first-of-type,
-.list-wrapper9 > .list-item:first-of-type {
+
+[class*='list-wrapper'] > .list-item:first-of-type {
 	border-top: 2px solid pink;
 }
 
@@ -63,10 +63,13 @@ del{
 	display: grid;
 	place-items: center;
 	padding: 5px 10px;
+	border: none;
 	border-radius: 4px;
 	background-color: pink;
+	font-size: 16px;
 }
 .list-item a:hover, button:hover{
+	cursor: pointer;
 	background-color: #888888;
 	color: pink;
 }
