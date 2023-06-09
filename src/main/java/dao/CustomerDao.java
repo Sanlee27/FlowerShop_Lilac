@@ -149,7 +149,7 @@ public class CustomerDao {
 		Connection conn = dbUtil.getConnection();
 		// 로그인하려는 id가 cutomer인지 admin지 확인
 		// Employees인지?
-		String ckEmpSql = "SELECT id FROM employees WHERE id = ?";
+		String ckEmpSql = "SELECT * FROM employees WHERE id = ?";
 		PreparedStatement empStmt = conn.prepareStatement(ckEmpSql);
 		empStmt.setString(1, id);
 		
@@ -163,7 +163,9 @@ public class CustomerDao {
 		ResultSet cstmRs = cstmStmt.executeQuery();
 		if(empRs.next()) {
 			// 2-1 admin 이면 관리자 페이지 이동 버튼 오픈
-			ckId = "관리자";
+			// emp_level에 따라 관리자이름 설정
+			int empLevel = empRs.getInt("emp_level");
+	        ckId = (empLevel == 2) ? "관리자2" : "관리자1";
 			// 2-2 customer에 있으면 active 확인
 		} else if(cstmRs.next()) {
 			ckId = "고객";
@@ -201,7 +203,6 @@ public class CustomerDao {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
-		CustomerDao dao = new CustomerDao();
 		// 활성화 변경
 		if(id.getActive().equals("Y")) {
 			String YToNSql = "UPDATE id_list SET active = 'N' WHERE id = ?";
@@ -209,7 +210,7 @@ public class CustomerDao {
 			YToNStmt.setString(1, id.getId());
 			
 			row = YToNStmt.executeUpdate();
-		} else if(id.getActive().equals("N")) {
+		} else {
 			String NToYSql = "UPDATE id_list SET active = 'Y' WHERE id = ?";
 			PreparedStatement NToYStmt = conn.prepareStatement(NToYSql);
 			NToYStmt.setString(1, id.getId());
