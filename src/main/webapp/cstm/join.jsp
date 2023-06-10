@@ -54,38 +54,52 @@
 			<tr>
 				<th>성별</th>
 				<td>
-					<input type = "radio" name = "gender" value= "남"> 남
-					<input type = "radio" name = "gender" value= "여"> 여
+					<input type = "radio" name = "gender" value= "남" required="required"> 남
+					<input type = "radio" name = "gender" value= "여" required="required"> 여
 				</td> 
 			</tr>
 			<tr>
 				<th>생년월일</th>
 				<td>
-					<input type = "date" name = "birth">
+					<input type = "date" name = "birth" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>주소</th>
 				<td>
-					<input type = "text" name = "address">
+					<input type = "text" name = "address" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>연락처</th>
 				<td>
+					<select name = "phone1">
+						<option value="010" selected="selected">010</option>
+						<option value="011">011</option>
+						<option value="016">016</option>
+						<option value="017">017</option>
+						<option value="019">019</option>
+					</select> - 
+					<input type = "text" name = phone2 required="required"> - 
+					<input type = "text" name = phone3 required="required"> 
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
+					<input type = "email" name = " email" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>약관동의</th>
 				<td>
+					<input type = "radio" name = "agree" value = "동의" required="required">Y
+					<input type = "radio" name = "agree" value = "거부" required="required">N
 				</td>
+				<!-- 약관내용 -->
 			</tr>
 		</table>
+		<button type = "submit">로그인</button>
 	</form>
 	<script>
 		function winopen(){
