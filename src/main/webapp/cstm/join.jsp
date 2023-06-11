@@ -23,7 +23,8 @@
 				<th>아이디</th>
 				<td>
 					<input type = "text" name = "id" placeholder = "아이디를 입력하세요" required="required">
-					<button type="button" name = "id" onclick="location.href='<%=request.getContextPath()%>/cstm/idCheckAction.jsp'">아이디 중복확인</button>
+					<!-- 아이디 중복확인 ajax 사용 -->
+					<!-- <button type="button" name = "id" onclick="location.href='<%=request.getContextPath()%>/cstm/idCheckAction.jsp'">아이디 중복확인</button> -->
 				</td>
 			</tr>
 				<%
@@ -87,7 +88,13 @@
 			<tr>
 				<th>이메일</th>
 				<td>
-					<input type = "email" name = " email" required="required">
+					<input type = "text" name = "email1" required="required"> @
+					<select name = "email2">
+						<option value="선택" selected="selected">선택하세요</option>
+						<option value="naver.com">naver.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="gmail.com">gamil.com</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -101,10 +108,5 @@
 		</table>
 		<button type = "submit">로그인</button>
 	</form>
-	<script>
-		function winopen(){
-			window.open("idCheckForm.jsp?id="+document.fr.id.value,"","width=500, height=300");
-		}
-	</script>
 </body>
 </html>
