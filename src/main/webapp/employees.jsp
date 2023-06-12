@@ -17,6 +17,16 @@
 	int totalRow = questionDao.selectNoAnswerCnt();
 	int rowPerPage = 5;
 	int beginRow = (currentPage - 1) * rowPerPage;
+	int pagePerPage = 5;
+	int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
+	int endPage = totalRow / rowPerPage;
+	if(totalRow % rowPerPage != 0){
+		endPage++;
+	}
+	int lastPage = startPage + pagePerPage;
+	if(lastPage > endPage){
+		lastPage = endPage;
+	}
 	
 	// 미답변한 Q&A리스트 가져오기
 	ArrayList<Question> qnaList = questionDao.selectQuestionByPage(beginRow, rowPerPage);
@@ -31,11 +41,20 @@
 	ArrayList<String> date = new ArrayList<>();
 	ArrayList<Integer> orderCnt = new ArrayList<>();
 	
+	// 각각 리스트에 불러온 값 저장
 	for(HashMap<String, Object> map : weekOrders){
 		date.add((String)map.get("orderdate"));
 		orderCnt.add((Integer)map.get("cnt"));
 	}
-	System.out.println(date.get(0));
+	
+	// CustomerDao객체선언
+	CustomerDao customerDao = new CustomerDao();
+	
+	// 성별별 통계 데이터 가져오기
+	HashMap<String, Object> gender = customerDao.genStats();
+	
+	// 연령별 통계 데이터 가져오기
+	HashMap<String, Object> ages = customerDao.ageStats();
 %>
 <!DOCTYPE html>
 <html>
@@ -48,6 +67,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<!-- 날짜 데이터 가져오는 라이브러리 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
 </head>
 <body>
 	<div>
@@ -89,18 +110,59 @@
 					}
 				%>
 			</div>
+			
+			<div class="pagination flex-wrapper">
+				<div>
+				<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
+								◀
+							</a>
+					<%
+						if(startPage != 1){
+					%>
+							<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
+								◀
+							</a>
+					<%
+						}
+					%>
+				</div>
+				<div class="page">
+					<%
+						for(int i = startPage; i <= 10; i++){
+							String selected = i == currentPage ? "selected" : "";
+					%>
+							<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=i %>" class="<%=selected %>">
+								<%=i %>
+							</a>
+					<%
+						}
+					%>
+				</div>
+				<div>
+				<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=endPage + 1 %>"  class="pageBtn">
+								▶
+							</a>
+					<%
+						if(endPage != lastPage){
+					%>
+							<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=endPage + 1 %>"  class="pageBtn">
+								▶
+							</a>
+					<%
+						}
+					%>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		const orderCntList = <%=orderCnt%>;
 		
-		const day = new Date();
-		const sunday = day.getTime() - 86400000 * (day.getDay()+1);
-		day.setTime(sunday);
-		const lastWeekDate = [day.toISOString().slice(0, 10)];
+		const day = dayjs();
+		let startDate = day.subtract(6, "day");
+		const lastWeekDate = [startDate.format("YYYY-MM-DD")];
 		for(let i = 1; i < 7; i++){
-			day.setTime(day.getTime() + 86400000);
-			lastWeekDate.push(day.toISOString().slice(0, 10));
+			lastWeekDate.push(startDate.add(i, "day").format("YYYY-MM-DD"));
 		}
 		let lastWeekOrderCnt = [0, 0, 0, 0, 0, 0, 0];
 		let nowIdx = 0;
@@ -111,14 +173,12 @@
 				
 		%>
 			nowIdx = lastWeekDate.indexOf("<%=nowDate%>");
-			console.log(nowIdx);
 			if(nowIdx != -1){
 				lastWeekOrderCnt[nowIdx] = orderCntList[<%=i%>];
 			}
 		<%
 			}
 		%>
-		console.log(lastWeekOrderCnt);
 	
 		const ctx1 = document.getElementById('orderChart').getContext('2d');
 		 new Chart(ctx1, {
@@ -153,7 +213,7 @@
 			  ],
 			  datasets: [{
 			    label: 'Gender Count',
-			    data: [5,7],
+			    data: [<%=(Integer)gender.get("남")%>,<%=(Integer)gender.get("여")%>],
 			    backgroundColor: [
 			      '#B2CCFF',
 			      '#FFB2D9'
@@ -180,7 +240,14 @@
 			  ],
 			  datasets: [{
 			    label: 'Age\'s Count',
-			    data: [10, 50, 40, 60, 20, 10],
+			    data: [
+			    	<%=ages.get("10대")%>,
+			    	<%=ages.get("20대")%>,
+			    	<%=ages.get("30대")%>,
+			    	<%=ages.get("40대")%>,
+			    	<%=ages.get("50대")%>,
+			    	<%=ages.get("60대")%>
+			    ],
 			    backgroundColor: [
 			      '#FFA7A7',
 			      '#FFC19E',
