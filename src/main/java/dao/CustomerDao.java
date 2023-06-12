@@ -80,7 +80,7 @@ public class CustomerDao {
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
 		// 값 입력 쿼리
-		String insertInfoSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_gender, cstm_phone, cstm_agree, createdate, updatedate) VALUES (?,?,?,?,?,?,?,?, NOW(), NOW())";
+		String insertInfoSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_gender, cstm_phone, cstm_agree, cstm_last_login, createdate, updatedate) VALUES (?,?,?,?,?,?,?,?, NOW(), NOW(), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(insertInfoSql);
 		stmt.setString(1, cstm.getId());
 		stmt.setString(2, cstm.getCstmName());
@@ -421,9 +421,9 @@ public class CustomerDao {
 	}
 	
 	// 회원통계_연령별
-	public ArrayList<HashMap<String, Object>> ageStats() throws Exception {
+	public HashMap<String, Object> ageStats() throws Exception {
 		// 결과값 담길 ArrayList 선언
-		ArrayList<HashMap<String, Object>> ageList = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> ageList = new HashMap<String, Object>();
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
@@ -443,18 +443,15 @@ public class CustomerDao {
 		
 		ResultSet ageRs = stmt.executeQuery();
 		while(ageRs.next()) {
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("연령대", ageRs.getString("연령대"));
-			map.put("인원", ageRs.getInt("인원"));
-			ageList.add(map);
+			ageList.put(ageRs.getString("연령대"), ageRs.getInt("인원"));
 		}
 		return ageList;
 	}
 	
 	// 회원통계_성별별
-	public ArrayList<HashMap<String, Object>> genStats() throws Exception{
+	public HashMap<String, Object> genStats() throws Exception{
 		// 결과값 담길 ArrayList 선언
-		ArrayList<HashMap<String, Object>> genList = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> genList = new HashMap<String, Object>();
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
@@ -464,10 +461,7 @@ public class CustomerDao {
 		
 		ResultSet genRs = stmt.executeQuery();
 		while(genRs.next()) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("성별", genRs.getString("성별"));
-			map.put("인원", genRs.getInt("인원"));
-			genList.add(map);
+			genList.put(genRs.getString("성별"), genRs.getInt("인원"));
 		}
 		return genList;
 	}
