@@ -46,19 +46,19 @@
 	<% 
 		if (ckRow == 1) { 
 	%>
-	    <center>
+		<div style="text-align: center;">
 	        <br/><br/>
 	        <h4>이미 사용 중인 ID입니다.</h4>
 	        <button type="button" onclick="closeAndClear()">닫기</button>
-	    </center>
+	    </div>
 	<% 
 		} else { 
 	%>
-	    <center>
+	    <div style="text-align: center;">
 	        <br/><br/>
 	        <h4>입력하신 <%=id%>는 사용 가능합니다.</h4>
 	        <button type="button" onclick="closeAndUse()">사용하기</button>
-	    </center>
+	    </div>
 	<% 
 		} 
 	%>
