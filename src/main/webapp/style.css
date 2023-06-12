@@ -71,6 +71,7 @@ del{
 	border-radius: 4px;
 	background-color: pink;
 	font-size: 16px;
+	transition: all linear 0.2s;
 }
 .list-item a:hover, button:hover{
 	cursor: pointer;
@@ -90,6 +91,43 @@ input{
 	padding: 5px;
 }
 
+.pagination{
+	align-items: center;
+	width: 500px;
+	margin: 20px auto 0;	
+}
+.pageBtn{
+	display: grid;
+	place-items: center;
+	font-size: 16px;
+	color: thistle;
+	transition: all linear 0.2s;
+}
+.pageBtn:hover{
+	color: #AD8EDB;
+}
+.page{
+	display:flex;
+}
+.page a+a{
+	margin-left: 10px;
+}
+.page a{
+	display: grid;
+	place-items: center;
+	width: 25px;
+	height: 25px;
+	font-size: 14px;
+	color: #999999;
+	transition: all linear 0.2s;
+}
+.page a:hover{
+	font-size: 18px;
+}
+.page .selected{
+	font-weight: 700;
+	font-size: 18px;
+}
 /* 메인메뉴 부분 */
 .main-menu-container{
 	z-index: 1;
