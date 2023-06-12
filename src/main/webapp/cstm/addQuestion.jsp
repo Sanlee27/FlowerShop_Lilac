@@ -6,13 +6,18 @@
 <%@ page import = "dao.*" %>
 
 <%
+	//인코딩 설정
+	request.setCharacterEncoding("utf-8");
+
 	//유효성 검사
-	
-	
+
 	//요청값 변수에 저장
 	
 	//int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int qNo = 3;
+	int qNo = 2;
+	int productNo = 5;
+	String id = "user3";
+	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	
@@ -67,7 +72,7 @@
 			<tr>
 				<td>qContent</td>
 				<td>
-					<input type="text" name="qTitle" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
+					<input type="text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
 				</td>
 			</tr>
 			<tr>

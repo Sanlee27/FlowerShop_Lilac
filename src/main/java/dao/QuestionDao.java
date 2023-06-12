@@ -221,7 +221,6 @@ public class QuestionDao {
 	
 	
 	//문의글 입력하는 메서드 -> addQuestionAction.jsp 
-		//입력페이지에 표시될 항목: //q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate
 	public int addQuestion(Question question) throws Exception {
 		//영향받은 행의 수
 		int row = 0;
@@ -231,13 +230,12 @@ public class QuestionDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement addStmt = conn.prepareStatement("INSERT INTO question (q_no qNo, product_no productNo, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, ?, NOW(),NOW()");
-		addStmt.setInt(1, question.getqNo());
-		addStmt.setInt(2, question.getProductNo());
-		addStmt.setString(3, question.getId());
-		addStmt.setString(4, question.getqCategory());
-		addStmt.setString(5, question.getqTitle());
-		addStmt.setString(6, question.getqContent());
+		PreparedStatement addStmt = conn.prepareStatement("INSERT INTO question (product_no, id, q_category, q_title, q_content, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(),NOW())");
+		addStmt.setInt(1, question.getProductNo());
+		addStmt.setString(2, question.getId());
+		addStmt.setString(3, question.getqCategory());
+		addStmt.setString(4, question.getqTitle());
+		addStmt.setString(5, question.getqContent());
 		
 		row = addStmt.executeUpdate();
 		
@@ -304,6 +302,7 @@ public class QuestionDao {
 		modStmt.setString(4, question.getqAnswer());
 		modStmt.setString(5, question.getqTitle());
 		modStmt.setString(6, question.getqContent());
+		modStmt.setInt(7, question.getqNo());
 		row = modStmt.executeUpdate();
 		
 		return row;

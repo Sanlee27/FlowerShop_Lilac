@@ -13,7 +13,7 @@
 
 	//요청값 변수에 저장
 	//int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int qNo = 3;
+	int qNo = 2;
 
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
