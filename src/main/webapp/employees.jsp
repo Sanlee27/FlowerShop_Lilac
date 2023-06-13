@@ -69,6 +69,8 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- 날짜 데이터 가져오는 라이브러리 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<div>
@@ -113,9 +115,6 @@
 			
 			<div class="pagination flex-wrapper">
 				<div>
-				<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
-								◀
-							</a>
 					<%
 						if(startPage != 1){
 					%>
@@ -128,7 +127,7 @@
 				</div>
 				<div class="page">
 					<%
-						for(int i = startPage; i <= 10; i++){
+						for(int i = startPage; i <= endPage; i++){
 							String selected = i == currentPage ? "selected" : "";
 					%>
 							<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=i %>" class="<%=selected %>">
@@ -139,9 +138,6 @@
 					%>
 				</div>
 				<div>
-				<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=endPage + 1 %>"  class="pageBtn">
-								▶
-							</a>
 					<%
 						if(endPage != lastPage){
 					%>
@@ -180,8 +176,7 @@
 			}
 		%>
 	
-		const ctx1 = document.getElementById('orderChart').getContext('2d');
-		 new Chart(ctx1, {
+		 new Chart($("#orderChart"), {
 		    type: 'bar',
 		    data: {
 		      labels: lastWeekDate,
@@ -203,8 +198,7 @@
 		    }
 		 });
 	
-		const ctx2 = document.getElementById('cstmGenderChart').getContext('2d');
-		new Chart(ctx2, {
+		new Chart($('#cstmGenderChart'), {
 		    type: 'doughnut',
 		    data: {
 			  labels: [
@@ -226,8 +220,7 @@
 		    }
 		 });
 		 
-		const ctx3 = document.getElementById('cstmAgesChart').getContext('2d');
-		new Chart(ctx3, {
+		new Chart($('#cstmAgesChart'), {
 		    type: 'doughnut',
 		    data: {
 			  labels: [

@@ -56,7 +56,7 @@
 		</div>
 		
 		<!-- 신상품 보여주는 부분 -->
-		<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
+		<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
 			<h2>신상품</h2>
 			<div class="products">
 				<div>
