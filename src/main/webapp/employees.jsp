@@ -176,8 +176,7 @@
 			}
 		%>
 	
-		const ctx1 = $("#orderChart");
-		 new Chart(ctx1, {
+		 new Chart($("#orderChart"), {
 		    type: 'bar',
 		    data: {
 		      labels: lastWeekDate,
@@ -199,8 +198,7 @@
 		    }
 		 });
 	
-		const ctx2 = $('#cstmGenderChart');
-		new Chart(ctx2, {
+		new Chart($('#cstmGenderChart'), {
 		    type: 'doughnut',
 		    data: {
 			  labels: [
@@ -222,8 +220,7 @@
 		    }
 		 });
 		 
-		const ctx3 = $('#cstmAgesChart');
-		new Chart(ctx3, {
+		new Chart($('#cstmAgesChart'), {
 		    type: 'doughnut',
 		    data: {
 			  labels: [
