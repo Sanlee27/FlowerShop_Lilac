@@ -271,6 +271,7 @@ public class QuestionDao {
 			question.setqCategory(questionRs.getString("qCategory"));
 			question.setqAnswer(questionRs.getString("qAnswer"));
 			question.setqTitle(questionRs.getString("qTitle"));
+			question.setqContent(questionRs.getString("qContent"));
 			question.setUpdatedate(questionRs.getString("updatedate"));
 			question.setCreatedate(questionRs.getString("createdate"));
 
