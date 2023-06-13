@@ -15,9 +15,9 @@
 	
 	// 페이징을 위한 변수 선언
 	int totalRow = questionDao.selectNoAnswerCnt();
-	int rowPerPage = 5;
+	int rowPerPage = 10;
 	int beginRow = (currentPage - 1) * rowPerPage;
-	int pagePerPage = 5;
+	int pagePerPage = 10;
 	int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
 	int endPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0){

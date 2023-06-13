@@ -112,6 +112,7 @@ public class ProductDao {
 		if(rs.next()) {
 			Product p = new Product();
 			p.setProductNo(rs.getInt("product_no"));
+			p.setCategoryName(rs.getString("category_name"));
 			p.setProductName(rs.getString("product_name"));
 			p.setProductPrice(rs.getInt("product_price"));
 			p.setProductStatus(rs.getString("product_status"));
