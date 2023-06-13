@@ -76,6 +76,8 @@
 	<div>
 		<!-- 메인메뉴 -->
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+
+		
 		<div class="container flex-wrapper">
 			<canvas id="orderChart" width="600"></canvas>
 			<canvas id="cstmGenderChart" width="300"></canvas>
@@ -151,6 +153,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 	<script type="text/javascript">
 		const orderCntList = <%=orderCnt%>;
 		

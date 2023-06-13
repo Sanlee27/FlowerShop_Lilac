@@ -32,7 +32,7 @@ public class OrderDao {
 	}
 	
 	// 전체 주문 내역을 가져오는 메서드
-	public ArrayList<HashMap<String, Object>> getAllOrderList(String searchUser, String searchProduct) throws Exception{
+	public ArrayList<HashMap<String, Object>> getAllOrderList(String searchUser, String searchProduct, int startRow, int rowPerPage) throws Exception{
 		// 결과값을 담아줄 HashMap ArrayList 선언
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
@@ -54,9 +54,28 @@ public class OrderDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
+		// 전체 주문개수를 가져오는 쿼리
+		String cntSql = "SELECT COUNT(*) FROM orders o LEFT OUTER JOIN product p  ON p.product_no = o.product_no" + searchQuery;
+		PreparedStatement cntStmt = conn.prepareStatement(cntSql);
+		
+		//쿼리 실행 후 결과 값 저장
+		ResultSet cntRs = cntStmt.executeQuery();
+		
+		HashMap<String,Object> cntMap = new HashMap<>();
+		
+		if(cntRs.next()) {
+			cntMap.put("totalCnt", cntRs.getInt(1));
+		}
+		
+		list.add(cntMap);
+		
 		// 전체 주문내역을 가져오는 쿼리(최신순으로, 취소/완료건 밑으로)
-		String sql = "SELECT o.*, p.product_name FROM orders o LEFT OUTER JOIN product p ON p.product_no = o.product_no " + searchQuery + " ORDER BY order_status, o.createdate DESC";
+		String sql = "SELECT o.*, p.product_name FROM orders o LEFT OUTER JOIN product p ON p.product_no = o.product_no " + searchQuery + " ORDER BY order_status, o.createdate DESC limit ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// ?값 세팅
+		stmt.setInt(1, startRow);
+		stmt.setInt(2, rowPerPage);
 		
 		// 쿼리 실행 후 결과 값 저장
 		ResultSet rs = stmt.executeQuery();

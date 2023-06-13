@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="main-menu-container">
 	<div class="main-menu">
+	<script>
+		function modalOpen(){
+			$('.modal-container').css('display', 'block');
+		}
+	</script>
 		<div>
 			<a href="<%=request.getContextPath()%>/home.jsp">
 				<img src="<%=request.getContextPath() %>/images/logo.png" width="150px">
@@ -19,10 +24,10 @@
 			<a href="<%=request.getContextPath()%>/emp/category.jsp">카테고리관리</a>
 			<a href="<%=request.getContextPath()%>/emp/productList.jsp">상품관리</a>
 			<a href="<%=request.getContextPath()%>/emp/discount.jsp">할인관리</a>
-			<a href="<%=request.getContextPath()%>/emp/orderList.jsp">주문리스트</a>
+			<a href="<%=request.getContextPath()%>/emp/orderList.jsp">주문관리</a>
 		</nav>
 		<div class="icons">
-			<a href="">
+			<a onclick='modalOpen()'>
 				<img src="<%=request.getContextPath() %>/images/cart.png">
 			</a>
 			<a href="">
