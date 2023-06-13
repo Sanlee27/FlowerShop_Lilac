@@ -48,22 +48,49 @@
 		%>
 		
 	<!-- 카테고리 리스트 -->
-	<ul>카테고리이름	생성일 	수정일</ul>
-		
+	<div class="list-wrapper5">
+		<h2>카테고리 리스트</h2>
+		<a href="<%=request.getContextPath()%>/emp/addCategory.jsp">✚</a>	
+	<br>
+		<div class="list-item">
+			<div>카테고리명</div>
+			<div>생성일</div>
+			<div>수정일</div>
+			<div>&nbsp;</div>
+			<div>&nbsp;</div>
+		</div>
+
 		<%
 			for(Category c : categoryList) {
 		%>
-			<form action="<%=request.getContextPath()%>/emp/modifyCategoryAction.jsp">
-				<input type="hidden" name="oriCategory" value = "<%=c.getCategoryName()%>">
-				<input type="text" name="newCategory" value = "<%=c.getCategoryName()%>">
-				<%=c.getCreatedate()%>
-				<%=c.getUpdatedate()%>
-				<button type="submit">수정</button>
-				<a href="<%=request.getContextPath()%>/emp/removeCategoryAction.jsp?categoryName=<%=c.getCategoryName()%>">삭제</a>
+			<form action="<%=request.getContextPath()%>/emp/modifyCategoryAction.jsp" method="post">
+				<div class="list-item">
+					<div>
+						 <input type="hidden" name="oriCategory" value = "<%=c.getCategoryName()%>">
+						 <input type="text" name="newCategory" value = "<%=c.getCategoryName()%>">
+					</div>
+					
+					<div>
+						<%=c.getCreatedate()%>
+					</div>
+					
+					<div>
+						<%=c.getUpdatedate()%>
+					</div>
+					
+					<div>
+						<button type="submit">수정</button>
+					</div>
+					
+					<div>
+						<a href="<%=request.getContextPath()%>/emp/removeCategoryAction.jsp?categoryName=<%=c.getCategoryName()%>">삭제</a>
+					</div>
+				</div>
 			</form>
 		<%
 			}
 		%>
+		</div>
 </div>
 </body>
 </html>
