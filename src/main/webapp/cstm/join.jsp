@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-
-	String loginMemberId = (String)session.getAttribute("loginMemberId");
-
-	String msg = null;
-	if(request.getParameter("msg") != null){
-		msg = request.getParameter("msg");
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +9,111 @@
 	<title>회원가입</title>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<script type="text/javascript">
+	<script>
+	$(document).ready(function() {
+		
+		// 아이디======================================
+		let id = $('input[name="id"]'); // 아이디 값
+		let ckIdButton = $('input[name="ckId"]'); // 아이디 중복체크 버튼
+		let idMsg = $('#idMsg'); // 에러메세지
+		let pw = $('input[name="pw"]'); // 비밀번호 값
+		// 아이디 정규식
+        /*
+        (?=.*[a-zA-Z]): 영문자가 최소한 하나 이상 포함되어야 함
+		(?=.*\d): 숫자가 최소한 하나 이상 포함되어야 함
+		.{4,}: 모든 문자를 포함하며, 적어도 4글자 이상이어야 함
+		*/
+		let condition = /^(?=.*[a-zA-Z])(?=.*\d).{4,}$/;
+			
+		// id유효성 체크
+		// blur함수 : 커서가 없어질때
+	    id.blur(function() {
+	    	// 아이디 정규식을 만족하지 않는다면
+			if(!condition.test(id.val())) {
+				alert('아이디는 영문과 숫자를 합쳐 최소 4자를 충족해야합니다.');
+	        	idMsg.text('아이디는 영문과 숫자를 합쳐 최소 4자를 충족해야합니다.');
+	        	ckIdButton.prop('disabled', true);
+	        // 정규식 만족한다면 아이디 중복체크 메세지 표시 
+			} else {
+	        	idMsg.text('아이디 중복체크를 먼저 해주세요');
+	        	ckIdButton.prop('disabled', false);
+        	}
+		});
+		
+		// 아이디 중복확인 버튼 클릭 이벤트
+		// 버튼 클릭시 아이디 중복체크 메세지 삭제
+			// 아이디 사용가능 시 해당 아이디 사용 > 중복체크 버튼 비활성화
+			// 아이디 사용불가시 '다시입력하세요' 메세지 출력, 중복체크 다시해야됨
+	    ckIdButton.click(function() {
+	    	confirmId();
+	    	idMsg.text('');
+		});
+		
+	    // 버튼 클릭시 아이디 확인폼 출력
+	    function confirmId(){
+    		url = "idCheckForm.jsp?id=" + id.val();
+ 	        open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
+ 	    }
+	    
+	    // 비밀번호=======================================
+	    pw = $('input[name="pw"]'); // 비밀번호값
+    	let rePw = $('input[name="rePw"]'); // 비밀번호 재입력값
+    	let pwMsg = $('#pwMsg'); // 비밀번호 에러메시지
+    	let pwMsg2 = $('#pwMsg2'); // 비밀번호 / 재입력 불일치 에러메시지
+    	
+    	// 비밀번호입력 후 커서 뗄때
+    	pw.blur(function(){
+    		// 비밀번호가 4글자를 넘지않는다면
+    		if(pw.val().length < 4){
+    			alert('비밀번호는 최소 4자를 충족해야합니다.');
+    			pwMsg.text('비밀번호는 최소 4자를 충족해야합니다.');
+    		} else {
+    			pwMsg.text('');
+    		}
+    	});
+    	
+    	// 비밀번호 재입력 후 커서 뗄때
+    	rePw.blur(function(){
+    		if(pw.val() != rePw.val()){
+    			alert('비밀번호가 일치하지 않습니다.');
+    			pwMsg2.text('비밀번호가 일치하지 않습니다.');
+    		} else {
+    			pwMsg2.text('');
+    		}
+    	});
+    	
+    	// 이름=======================================	
+    	let names = $('input[name="names"]');
+    	let namePattern = /^[가-힣]+$/;
+		let nameMsg = $('#nmErMsg');
+    	
+		// 이름 입력 후 커서 뗄때
+		names.blur(function(){
+			// 이름값은 한글, 한글자 이상 여섯 글자 이하
+			if(names.val().length < 1 || names.val().length > 6 || !namePattern.test(names.val())){
+				alert('이름은 최소 한글자, 최대 여섯글자까지 한글만 입력 가능합니다.')
+				nameMsg.text('이름은 최소 한글자, 최대 여섯글자까지 한글만 입력 가능합니다.')
+			} else {
+				nameMsg.text('');
+			}
+		});
+		
+		// 생년월일=======================================	
+		let birth = $('input[name="birth"]');
+		let birthPattern = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+		let birthMsg = $('#birthMsg');
+		
+		birth.blur(function(){
+			// 생년월일 패턴을 만족하지 않을때
+			if (!birthPattern.test(birth.val())) {
+				alert('생년월일을 정확하게 입력해주세요')
+				birthMsg.text('생년월일을 정확하게 입력해주세요') 
+			 } else {
+				birthMsg.text('');
+			 }
+		});
+		
+		// 주소=======================================	
 		// 카카오 주소 API
 		window.onload = function(){
 		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
@@ -31,174 +128,143 @@
 		    });
 		}
 		
-		// 아이디 중복체크
-		// 이전에 입력된 아이디 저장
-		let previousId = ""; 
-
-	    // 아이디 값 유효성 검사
-	    function ckIdValue() {
-	    	// 각각 변수에 저장
-	        const idInput = $('input[name="id"]');
-	        const ckIdButton = $('input[name="ckId"]');
-	        const idErMsg = $('#idErMsg');
-	        // 아이디 정규식
-	        /*
-	        (?=.*[a-zA-Z]): 영문자가 최소한 하나 이상 포함되어야 함
-			(?=.*\d): 숫자가 최소한 하나 이상 포함되어야 함
-			.{4,}: 모든 문자를 포함하며, 적어도 4글자 이상이어야 함
-			*/
-			const condition = /^(?=.*[a-zA-Z])(?=.*\d).{4,}$/;
-			
-	        // 입력된 value에 영문자가 최소하나 이전값과 같다면(중복검사 후 사용가능 버튼 클릭 이후)
-	        								// 최초 입력값과 최초 이전값("")
-	        if (idInput.val().length < 4 || idInput.val() == previousId || !condition.test(idInput.val())) {
-		        ckIdButton.prop('disabled', true);
-		        idErMsg.show();
-		    } else {
-		        ckIdButton.prop('disabled', false);
-		        idErMsg.hide();
-		    }
-	    }
-	    
-	 	// 아이디 중복확인 버튼 클릭 시 확인 창 호출되는 함수
-	    function confirmId() {
-	        url = "idCheckForm.jsp?id=" + document.join.id.value;
-	        open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
-	    }
-	    
-	    // 아이디 중복체크 안하고 회원가입 시도 시, 알림
-	    function signUp() {
-	        const ckIdButton = document.join.ckId;
-	        const emSelect = $('select[name="email2"]');
-	        const idErMsg = $('#idErMsg');
-	        // 아이디 중복체크 버튼이 활성화되어있으면 = 중복체크를 안했으면 알림
-	        if (!ckIdButton.disabled) {
-	            alert("아이디 중복체크 버튼을 눌러주세요.");
-	            return;
-	        }
-	        if(idErMsg.is(":visible")){
-	        	alert("아이디 형식이 올바르지않습니다.");
-	        	return;
-	        }
-	        if(emSelect.val() == '선택하세요'){
-	        	alert("이메일 도메인을 선택하세요.");
-	        	return;
-	        }
-	        $('#signUpBtn').prop('disabled', true);
-	    }
-	    
-		// 비밀번호 유효성 검사
-	    function ckPwValue(){
-	    	const pwInput = $('input[name="pw"]');
-	    	const rePwInput = $('input[name="rePw"]');
-	    	const pwErMsg = $('#pwErMsg');
-	    	const pwErMsg2 = $('#pwErMsg2');
-	    	
-	    	if(pwInput.val().length<4){
-	    		pwErMsg.show();
-	    	} else {
-	    		pwErMsg.hide();
-	    	}
-	    	
-	    	// 비밀번호 입력과 재입력이 다르면 에러메세지 표시
-	    	if(pwInput.val().length>=4 && rePwInput.val().length>0 && pwInput.val() != rePwInput.val()) {
-	    		pwErMsg2.show();
-	    	} else {
-	    		pwErMsg2.hide();
-	    	}
-	    }
+		let address = $('textarea[name="address1"]');
+		let detailAddress = $('textarea[name="address2"]');
+		let adrMsg = $('#adrMsg');
 		
-		// 이름 유효성 검사
-		function ckNmValue(){
-			const nmInput = $('input[name="name"]');
-			const nmErMsg = $('#nmErMsg');
-			
-			if(nmInput.val().length==1 || nmInput.val().length>4){
-				nmErMsg.show();
+		detailAddress.blur(function(){
+			// 주소 미입력시에
+			if(address.val() == '' || detailAddress.val() == ''){
+				alert('주소를 입력해주세요')
+				adrMsg.text('주소를 입력해주세요') 
 			} else {
-				nmErMsg.hide();
+				adrMsg.text('');
+			}
+		});
+		
+		// 연락처=======================================
+		let phone = $('input[name="phone2"]')
+		let phone2 = $('input[name="phone3"]');
+		let phonePattern = /^\d{3,4}$/;
+		let phonePattern2 = /^\d{4}$/;
+		let phMsg = $('#phMsg');
+		
+		phone.blur(function(){
+			// 폰번호 패턴에 부합할 때
+			// 중간 번호만 확인
+			if(!phonePattern.test(phone.val())){
+				alert('연락처를 정확하게 입력해주세요')
+				phMsg.text('연락처를 정확하게 입력해주세요') 
+			} else {
+				phMsg.text('');
+			}
+		});
+		
+		phone2.blur(function(){
+			// 폰번호 패턴에 부합할 때
+			// 중간 번호 / 뒷번호 둘다 확인
+			if(!phonePattern.test(phone.val()) || !phonePattern2.test(phone2.val())){
+				alert('연락처를 정확하게 입력해주세요')
+				phMsg.text('연락처를 정확하게 입력해주세요') 
+			} else {
+				phMsg.text('');
+			}
+		});
+		
+		// 이메일=======================================
+		let email1 = $('input[name="email1"]')
+		let email2 = $('select[name="email2"]')
+		let emMsg = $('#emMsg');
+		
+		// 이메일 전체 값을 합쳐서 패턴에 적용
+		function ckEmail(){
+			let email = email1.val() + '@' + email2.val();
+			let emailPattern =  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+			
+			if(!emailPattern.test(email)){
+				alert('이메일을 정확하게 입력해주세요')
+				emMsg.text('이메일을 정확하게 입력해주세요') 
+			} else {
+				emMsg.text('');
 			}
 		}
 		
-		// 생년월일 유효성검사
-		function ckBrValue(){
-			const brInput = $('input[name="birth"]');
-			const birthPattern = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-			const brErMsg = $('#brErMsg');
+		// 이메일 검사
+		email2.blur(function(){
+			ckEmail();
+		});
 			
-	        // 입력된 value에 영문자가 최소하나 이전값과 같다면(중복검사 후 사용가능 버튼 클릭 이후)
-	        								// 최초 입력값과 최초 이전값("")
-	        if (!birthPattern.test(brInput.val())) {
-		        brErMsg.show();
-		    } else {
-		    	brErMsg.hide();
-		    } 
-		}
-		// 연락처 유효성검사
-		function ckPhValue(){
-			const phInput = $('input[name="phone2"]').val();
-			const phInput2 = $('input[name="phone3"]').val();
-			const phNm = phInput.length + phInput2.length;
-			const phErMsg = $('#phErMsg');
-			
-			if(phNm>8) {
-				phErMsg.show();
+		// ========================================
+		// 회원가입 버튼 활성화/비활성화 체크
+		   	// keyup = 키보드를 떼었을때 = 입력을 다했을때 감지
+		$('input[name="id"], input[name="pw"], input[name="rePw"], input[name="names"],	input[name="birth"], textarea[name="address1"], textarea[name="address2"], input[name="phone2"], input[name="phone3"], input[name="email1"], select[name="email2"]').keyup(function() {
+			let idValue = $('input[name="id"]').val();
+			let pwValue = $('input[name="pw"]').val();
+			let rePwValue = $('input[name="rePw"]').val();
+			let nameValue = $('input[name="names"]').val();
+			let birthValue = $('input[name="birth"]').val();
+			let adrValue = $('textarea[name="address1"]').val();
+			let adr2Value = $('textarea[name="address2"]').val();
+			let phoneValue = $('textarea[name="phone2"]').val();
+			let phone2Value = $('textarea[name="phone3"]').val();
+			let email1Value = $('input[name="email1"]').val();
+			let email2Value = $('select[name="email2"]').val();
+				
+			// trim = 앞뒤공백제거
+			// 1. 각 값이 공백이거나
+			// 2. id값이 다시입력하세요 = 이미 있는 아이디일때 표시되는 메세지이거나
+			// 3. id중복체크버튼이 활성화 되어있거나
+			// 4. 비밀번호가 일치하지 않거나
+			// 5. 생년월일이 조건에 맞지않거나
+			// 6. 연락처가 조건에 맞지않거나
+			// 모든 메시지중 하나라도 표현이 된다면(?)
+			// 회원가입 버튼 비활성화
+			if (idValue.trim() === '' || idValue.trim() === '아이디를다시입력하세요' 
+					|| !ckIdButton.prop('disabled') || pwValue.trim() === '' 
+					|| rePwValue.trim() === ''		|| pwValue != rePwValue  
+					|| nameValue.trim() === ''		|| !birthPattern.test(birthValue)
+					|| adrValue.trim() === ''		|| adr2Value.trim() === ''
+					|| phoneValue.trim() === ''		|| phone2Value.trim() === ''
+					|| !phonePattern.test(phoneValue) || !phonePattern2.test(phone2Value)
+					|| email1Value.trim() === ''	|| email2Value.trim() === '') {
+				$('button[type="submit"]').prop('disabled', true);
 			} else {
-				phErMsg.hide();
+				$('button[type="submit"]').prop('disabled', false);
 			}
-		}
-		
-		// 이메일 유효성검사
-		function ckEmValue(){
-			const emSelect = $('select[name="email2"]');
-			const emErMsg = $('#emErMsg');
-			
-			if(emSelect.val() == '선택하세요'){
-				emErMsg.show();
-			} else {
-				emErMsg.hide();
-			}
-		}
+		});
+	});
 	</script>
 </head>
 <body>
 	<h1>회원가입</h1>
-	<form action="<%=request.getContextPath()%>/cstm/joinAction.jsp" method="post" name="join">
+	<form action="<%=request.getContextPath()%>/cstm/joinAction.jsp" method="post">
 		<table>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="id" placeholder="아이디를 입력하세요" required="required" oninput="ckIdValue()">
-					<input type="button" name="ckId" value="아이디 중복확인" onclick="confirmId()" disabled> <!-- 버튼 기본값 비활성화 -->
-					<span id="idErMsg" style="color: red; display: none;">아이디는 4글자 이상, 영문자,숫자가 최소 하나씩 포함되어야 합니다.</span>
+					<input type="text" name="id" placeholder="아이디를 입력하세요" required="required">
+					<input type="button" name="ckId" value="아이디 중복확인" onclick="confirmId()" > 
+					<span id="idMsg" style="color: red;"></span>
 				</td>
 			</tr>
-				<%
-					if(msg != null){
-				%>
-						<%=msg%>
-				<%
-					}
-				%>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type = "password" name = "pw" required="required" oninput="ckPwValue()">
-					<span id="pwErMsg" style="color: red; display: none;">비밀번호는 4글자 이상이어야 합니다.</span>
+					<input type = "password" name = "pw" required="required">
+					<span id="pwMsg" style="color: red;"></span>
 				</td>
-			</tr>
 			<tr>
 				<th>비밀번호 재입력</th>
 				<td>
-					<input type = "password" name = "rePw" required="required" oninput="ckPwValue()">
-					<span id="pwErMsg2" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</span>
+					<input type = "password" name = "rePw" required="required">
+					<span id="pwMsg2" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>이름</th>
 				<td>
-					<input type = "text" name = "name" required="required" oninput="ckNmValue()">
-					<span id="nmErMsg" style="color: red; display: none;">이름은 한글자 이상 네글자 이하로 입력하세요</span>
+					<input type = "text" name = "names" required="required">
+					<span id="nameMsg" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
@@ -211,8 +277,8 @@
 			<tr>
 				<th>생년월일</th>
 				<td>
-					<input type = "date" name = "birth" required="required" oninput="ckBrValue()">
-					<span id="brErMsg" style="color: red; display: none;">생년월을 정확하게 입력해주세요</span>
+					<input type = "date" name = "birth" required="required">
+					<span id="birthMsg" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
@@ -226,6 +292,7 @@
 				<th>상세주소</th>
 				<td>
 					<textarea rows="1" cols="40" name="address2" required="required"></textarea>
+					<span id="adrMsg" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
@@ -238,34 +305,35 @@
 						<option value="017">017</option>
 						<option value="019">019</option>
 					</select> - 
-					<input type = "number" name = phone2 required="required" oninput="ckPhValue()"> - 
-					<input type = "number" name = phone3 required="required" oninput="ckPhValue()"> 
-					<span id="phErMsg" style="color: red; display: none;">연락처는 8글자까지 입력 가능합니다</span>
+					<input type = "text" name = phone2 maxlength="4" required="required"> - 
+					<input type = "text" name = phone3 maxlength="4" required="required"> 
+					<span id="phMsg" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
 					<input type = "text" name = "email1" required="required"> @
-					<select name = "email2" onchange="ckEmValue()">
+					<select name = "email2">
 						<option value="선택하세요" selected="selected">선택하세요</option>
 						<option value="naver.com">naver.com</option>
 						<option value="daum.net">daum.net</option>
 						<option value="gmail.com">gamil.com</option>
 					</select>
-					<span id="emErMsg" style="color: red; display: none;">도메인을 선택하세요</span>
+					<span id="emMsg" style="color: red;"></span>
 				</td>
 			</tr>
 			<tr>
 				<th>약관동의</th>
 				<td>
-					<input type = "radio" name = "agree" value = "Y" required="required">Y
+					가입시 사용했던 아이디는 탈퇴 후 재가입시에 사용 불가능합니다. 동의하십니까?
+					<input type = "radio" name = "agree" value = "Y" checked="checked" required="required">Y
 					<input type = "radio" name = "agree" value = "N" required="required">N
 				</td>
 				<!-- 약관내용 -->
 			</tr>
 		</table>
-		<button type="submit" id="signUpBtn" onclick="signUp()">회원가입</button>
+		<button type="submit">회원가입</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/login.jsp'">로그인으로</button>
 	</form>
 </body>

@@ -10,7 +10,7 @@
 	System.out.println(request.getParameter("id"));
 	System.out.println(request.getParameter("pw"));
 	System.out.println(request.getParameter("rePw"));
-	System.out.println(request.getParameter("name"));
+	System.out.println(request.getParameter("names"));
 	System.out.println(request.getParameter("gender"));
 	System.out.println(request.getParameter("birth"));
 	System.out.println(request.getParameter("address1"));
@@ -33,7 +33,7 @@
 	// 변수에 저장
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
-	String name = request.getParameter("name");
+	String name = request.getParameter("names");
 	String gender = request.getParameter("gender");
 	String birth = request.getParameter("birth");
 	String address = request.getParameter("address1") + " " + request.getParameter("address2");
