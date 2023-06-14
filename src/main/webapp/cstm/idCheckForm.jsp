@@ -21,7 +21,7 @@
 	            var inputElement = openerWindow.document.getElementsByName("id")[0];
 	            if (inputElement) {
 	            	// 공백 = 지움 처리
-	                inputElement.value = '';
+	                inputElement.value = '아이디를 다시 입력하세요';
 	            }
 	        }
 	        // 창닫음
