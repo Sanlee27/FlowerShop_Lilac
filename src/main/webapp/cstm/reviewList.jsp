@@ -7,6 +7,7 @@
 <%@ page import = "dao.*" %>
 
 <%
+
 /*
 후기게시판 -> 전체 reviewList를 띄운다
 리스트 열람만 가능, 리스트에 사진 안 띄움
@@ -19,48 +20,31 @@
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-	//페이지 메서드 가져오기
-		QuestionDao totalRowDao = new QuestionDao();
-		int totalRow = totalRowDao.selectQuestionCnt();
-	
-	//한 페이지에 담길 행의 개수 
-			int rowPerPage = 3;
-			int pagePerPage = 3;
-			
-	//시작행
-		int beginRow = (currentPage-1)*rowPerPage +1;
-	
-	//마지막 행
-		int endRow = beginRow + (rowPerPage-1); 
-		
-		if(endRow > totalRow){
-			
-			endRow = totalRow;
-		}
-	
-	
-
-	//마지막 페이지
-		int lastPage = totalRow / rowPerPage;
-		if(totalRow % rowPerPage != 0){
-			lastPage = lastPage +1; //10으로 나누어 떨어지지 않는 나머지 게시글을 위한 1 페이지 생성
-		}
-
-	//페이지 목록 최초 게시물의 페이징
-		int minPage = ((currentPage-1)/pagePerPage) * pagePerPage + 1;
-	
-	//페이지 목록 마지막 게시글의 페이징
-		int maxPage = minPage +(pagePerPage -1);
-		if(maxPage > lastPage){
-			maxPage = lastPage;
-		}
-	//sql이 담긴 객체 생성
-	
+	//reviewDao 객체 선언
 		ReviewDao reviewDao = new ReviewDao();
 	
-	////현재 페이지에 표시 할 리스트 생성
-		ArrayList<Review> list = reviewDao.reviewList(beginRow, rowPerPage);
 
+	// 페이징을 위한 변수 선언
+		int totalRow = reviewDao.selectReviewCnt();
+		int rowPerPage = 2;
+		int beginRow = (currentPage - 1) * rowPerPage;
+		int pagePerPage = 2;
+		int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
+		int endPage = totalRow / rowPerPage;
+		if(totalRow % rowPerPage != 0){
+			endPage++;
+		}
+		int lastPage = startPage + pagePerPage;
+		if(lastPage > endPage){
+			lastPage = endPage;
+		}
+
+	
+	//현재 페이지에 표시 할 리스트 생성
+		ArrayList<Review> list = reviewDao.reviewList(beginRow, rowPerPage);
+		
+		
+	
 %>
 
 <!DOCTYPE html>
@@ -86,8 +70,10 @@
 		<h2>후기 리스트</h2>
 		<div class="list-item marginTop20">
 			<div>주문번호</div>
-			<div>후기 제목</div>
+			<!-- 상품 -->
+			<div>제목</div>
 			<div>작성일</div>
+			<div>수정일</div>
 		</div>
 		
 		<%
@@ -95,8 +81,10 @@
 		%>
 			<div class="list-item">
 					<div><%=m.getOrderNo() %></div>
+					<!-- 상품 -->
 					<div><%=m.getReviewTitle() %></div>
-					<div><%=m.getCreatedate() %></div>
+					<div><%=m.getCreatedate().substring(0,10) %></div>
+					<div><%=m.getUpdatedate().substring(0,10) %></div>
 
 			</div>
 	
@@ -106,38 +94,43 @@
 		%>
 		
 
-
-	<!-- 페이징 -->
-
-		<div class="container text-center">
-		<% 
-		      if(minPage > 1) {
-		%>
-						   <a href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>   
-		<%
+		<!-- 페이지네이션 -->
+		<div class="pagination flex-wrapper">
+				<div>
+					<%
+						if(startPage != 1){
+					%>
+							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
+								◀
+							</a>
+					<%
 						}
-						
-						for(int i = minPage; i<=maxPage; i=i+1) {
-						   if(i == currentPage) {
-		%>
-						      <span><%=i%></span>&nbsp;
-		<%         
-						   } else {      
-		%>
-						      <a href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;   
-		<%   
-						   }
+					%>
+				</div>
+				<div class="page">
+					<%
+						for(int i = startPage; i <= endPage; i++){
+							String selected = i == currentPage ? "selected" : "";
+					%>
+							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=i %>" class="<%=selected %>">
+								<%=i %>
+							</a>
+					<%
 						}
-						
-						if(maxPage != lastPage) {
-		%>
-						   <!--  maxPage + 1 -->
-						   <a href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
-		<%
-					 	      }
-	
-		%>
-		</div>				
+					%>
+				</div>
+				<div>
+					<%
+						if(endPage != lastPage){
+					%>
+							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=endPage + 1 %>"  class="pageBtn">
+								▶
+							</a>
+					<%
+						}
+					%>
+				</div>
+			</div>	
 	
 
 </body>
