@@ -38,7 +38,7 @@
 	
 	if(row == 1) {
 		System.out.println("카테고리명 수정 성공");
-		msg = URLEncoder.encode("카테고리 " + oriCategory +"에서  " + newCategory + "으로 수정되었습니다","utf-8");
+		msg = URLEncoder.encode("카테고리 " + oriCategory +"에서  " + newCategory + "으로 수정되었습니다.","utf-8");
 		response.sendRedirect(request.getContextPath() + "/emp/category.jsp?msg=" + msg);
 	} else{
 		System.out.println("카테고리명 수정 실패");

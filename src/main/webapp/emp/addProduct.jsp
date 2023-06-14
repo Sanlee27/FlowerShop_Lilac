@@ -19,6 +19,16 @@
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			if("<%=request.getParameter("msg")%>" != "null"){
+				swal("경고", "<%=request.getParameter("msg")%>", "warning");
+			}
+		});
+	</script>
 </head>
 <body>
 <!-- 메인메뉴 -->
@@ -27,15 +37,6 @@
 </div>
 
 <div class="container">
-	<!--메세지 -->
-	     	<%
-			if(request.getParameter("msg") != null) {
-		%>
-			<div><%=request.getParameter("msg")%></div>				
-		<%
-	        	}
-		%>
-		
 	<!-- 상품 추가폼 -->
 	<form action = "<%=request.getContextPath()%>/emp/addProductAction.jsp" method="post" encType="multipart/form-data">
 		<div> 상품 카테고리
@@ -55,7 +56,7 @@
 		<div>상품 설명 
 			<textarea rows="3" cols="100" name = "productInfo"></textarea>
 		</div>
-		<div>상품 가격 
+		<div id="content">상품 가격 
 			<input type="number" name = "productPrice">
 		</div>
 		<div>상품 상태 

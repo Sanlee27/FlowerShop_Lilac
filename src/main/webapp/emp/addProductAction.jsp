@@ -16,9 +16,9 @@
 	String dir = request.getServletContext().getRealPath("/product");
 		System.out.println(dir);
 	
-	int max = 10 * 1024 * 1024; 
+	int max = 10 * 1024 * 1024; // 10mb
 	// request객체를 MultipartRequest의 API를 사용할 수 있도록 랩핑
- 	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());	
+ 	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8");	
 	
 	// 
 	System.out.println(mRequest.getContentType("productImg"));
@@ -38,7 +38,7 @@
 					System.out.println(mRequest.getParameter("productPrice"));
 					System.out.println(mRequest.getParameter("productStock"));
 					System.out.println("productName, productInfo, productPrice, productStock 값 필요");
-				msg = URLEncoder.encode("모든 내용을 입력해주세요","utf-8"); 
+				msg = URLEncoder.encode("모든 내용을 입력해주세요.","utf-8"); 
 				response.sendRedirect(request.getContextPath() + "/emp/addProduct.jsp?msg=" + msg);
 				return;
 			}
@@ -58,7 +58,7 @@
 			f.delete();
 				System.out.println(dir + "/" + oriFilename + "파일삭제");
 		}
-		msg = URLEncoder.encode("PNG, JPG, JEPG파일로 업로드해주세요","utf-8"); 
+		msg = URLEncoder.encode("PNG, JPG, JEPG파일로 업로드해주세요.","utf-8"); 
 		response.sendRedirect(request.getContextPath()+"/emp/addProduct.jsp?msg=" + msg); //주소입력해야함
 		return;
 	}
@@ -66,10 +66,21 @@
 	//DAO 받아오기
 	ProductDao productdao = new ProductDao();
 
+	//변수
+	String productName = mRequest.getParameter("productName");
+	int productCnt = productdao.productCnt(productName);
+	
+	//상품명 중복확인 0일때만 가능
+	if(productCnt != 0){
+		System.out.println("상품명 변경 필요");
+		msg = URLEncoder.encode("해당 상품명은 이미 존재합니다.","utf-8");
+		response.sendRedirect(request.getContextPath() + "/emp/addProduct.jsp?msg=" + msg);
+		return;
+	}
+	
 	//1) input type = "text" 값변환 API --> product테이블에 저장
 	//변수
 	String categoryName = mRequest.getParameter("categoryName");
-	String productName = mRequest.getParameter("productName");
 	int productPrice = Integer.parseInt(mRequest.getParameter("productPrice"));
 	String productStatus = mRequest.getParameter("productStatus");
 	String productInfo = mRequest.getParameter("productInfo");
@@ -110,8 +121,9 @@
 	int row = productdao.insertProduct(map);
 	
 	if(row == 1) {
-		response.sendRedirect(request.getContextPath() + "/emp/productList.jsp");
 		System.out.println("성공");
+		msg = URLEncoder.encode("상품이 추가되었습니다.","utf-8");
+		response.sendRedirect(request.getContextPath() + "/emp/productList.jsp?msg=" + msg);
 	} else {
 		response.sendRedirect(request.getContextPath() + "/emp/addProduct.jsp");
 		System.out.println("실패");

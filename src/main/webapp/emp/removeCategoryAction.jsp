@@ -21,14 +21,14 @@
 	//변수
 	String msg = "";
 	String categoryName = request.getParameter("categoryName");
-	int cnt =productdao.getCategoryProductCnt(categoryName);
+	int cnt = productdao.getCategoryProductCnt(categoryName);
 		System.out.println(categoryName + "<--카테고리 삭제 categoryName");
 		System.out.println(cnt + "<--카테고리 삭제 상품 수 확인");
 	
 	//카테고리에 속한 상품 갯수 확인 (0개일때만 삭제 가능)
 	if(cnt != 0) {
 		System.out.println("상품 삭제 혹은 카테고리 변경 필요");
-		msg = URLEncoder.encode("해당 카테고리에 포함 된 상품 카테고리 변경 혹은 삭제해주세요.","utf-8");
+		msg = URLEncoder.encode("상품을 모두 삭제 후 카테고리를 삭제해주세요.","utf-8");
 		response.sendRedirect(request.getContextPath() + "/emp/category.jsp?msg=" + msg);
 		return;
 	}
@@ -37,7 +37,7 @@
 	int row = categorydao.deleteCategory(categoryName);
 	if(row == 1) {
 		System.out.println("삭제 성공");
-		msg = URLEncoder.encode(categoryName + "카테고리가 삭제되었습니다","utf-8");
+		msg = URLEncoder.encode(categoryName + " 카테고리가 삭제되었습니다.","utf-8");
 		response.sendRedirect(request.getContextPath() + "/emp/category.jsp?msg=" + msg);
 	} else {
 		System.out.println("삭제 실패");
