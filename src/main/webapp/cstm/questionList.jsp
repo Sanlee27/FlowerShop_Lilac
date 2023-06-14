@@ -74,10 +74,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- css파일 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+
 </head>
 <body>
 <div>
@@ -88,7 +90,7 @@
 	
 	<div class="list-wrapperql marginTop50">
 		<h2>문의리스트</h2>
-		<div class="list-item marginTop20">
+		<div class="list-item marginTop20" id="test">
 			<div>문의번호</div>
 			<!-- <div>id</div> -->
 			<div>카테고리</div>
@@ -103,69 +105,18 @@
 					<div><%=m.getqNo() %></div>
 					<div><%=m.getqCategory() %></div>
 					<div><%=m.getqTitle() %></div>
-					<div><%=m.getCreatedate() %></div>
-					<div><%=m.getqAnswer() %></div>
+					<div><%=m.getCreatedate().substring(0, 10) %></div>
+					<!-- 리스트 출력 시 답변여부 상태를 Y: 답변완료, N:답변 대기로 표현 -->
+					<div><%=m.getqAnswer().equals("Y") ? "답변 완료" : "답변 대기" %></div>
 				</div>
 		<%
 			}
 		%>
 	</div>
 </div>
-<%-- <h1>questionList</h1>
-	<table>
-		<tr>
-			<div>qNo</div>
-			<!-- <div>id</div> -->
-			<div>qCategory</div>
-			<div>qAnswer</div>
-			<div>qTitle</div>
-			<div>createdate</div>
-
-		</tr>
-		<tr>
-		<%
-			for(Question m : list){
-		%>
-			<td>
-				<a href="<%=request.getContextPath()%>/cstm/question.jsp?qNo=<%=m.getqNo() %>">
-					
-					<%=m.getqNo() %>
-				</a>
-			</td>
-			<td>
-				<a href="<%=request.getContextPath()%>/cstm/question.jsp?qNo=<%=m.getqCategory()%>">
-					
-					<%=m.getqCategory() %>
-				</a>
-			</td>
-			<td>
-				<a href="<%=request.getContextPath()%>/cstm/question.jsp?qNo=<%=m.getqAnswer()%>">
-					
-					<%=m.getqAnswer() %>
-				</a>
-			</td>
-			<td>
-				<a href="<%=request.getContextPath()%>/cstm/question.jsp?qNo=<%=m.getqTitle() %>">
-					
-					<%=m.getqTitle() %>
-				</a>
-			</td>
-			<td>
-				<a href="<%=request.getContextPath()%>/cstm/question.jsp?qNo=<%=m.getCreatedate() %>">
-					
-					<%=m.getCreatedate() %>
-				</a>
-			</td>
-		</tr>
-		<%
-			}
-		%>
-		
-	</table> --%>
 
 
-
-	
+		<!-- 페이징 -->
 		<div class="container text-center">
 		<% 
 		      if(minPage > 1) {
