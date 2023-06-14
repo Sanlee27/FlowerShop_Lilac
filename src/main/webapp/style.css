@@ -70,7 +70,7 @@ del{
 	font-weight: bold;	
 	font-size: 18px;
 }
-.list-item a, list-item button{
+.list-item a, .list-item button{
 	display: grid;
 	place-items: center;
 	padding: 5px 10px;
@@ -80,7 +80,7 @@ del{
 	font-size: 16px;
 	transition: all linear 0.2s;
 }
-.list-item a:hover, list-item button:hover{
+.list-item a:hover, .list-item button:hover{
 	cursor: pointer;
 	background-color: #888888;
 	color: pink;
@@ -102,6 +102,7 @@ input{
 	width: 100%;
 	border-radius: 4px;
 	border: 1px solid whitesmoke;
+	background: #F9F5F2;
 	padding: 5px;
 }
 
