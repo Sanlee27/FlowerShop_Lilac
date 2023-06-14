@@ -88,22 +88,23 @@ del{
 .list-item select{
 	border-radius: 4px;
 	padding: 3px;
+	transition: all linear 0.2s;
 }
 .list-item select:hover{
 	cursor: pointer;
+}
+.list-item input{
+	width: 100%;
+	border-radius: 4px;
+	border: 1px solid whitesmoke;
+	background: #F9F5F2;
+	padding: 5px;
 }
 .marginTop50{
 	margin-top: 50px;
 }
 .marginTop20{
 	margin-top: 20px;
-}
-input{
-	width: 100%;
-	border-radius: 4px;
-	border: 1px solid whitesmoke;
-	background: #F9F5F2;
-	padding: 5px;
 }
 
 /* 페이지네이션 부분 */
@@ -182,6 +183,7 @@ input{
 	position: fixed;
 	top: 0;
 	width: 100%;
+	background: #F9F5F2;
 }
 .main-menu{
 	display: flex;
@@ -193,6 +195,7 @@ input{
 }
 .main-menu nav a{
 	font-size: 18px;
+	transition: all linear 0.2s;
 }
 .main-menu nav a:hover{
 	font-weight: bold;
@@ -206,6 +209,7 @@ input{
 	height: 35px;
 	border-radius: 4px;
 	padding: 5px;
+	transition: all linear 0.2s;
 }
 .icons a + a{
 	margin-left: 10px;
@@ -301,10 +305,34 @@ input{
 }
 .modal-container .modal{
 	position: absolute;
-	top: calc(50% - 300px);
-	left: calc(50% - 250px);
-	width: 500px;
-	height: 600px;
+	top: calc(50% - 200px);
+	left: calc(50% - 350px);
+	width: 700px;
+	height: 400px;
 	padding: 20px;
 	background-color: #F9F5F2;
+	text-align: center;
+	box-shadow: 5px 10px 10px 1px rgba(0,0,0,0.3); 
+}
+.modal-container .modal button{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	display: grid;
+	place-items: center;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	padding: 5px;
+	transition: all linear 0.2s;
+}
+.modal-container .modal button:hover{
+	background-color: #999999;
+}
+.modal-container .modal button img{
+	width: 22px;
+	height: 22px;
+}
+.modal-container .modal .product-img{
+	width: 300px;
 }
