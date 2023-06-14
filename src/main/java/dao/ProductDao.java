@@ -194,14 +194,13 @@ public class ProductDao {
 	// 상품정보를 수정하는 메서드
 	public int updateProduct(HashMap<String, Object> map) throws Exception {
 		// 매개변수값 유효성 검사
-		if(map == null || map.get("product") == null || map.get("productImg") == null) {
+		if(map == null || map.get("product") == null) {
 			System.out.println("입력값이 없거나 부족함.");
 			return 0;
 		}
 		
 		//매개변수값 저장
 		Product product = (Product)map.get("product");
-		ProductImg productImg = (ProductImg)map.get("productImg");
 				
 		// 결과 값을 저장해줄 int타입 변수 선언
 		int row = 0;
@@ -225,6 +224,14 @@ public class ProductDao {
 		
 		// 쿼리 실행 후 영향받은 행 저장
 		row = productStmt.executeUpdate();
+		
+		// productImg가 안들어왔으면 리턴
+		if(map.get("productImg") == null) {
+			return row;
+		}
+		
+		//들어왔으면 저장
+		ProductImg productImg = (ProductImg)map.get("productImg");
 		
 		// product_img를 수정하는 쿼리
 		String productImgSql = "update product_img set product_ori_filename = ?, product_save_filename = ?, product_filetype = ?, updatedate = now() where product_no = ?";
