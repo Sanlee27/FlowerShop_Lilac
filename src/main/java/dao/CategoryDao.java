@@ -45,9 +45,35 @@ public class CategoryDao {
 				"INSERT INTO category(category_name, createdate, updatedate) VALUES(?, now(), now())"
 			);
 		categoryInsStmt.setString(1, category.getCategoryName());
+		
 		row = categoryInsStmt.executeUpdate();
 		
 		return row;
+	}
+	
+	//중복검사
+	public int categoryCnt(String categoryName) throws Exception {
+		//유효성검사
+		if(categoryName == null) {
+			System.out.println("categoryName값 확인");
+			return 0;
+		}
+		
+		int result = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement categoryChangeStmt = conn.prepareStatement(
+			"SELECT COUNT(*) FROM category WHERE category_name = ?"
+		);
+		categoryChangeStmt.setString(1, categoryName);
+		
+		ResultSet categoryChangeRs = categoryChangeStmt.executeQuery();
+				
+		if(categoryChangeRs.next()) {
+			result = categoryChangeRs.getInt("COUNT(*)");
+		}
+		
+		return result;
 	}
 	
 	//카테고리 수정
