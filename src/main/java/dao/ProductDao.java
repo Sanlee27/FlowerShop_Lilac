@@ -191,6 +191,35 @@ public class ProductDao {
 		return row;	
 	}
 	
+	// 상품 이름 중복검사
+	public int productCnt(String productName) throws Exception {
+		// 매개변수값 유효성 검사
+		if(productName == null) {
+			System.out.println(", productName값 확인");
+			return 0;
+		}
+		// 결과를 담아줄 int타입 변수 선언
+		int result = 0;
+		
+		// Connection 가져오기
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// product 테이블에 데이터를 추가하는 쿼리
+		PreparedStatement categoryChangeStmt = conn.prepareStatement(
+			"SELECT COUNT(*) FROM product WHERE product_name = ?"
+		);
+		categoryChangeStmt.setString(1, productName);
+		
+		ResultSet categoryChangeRs = categoryChangeStmt.executeQuery();
+				
+		if(categoryChangeRs.next()) {
+			result = categoryChangeRs.getInt("COUNT(*)");
+		}
+		
+		return result;
+	}
+	
 	// 상품정보를 수정하는 메서드
 	public int updateProduct(HashMap<String, Object> map) throws Exception {
 		// 매개변수값 유효성 검사
@@ -373,6 +402,29 @@ public class ProductDao {
 		
 		// ?값 세팅
 		stmt.setString(1, categoryName);
+		
+		// 쿼리 실행 후 결과값 저장
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = rs.getInt("count(*)");
+		}
+		
+		return result;
+	}
+	
+	// 전체 상품 개수를 반환하는 메서드
+	public int getProductCnt() throws Exception {
+		// 결과값을 반환할 int타입 변수 선언
+		int result = 0;
+		
+		// Connection 가져오기
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 카테고리별 상품 개수를 가져오는 쿼리
+		String sql = "select count(*) from product";
+		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리 실행 후 결과값 저장
 		ResultSet rs = stmt.executeQuery();

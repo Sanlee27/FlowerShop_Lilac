@@ -41,7 +41,7 @@
 		||mRequest.getParameter("productStock").equals("")) {
 		
 		System.out.println("productName, productInfo, productPrice, productStock 값 필요");
-		msg = URLEncoder.encode("모든 내용을 입력해주세요","utf-8"); 
+		msg = URLEncoder.encode("모든 내용을 입력해주세요.","utf-8"); 
 		response.sendRedirect(request.getContextPath() + "/emp/modifyProduct.jsp?msg=" + msg + "&productNo=" + productNo);
 		return;
 	}
@@ -60,7 +60,7 @@
 				
 				//이미 저장된 파일 삭제
 				String oriFilename = mRequest.getOriginalFileName("productImg");
-					System.out.println("PNG, JPG, JEPG파일이 아닙니다");
+					System.out.println("PNG, JPG, JEPG파일이 아닙니다.");
 
 				//파일 경로 설정
 				File f = new File(dir + "/" + oriFilename);
@@ -68,7 +68,10 @@
 					f.delete();
 						System.out.println(dir + "/" + oriFilename + "파일삭제");
 				}
-				msg = URLEncoder.encode("PNG, JPG, JEPG파일로 업로드해주세요","utf-8"); 
+				msg = URLEncoder.encode("PNG, JPG, JEPG파일로 업로드해주세요.","utf-8"); 
+				response.sendRedirect(request.getContextPath() + "/emp/modifyProduct.jsp?msg=" + msg + "&productNo=" + productNo);
+				return;
+				
 			} else { 
 			// PNG, JPG, JEPG파일일때 --> productimg에 저장
 				String oriFilename = mRequest.getOriginalFileName("productImg");
@@ -128,10 +131,13 @@
 	
 	//row에 값 넣기
 	int row = productdao.updateProduct(map);
-		System.out.println(row);
-	if(row == 2) {
-		response.sendRedirect(request.getContextPath() + "/emp/productList.jsp");
+		System.out.println(row + "<--row");
+	if(row == 1 || row == 2) {
 		System.out.println("성공");
+		msg = URLEncoder.encode(productName+" 상품이 수정되었습니다.","utf-8"); 
+		response.sendRedirect(request.getContextPath() + "/emp/productList.jsp?msg=" +msg);
+		return;
+		
 	} else {
 		response.sendRedirect(request.getContextPath() + "/emp/modifyProduct.jsp?productNo=" + productNo);
 		System.out.println("실패");

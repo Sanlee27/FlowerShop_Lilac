@@ -43,15 +43,12 @@
 	<link href="<%=request.getContextPath()%>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath()%>/images/favicon.png"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 	// 이미지 미리보기 함수
     function previewImage(event) {
-		// 파일 삭제 객체 생성 
-		var filePath = <%=path%>
-		
-		// 파일 삭제 함수
-		deleteFile(filePath); 
-		
 		// FileReader 객체 생성
     	var reader = new FileReader();
 
@@ -60,17 +57,21 @@
 			
 		// 미리보기 영역의 img 태그를 찾아서 src 속성 설정
         var output = document.getElementById('preview');
+		
         output.src = reader.result;
       };
 
 		// 선택한 파일을 읽기
       reader.readAsDataURL(event.target.files[0]);
-	}
-	
-    function deleteFile(filePath) {
-    
-    }
-    </script>
+	};
+	//경고창
+	$(document).ready(function(){
+		
+		if("<%=request.getParameter("msg")%>" != "null") {
+			swal("경고", "<%=request.getParameter("msg")%>", "warning");
+		}
+	});
+	</script>
 </head>
 <body>
 <!-- 메인메뉴 -->
@@ -79,15 +80,6 @@
 </div>
 
 <div class="container">
-<!--메세지 -->
-     <%
-		if(request.getParameter("msg") != null) {
-	%>
-		<div><%=request.getParameter("msg")%></div>				
-	<%
-        	}
-	%>
-	
 	<!-- 상품 수정폼 -->
 	<form action = "<%=request.getContextPath()%>/emp/modifyProductAction.jsp" method="post" encType="multipart/form-data">
 		<div> 상품 번호 <input type="number" name = "productNo" value = "<%=productNo%>"></div>
@@ -134,7 +126,7 @@
 		<div>상품 이미지  
 			<img src="<%=path%>" id="preview" width="300px">
 			<input type="hidden" name = "preProductImg" value="<%=productImg.getProductSaveFilename()%>">
-			<input type="file" name = "productImg" onchange="previewImage(event)" value="<%=path%>">
+			<input type="file" name = "productImg" onchange="previewImage(event)">
 		</div> 
 		
 		<div>
