@@ -9,6 +9,8 @@
 	<title>회원가입</title>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 	$(document).ready(function() {
 		
@@ -30,7 +32,7 @@
 	    id.blur(function() {
 	    	// 아이디 정규식을 만족하지 않는다면
 			if(!condition.test(id.val())) {
-				alert('아이디는 영문과 숫자를 합쳐 최소 4자를 충족해야합니다.');
+				swal("경고", "아이디는 영문과 숫자를 합쳐 최소 4자를 충족해야합니다.", "warning");
 	        	idMsg.text('아이디는 영문과 숫자를 합쳐 최소 4자를 충족해야합니다.');
 	        	ckIdButton.prop('disabled', true);
 	        // 정규식 만족한다면 아이디 중복체크 메세지 표시 
@@ -65,7 +67,7 @@
     	pw.blur(function(){
     		// 비밀번호가 4글자를 넘지않는다면
     		if(pw.val().length < 4){
-    			alert('비밀번호는 최소 4자를 충족해야합니다.');
+    			swal("경고", "비밀번호는 최소 4자를 충족해야합니다.", "warning");
     			pwMsg.text('비밀번호는 최소 4자를 충족해야합니다.');
     		} else {
     			pwMsg.text('');
@@ -75,7 +77,7 @@
     	// 비밀번호 재입력 후 커서 뗄때
     	rePw.blur(function(){
     		if(pw.val() != rePw.val()){
-    			alert('비밀번호가 일치하지 않습니다.');
+    			swal("경고", "비밀번호가 일치하지 않습니다.", "warning");
     			pwMsg2.text('비밀번호가 일치하지 않습니다.');
     		} else {
     			pwMsg2.text('');
@@ -91,8 +93,8 @@
 		names.blur(function(){
 			// 이름값은 한글, 한글자 이상 여섯 글자 이하
 			if(names.val().length < 1 || names.val().length > 6 || !namePattern.test(names.val())){
-				alert('이름은 최소 한글자, 최대 여섯글자까지 한글만 입력 가능합니다.')
-				nameMsg.text('이름은 최소 한글자, 최대 여섯글자까지 한글만 입력 가능합니다.')
+				swal("경고", "이름은 1~6글자까지 \n한글만 입력 가능합니다.", "warning");
+				nameMsg.text('이름은 1~6글자까지 한글만 입력 가능합니다.')
 			} else {
 				nameMsg.text('');
 			}
@@ -106,7 +108,7 @@
 		birth.blur(function(){
 			// 생년월일 패턴을 만족하지 않을때
 			if (!birthPattern.test(birth.val())) {
-				alert('생년월일을 정확하게 입력해주세요')
+				swal("경고", "생년월일을 정확하게 입력해주세요.", "warning");
 				birthMsg.text('생년월일을 정확하게 입력해주세요') 
 			 } else {
 				birthMsg.text('');
@@ -135,7 +137,7 @@
 		detailAddress.blur(function(){
 			// 주소 미입력시에
 			if(address.val() == '' || detailAddress.val() == ''){
-				alert('주소를 입력해주세요')
+				swal("경고", "주소를 입력해주세요.", "warning");
 				adrMsg.text('주소를 입력해주세요') 
 			} else {
 				adrMsg.text('');
@@ -153,7 +155,7 @@
 			// 폰번호 패턴에 부합할 때
 			// 중간 번호만 확인
 			if(!phonePattern.test(phone.val())){
-				alert('연락처를 정확하게 입력해주세요')
+				swal("경고", "연락처를 정확하게 입력해주세요.", "warning");
 				phMsg.text('연락처를 정확하게 입력해주세요') 
 			} else {
 				phMsg.text('');
@@ -164,7 +166,7 @@
 			// 폰번호 패턴에 부합할 때
 			// 중간 번호 / 뒷번호 둘다 확인
 			if(!phonePattern.test(phone.val()) || !phonePattern2.test(phone2.val())){
-				alert('연락처를 정확하게 입력해주세요')
+				swal("경고", "연락처를 정확하게 입력해주세요.", "warning");
 				phMsg.text('연락처를 정확하게 입력해주세요') 
 			} else {
 				phMsg.text('');
@@ -182,7 +184,7 @@
 			let emailPattern =  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 			
 			if(!emailPattern.test(email)){
-				alert('이메일을 정확하게 입력해주세요')
+				swal("경고", "이메일을 정확하게 입력해주세요.", "warning");
 				emMsg.text('이메일을 정확하게 입력해주세요') 
 			} else {
 				emMsg.text('');
