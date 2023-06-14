@@ -176,6 +176,7 @@ public class CustomerDao {
 		
 		return ckId;
 	}
+	
 	// 3) active 여부 확인, 변경, last_login 업데이트
 	// 활성화여부 확인해주는거 하나랑 활성화여부 변경해주는거 하나랑 last_login업데이트 해주는거 하나
 	
@@ -370,7 +371,7 @@ public class CustomerDao {
 			customer.setCstmPoint(rs.getInt("cstmPoint"));
 			customer.setCstmLastlogin(rs.getString("cstmLastlogin"));
 			customer.setCstmAgree(rs.getString("cstmAgree"));
-			customer.setUpdatedate(rs.getString("createdate"));
+			customer.setCreatedate(rs.getString("createdate"));
 		}
 		
 		return customer;
