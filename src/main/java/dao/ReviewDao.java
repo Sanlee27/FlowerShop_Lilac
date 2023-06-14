@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.*;
 
+
 import java.util.*;
 
 import util.DBUtil;
@@ -10,11 +11,33 @@ import vo.*;
 
 public class ReviewDao {
 	
+	
+	//페이징을 위한 메서드 만들기
+	public int selectReviewCnt() throws Exception {
+		int row = 0;
+	//db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+		
+			//총 행을 구하는 sql문
+			String pageSql = "SELECT COUNT(*) FROM review";
+			PreparedStatement pageStmt = conn.prepareStatement(pageSql);
+			ResultSet pageRs = pageStmt.executeQuery();
+			if(pageRs.next()) {
+				row = pageRs.getInt(1);
+			}
+			return row;
+		}
+
+
 	//상품 상세페이지 후기 출력 ->product.jsp //where 절에 order no가져옴
 	//보이는 이미지 없음
 	// 정렬 날짜 최신순으로
 
 	public ArrayList<Review> reviewProduct (int beginRow, int rowPerPage) throws Exception{
+
+		
+		
 		//반환할 리스트
 		ArrayList<Review> list = new ArrayList<>();
 		
@@ -54,6 +77,7 @@ public class ReviewDao {
 		//반환할 리스트
 		ArrayList<Review> list = new ArrayList<>();
 		
+		
 		//db접속
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
@@ -75,8 +99,9 @@ public class ReviewDao {
 					m.setUpdatedate(rListRs.getString("updatedate"));
 					list.add(m);
 			}
-			
+				
 			return list;
+		
 		}
 	
 		
@@ -90,6 +115,7 @@ public class ReviewDao {
 		Review review = null;
 		ReviewImg reviewImg = null;
 
+
 		//db접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -101,6 +127,10 @@ public class ReviewDao {
 		oneStmt.setInt(1, orderNo);
 		ResultSet oneRs = oneStmt.executeQuery();
 		
+		//디버깅
+		System.out.println(oneRs + "oneRs");
+		
+		
 		if(oneRs.next()) {
 			review = new Review();
 			review.setOrderNo(oneRs.getInt("orderNo"));
@@ -111,6 +141,7 @@ public class ReviewDao {
 
 		}
 		
+
 		//이미지 쿼리
 		
 		PreparedStatement imageStmt = conn.prepareStatement(
@@ -129,18 +160,29 @@ public class ReviewDao {
 			reviewImg.setUpdatedate(imageRs.getString("updatedate"));
 		}
 		
+		//디버깅
+		System.out.println(imageRs + "imageRs");
+		
 		// 생성한 hashmap에 데이터 넣어주기
-		HashMap<String, Object>map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		
 		map.put("review", review);
 		map.put("reviewImg", reviewImg);
 		
+		//hash map 키 값 존재하는지 디버깅
+		System.out.println(map.get("review") != null ? true : false);	//true
+		System.out.println(map.get("reviewImg") != null ? true : false);	//true
+		
+		
 		return map;
 	}
 	
+	
+	
 	//후기 입력 액션페이지 -> addReviewAction.jsp // hashmap (string, object) //이미지가 같이 나오게! //1. 리뷰insert 쿼리문 2. generate key 사용 3. 리뷰img 쿼리문
 	
-	public int addReview (HashMap<String, Object>map) throws Exception{
+	public int addReview (HashMap<String, Object> map) throws Exception{
+		//매개변수가 해쉬맵: 내가 선언하지 않아도 쓸 수 있는 변수가 해쉬맵이다
 		
 		//vo 저장
 		Review review = (Review)map.get("review");
@@ -158,35 +200,31 @@ public class ReviewDao {
 		//insert 쿼리
 		//insert into review (order_no, review_title, review_content, createdate, updatedate) VALUES (?, ?, ?, NOW(), NOW());
 		PreparedStatement addStmt = conn.prepareStatement(
-				"insert into review (order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate) VALUES (?, ?, ?, NOW(), NOW())"
+				"insert into review (order_no, review_title, review_content, createdate, updatedate) VALUES ( ?, ?, ?, NOW(), NOW())"
 				);
 		addStmt.setInt(1, review.getOrderNo());
 		addStmt.setString(2, review.getReviewTitle());
 		addStmt.setString(3, review.getReviewContent());
-		row = addStmt.executeUpdate();
+		row += addStmt.executeUpdate();
 		
-		//쿼리 실행 후 orderNo 값 가져오기
-		ResultSet imgRs = addStmt.getGeneratedKeys(); //getGeneratedKeys(): AutoIncrement 키값 가져오기
-		int orderNo = 0;
-		
-		if(imgRs.next()) {
-			orderNo = imgRs.getInt(1);
-		}
+		System.out.println(addStmt+ "addStmt");
 		
 		//리뷰이미지 INSERT 쿼리
 		PreparedStatement imgStmt = conn.prepareStatement(
-				"insert into review_img (order_no, review_ori_filename, review_save_filename, review_filetype, createdate, updatedate) VALUES (?, ?, ?, ?, NOW(), NOW())"
+				"insert into review_img VALUES (?, ?, ?, ?, NOW(), NOW())"
 				);
 		//?
-		imgStmt.setInt(1, orderNo);
+		imgStmt.setInt(1, reviewImg.getOrderNo());
 		imgStmt.setString(2, reviewImg.getReviewOriFilename());
 		imgStmt.setString(3, reviewImg.getReviewSaveFilename());
 		imgStmt.setString(4, reviewImg.getReviewFiletype());
 		
-		row = imgStmt.executeUpdate();
+		row += imgStmt.executeUpdate();
 		
+		System.out.println(row);
 		
 		return row;
+		
 	}
 	
 	
@@ -199,7 +237,7 @@ public class ReviewDao {
 	
 	
 	//후기 수정 액션페이지 -> modifyReviewAction.jsp // hashmap (string, object) //이미지가 같이 나오게!
-		public int modReview (HashMap<String, Object>map) throws Exception{
+		public int modReview (HashMap<String, Object> map) throws Exception{
 		
 		//vo 저장
 		Review review = (Review)map.get("review");
@@ -236,7 +274,7 @@ public class ReviewDao {
 		imgStmt.setString(3, reviewImg.getReviewFiletype());
 		imgStmt.setInt(4, reviewImg.getOrderNo());
 		
-		row = imgStmt.executeUpdate();
+		row += imgStmt.executeUpdate();
 		
 		
 		return row;
