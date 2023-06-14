@@ -40,6 +40,12 @@
         	}
 		});
 		
+	    // 버튼 클릭시 아이디 확인폼 출력
+	    function confirmId(){
+    		url = "idCheckForm.jsp?id=" + id.val();
+ 	        open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
+ 	    };
+	    
 		// 아이디 중복확인 버튼 클릭 이벤트
 		// 버튼 클릭시 아이디 중복체크 메세지 삭제
 			// 아이디 사용가능 시 해당 아이디 사용 > 중복체크 버튼 비활성화
@@ -48,12 +54,6 @@
 	    	confirmId();
 	    	idMsg.text('');
 		});
-		
-	    // 버튼 클릭시 아이디 확인폼 출력
-	    function confirmId(){
-    		url = "idCheckForm.jsp?id=" + id.val();
- 	        open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
- 	    }
 	    
 	    // 비밀번호=======================================
 	    pw = $('input[name="pw"]'); // 비밀번호값
@@ -205,11 +205,25 @@
 			let birthValue = $('input[name="birth"]').val();
 			let adrValue = $('textarea[name="address1"]').val();
 			let adr2Value = $('textarea[name="address2"]').val();
-			let phoneValue = $('textarea[name="phone2"]').val();
-			let phone2Value = $('textarea[name="phone3"]').val();
+			let phoneValue = $('input[name="phone2"]').val();
+			let phone2Value = $('input[name="phone3"]').val();
 			let email1Value = $('input[name="email1"]').val();
 			let email2Value = $('select[name="email2"]').val();
-				
+			
+			/*
+			console.log("===========")
+			console.log(idValue);
+			console.log(pwValue);
+			console.log(rePwValue);
+			console.log(nameValue);
+			console.log(birthValue);
+			console.log(adrValue);
+			console.log(adr2Value);
+			console.log(phoneValue);
+			console.log(phone2Value);
+			console.log(email1Value);
+			console.log(email2Value);
+			*/
 			// trim = 앞뒤공백제거
 			// 1. 각 값이 공백이거나
 			// 2. id값이 다시입력하세요 = 이미 있는 아이디일때 표시되는 메세지이거나
@@ -217,7 +231,6 @@
 			// 4. 비밀번호가 일치하지 않거나
 			// 5. 생년월일이 조건에 맞지않거나
 			// 6. 연락처가 조건에 맞지않거나
-			// 모든 메시지중 하나라도 표현이 된다면(?)
 			// 회원가입 버튼 비활성화
 			if (idValue.trim() === '' || idValue.trim() === '아이디를다시입력하세요' 
 					|| !ckIdButton.prop('disabled') || pwValue.trim() === '' 
@@ -243,7 +256,7 @@
 				<th>아이디</th>
 				<td>
 					<input type="text" name="id" placeholder="아이디를 입력하세요" required="required">
-					<input type="button" name="ckId" value="아이디 중복확인" onclick="confirmId()" > 
+					<input type="button" name="ckId" value="아이디 중복확인" > 
 					<span id="idMsg" style="color: red;"></span>
 				</td>
 			</tr>
@@ -315,8 +328,7 @@
 				<td>
 					<input type = "text" name = "email1" required="required"> @
 					<select name = "email2">
-						<option value="선택하세요" selected="selected">선택하세요</option>
-						<option value="naver.com">naver.com</option>
+						<option value="naver.com" selected="selected">naver.com</option>
 						<option value="daum.net">daum.net</option>
 						<option value="gmail.com">gamil.com</option>
 					</select>
