@@ -381,6 +381,7 @@ del{
 	border: 1px solid #888888;
 	background-color: whitesmoke;
 	transition: all linear 0.2s;
+	cursor: pointer;
 }
 .modal-container .modal .pmBtn:hover{
 	background-color: #888888;
@@ -388,4 +389,9 @@ del{
 .modal-container .modal .pmBtn img{
 	width: 10px;
 	height: 10px;
+}
+.modal-container .modal #cartCnt{
+	display: grid;
+	place-items: center;
+	margin: 0;
 }

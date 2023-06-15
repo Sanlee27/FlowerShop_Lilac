@@ -19,7 +19,7 @@ public class CartDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement cartSelStmt = conn.prepareStatement(
-				"SELECT product_no productNo, id, cart_cnt cartCnt FROM cart WHERE id = ? ORDER BY cart_no"
+				"SELECT cart_no cartNo, product_no productNo, id, cart_cnt cartCnt FROM cart WHERE id = ? ORDER BY cart_no"
 			);
 		
 		cartSelStmt.setString(1, id);
@@ -28,6 +28,7 @@ public class CartDao {
 		
 		if(cartSelRs.next()) {
 			cart = new Cart();
+			cart.setCartNo(cartSelRs.getInt("cartNo"));
 			cart.setProductNo(cartSelRs.getInt("productNo"));
 			cart.setId(cartSelRs.getString("id"));
 			cart.setCartCnt(cartSelRs.getInt("cartCnt"));
@@ -62,8 +63,8 @@ public class CartDao {
 	//장바구니 상품 수정
 	public int updateCart(Cart cart) throws Exception {
 		//유효성검사
-		if(cart == null || cart.getId() == null) {
-			System.out.println("cart클래스, Id값 확인");
+		if(cart == null || cart.getCartNo() == 0) {
+			System.out.println("cart클래스, cartNo 확인");
 			return 0;
 		}
 		
@@ -71,10 +72,10 @@ public class CartDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement CartUpStmt = conn.prepareStatement(
-				"UPDATE cart SET cart_cnt = ?, updatedate = now() WHERE id = ?"
+				"UPDATE cart SET cart_cnt = ?, updatedate = now() WHERE cart_no = ?"
 			);
 		CartUpStmt.setInt(1, cart.getCartCnt());
-		CartUpStmt.setString(2, cart.getId());
+		CartUpStmt.setInt(2, cart.getCartNo());
 		
 		row = CartUpStmt.executeUpdate();
 		
@@ -82,10 +83,10 @@ public class CartDao {
 	}
 	
 	//장바구니 상품 삭제
-	public int deleteCart(String id) throws Exception {
+	public int deleteCart(int cartNo) throws Exception {
 		//유효성검사
-		if(id == null) {
-			System.out.println("id값 확인");
+		if(cartNo == 0) {
+			System.out.println("cartNo값 확인");
 			return 0;
 		}
 		
@@ -93,9 +94,9 @@ public class CartDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		PreparedStatement CartDelStmt = conn.prepareStatement(
-				"DELETE FROM cart WHERE id = ?"
+				"DELETE FROM cart WHERE cart_no = ?"
 			);
-		CartDelStmt.setString(1, id);
+		CartDelStmt.setInt(1, cartNo);
 		
 		row = CartDelStmt.executeUpdate();
 		
