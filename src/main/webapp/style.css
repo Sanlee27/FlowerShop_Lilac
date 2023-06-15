@@ -35,6 +35,15 @@ del{
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
+.marginTop50{
+	margin-top: 50px;
+}
+.marginTop20{
+	margin-top: 20px;
+}
+.marginTop30{
+	margin-top: 30px;
+}
 
 /* 텍스트만 있는 리스트 */
 [class*='list-wrapper']{
@@ -105,12 +114,6 @@ del{
 	border: 1px solid whitesmoke;
 	background: #F9F5F2;
 	padding: 5px;
-}
-.marginTop50{
-	margin-top: 50px;
-}
-.marginTop20{
-	margin-top: 20px;
 }
 
 /* 페이지네이션 부분 */
@@ -311,16 +314,16 @@ del{
 }
 .modal-container .modal{
 	position: absolute;
-	top: calc(50% - 200px);
-	left: calc(50% - 350px);
-	width: 700px;
-	height: 400px;
+	top: calc(50% - 160px);
+	left: calc(50% - 225px);
+	width: 450px;
+	height: 320px;
 	padding: 20px;
 	background-color: #F9F5F2;
 	text-align: center;
 	box-shadow: 5px 10px 10px 1px rgba(0,0,0,0.3); 
 }
-.modal-container .modal button{
+.modal-container .modal .closeBtn{
 	position: absolute;
 	top: 20px;
 	right: 20px;
@@ -332,7 +335,7 @@ del{
 	padding: 5px;
 	transition: all linear 0.2s;
 }
-.modal-container .modal button:hover{
+.modal-container .modal .closeBtn:hover{
 	background-color: #999999;
 }
 .modal-container .modal button img{
@@ -340,5 +343,49 @@ del{
 	height: 22px;
 }
 .modal-container .modal .product-img{
-	width: 300px;
+	width: 200px;
+}
+.modal-container .modal .modal-content{
+	width: 40%;
+	padding: 20px;
+}
+.modal-container .modal .modal-content div{
+	margin-top: 10px;
+}
+.modal-container .modal .cartBtn{
+	display: grid;
+	place-items: center;
+	width: 49%;
+	padding: 5px 0;
+	border: none;
+	border-radius: 4px;
+	background-color: pink;
+	font-size: 16px;
+	transition: all linear 0.2s;
+}
+.modal-container .modal .cartBtn:hover{
+	cursor: pointer;
+	background-color: #888888;
+	color: pink;
+}
+.modal-container .modal .cnt-wrapper{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal-container .modal .pmBtn{
+	display: grid;
+	place-items: center;
+	margin: 0 10px;
+	padding: 2px;
+	border: 1px solid #888888;
+	background-color: whitesmoke;
+	transition: all linear 0.2s;
+}
+.modal-container .modal .pmBtn:hover{
+	background-color: #888888;
+}
+.modal-container .modal .pmBtn img{
+	width: 10px;
+	height: 10px;
 }

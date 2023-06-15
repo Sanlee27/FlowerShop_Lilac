@@ -3,7 +3,7 @@
 	<div class="main-menu">
 	<script>
 		function modalOpen(){
-			$('.modal-container').css('display', 'block');
+			$('.modal-container').show();
 		}
 	</script>
 		<div>
