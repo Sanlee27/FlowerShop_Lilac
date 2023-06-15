@@ -7,12 +7,12 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//유효성 검사 _ 로그인전이면 로그인폼으로 돌아가게
-	if(session.getAttribute("고객") == null){ 
+	if(session.getAttribute("loginId") == null){ 
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;		
 	}
 	
-	String loginMemberId = (String)session.getAttribute("고객");
+	String loginMemberId = (String)session.getAttribute("loginId");
 	// System.out.println(loginMemberId);
 	
 	// 클래스 객체 생성
@@ -31,6 +31,17 @@
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			if("<%=request.getParameter("msg")%>" != "null"){
+		 		swal("완료", "<%=request.getParameter("msg")%>", "success");
+		 	}
+		});
+	</script>
 </head>
 <body>
 	<div>
@@ -45,7 +56,10 @@
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><%=cstm.getCstmName()%></td>
+				<td>
+					<%=cstm.getCstmName()%>
+					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/modifyCstmPwForm.jsp?id=<%=cstm.getId()%>'">비밀번호 변경</button>
+				</td>
 			</tr>
 			<tr>
 				<th>성별</th>
@@ -86,6 +100,7 @@
 		</table>
 		<br>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/modifyCstmInfo.jsp?id=<%=cstm.getId()%>'">수정하기</button>
+		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/removeCstmInfo.jsp?id=<%=cstm.getId()%>'">회원탈퇴</button>
 	</div>
 </body>
 </html>
