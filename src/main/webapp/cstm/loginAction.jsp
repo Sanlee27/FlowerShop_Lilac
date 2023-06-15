@@ -37,11 +37,11 @@
 	String ckId = dao.ckId(id);
 	System.out.println("로그인된 아이디는 : " + ckId + "입니다");
 	if(ckId.equals("관리자1")){
-		session.setAttribute("관리자1", id);
+		session.setAttribute("loginId", "admin1");
 		response.sendRedirect(request.getContextPath()+"/employees.jsp");
 		return;
 	} else if(ckId.equals("관리자2")){
-		session.setAttribute("관리자2", id);
+		session.setAttribute("loginId", "admin2");
 		response.sendRedirect(request.getContextPath()+"/employees.jsp");
 		return;
 	} else if(ckId.equals("없는 회원")){
@@ -59,7 +59,7 @@
 		if(active.equals("Y")){
 			// last_login 날짜 로그인한 시점으로 변경
 			int addLastLogin = dao.updLastLogin(id);
-			session.setAttribute("고객", id);
+			session.setAttribute("loginId", id);
 			response.sendRedirect(request.getContextPath()+"/home.jsp");
 			return;
 		// 활성화 여부가 N = 휴면계정이면
