@@ -15,9 +15,9 @@
 	//유효성 검사
 	
 	//요청값 변수에 저장
-	//int qNo = Integer.parseInt(request.getParameter("qNo"));
+	int qNo = Integer.parseInt(request.getParameter("qNo"));
 	
-	int qNo = 2;
+	//int qNo = 2;
 	String id = request.getParameter("id");
 	String qCategory = request.getParameter("qCategory");
 	String qAnswer = request.getParameter("qAnswer");
@@ -54,7 +54,7 @@
 	}
 	
 	//액션 끝나고 돌아가기
-	response.sendRedirect(request.getContextPath()+"/home.jsp");
+	response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp");
 	
 %>
 

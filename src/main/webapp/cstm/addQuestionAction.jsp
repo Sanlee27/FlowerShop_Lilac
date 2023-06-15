@@ -53,6 +53,6 @@
 	}
 	
 	//액션 끝나고 돌아가기
-	//response.sendRedirect(request.getContextPath() + " qNo" + qNo);
+	response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp");
 
 %>

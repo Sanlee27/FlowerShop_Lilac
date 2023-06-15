@@ -7,7 +7,7 @@
 <%@ page import = "dao.*" %>
 
 <%
-	/*
+	
 	//요청값 유효성 검사-> id
 	if(request.getParameter("qNo") == null
 		|| request.getParameter("qNo").equals("")){
@@ -15,13 +15,11 @@
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
-	*/
+	
 
 	//요청값 변수에 저장
 	
-	//int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int qNo = 2;
-
+	int qNo = Integer.parseInt(request.getParameter("qNo"));
 
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
@@ -43,6 +41,8 @@
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	
+
 </head>
 <body>
 	<div>
@@ -51,10 +51,12 @@
 	</div>
 
 	<div class="container">
-	
+
 		<h1>문의 상세</h1>
-			<form action="<%=request.getContextPath()%>/cstm/modifyQuestion.jsp" method="get">
+			<form action="<%=request.getContextPath()%>/cstm/modifyQuestion.jsp?qNo" method="get">
+				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 				<table>
+					
 					<tr>
 						<td>문의번호</td>
 						<td><%=one.getqNo() %></td>
@@ -99,10 +101,11 @@
 				</form>	
 				
 				<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
-					<button type= "submit">
-					삭제
-					</button>
-				</form>
+				    <input type="hidden" name="qNo" value="<%=one.getqNo()%>">
+				    <button type="submit">
+				        삭제
+    			</button>
+</form>
 	</div>
 </body>
 </html>
