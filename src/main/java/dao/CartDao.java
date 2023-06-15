@@ -1,8 +1,6 @@
 package dao;
 
 import java.sql.*;
-import java.util.*;
-
 import util.DBUtil;
 import vo.*;
 
