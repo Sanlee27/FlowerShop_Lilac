@@ -7,6 +7,33 @@ import vo.*;
 public class AnswerDao {
 	// qNo를 받아서 그 번호에 해당하는 Answer데이터를 가져오는 메소드 추가 필요
 	
+	
+	//답변 1개
+	public Answer selectAnswer(int qNo) throws Exception {
+		Answer answer = null;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		PreparedStatement answerSelStmt = conn.prepareStatement(
+				"SELECT q_no qNo, id, answer_no answerNo, answer_content answerContent, createdate, updatedate FROM answer WHERE q_no = ?"
+			);
+		
+		answerSelStmt.setInt(1, qNo);
+		
+		ResultSet answerSelRs = answerSelStmt.executeQuery();
+		
+		if(answerSelRs.next()) {
+			answer = new Answer();
+			answer.setqNo(answerSelRs.getInt("qNo"));
+			answer.setAnswerNo(answerSelRs.getInt("answerNo"));
+			answer.setId(answerSelRs.getString("id"));
+			answer.setAnswerContent(answerSelRs.getString("answerContent"));
+			answer.setCreatedate(answerSelRs.getString("createdate"));
+			answer.setUpdatedate(answerSelRs.getString("updatedate"));
+		}
+		
+		return answer;
+		
+	}
 	//답변 추가
 	public int insertAnswer(Answer answer) throws Exception {
 		//유효성검사

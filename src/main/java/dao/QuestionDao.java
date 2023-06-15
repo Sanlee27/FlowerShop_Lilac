@@ -78,32 +78,49 @@ public class QuestionDao {
 		
 		return list;
 	}
-		
 	
 	// q_no 받아서 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
 	
-	public int updatdQuestionByPage(int qNo) throws Exception {
-		//sql 실행시 영향받은 행의 수
-		int row = 0;
-		
-		//db 접속
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
-		
-		//sql 전송, 결과셋 반환 후 저장
-		PreparedStatement updateStmt = conn.prepareStatement("UPDATE question SET q_answer='Y', updatedate = NOW() WHERE q_no = ?");
-		
-		//물음표 1개
-		updateStmt.setInt(1, qNo);
+		public int updatdQuestionByPage(int qNo) throws Exception {
+			//sql 실행시 영향받은 행의 수
+			int row = 0;
+			
+			//db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			//sql 전송, 결과셋 반환 후 저장
+			PreparedStatement updateStmt = conn.prepareStatement("UPDATE question SET q_answer='Y', updatedate = NOW() WHERE q_no = ?");
+			
+			//물음표 1개
+			updateStmt.setInt(1, qNo);
 
-		row = updateStmt.executeUpdate();
+			row = updateStmt.executeUpdate();
+			
+			return row;
+		}
+	
+	// 답변 삭제시 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
 		
-		return row;
-	}
-	
-	
-	
-	
+		public int updateToNQuestion(int qNo) throws Exception {
+			//sql 실행시 영향받은 행의 수
+			int row = 0;
+			
+			//db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			//sql 전송, 결과셋 반환 후 저장
+			PreparedStatement updateStmt = conn.prepareStatement("UPDATE question SET q_answer='N', updatedate = NOW() WHERE q_no = ?");
+			
+			//물음표 1개
+			updateStmt.setInt(1, qNo);
+
+			row = updateStmt.executeUpdate();
+			
+			return row;
+		}
+		
 	
 
 	//고객 별 문의내역 출력하는 메서드 -> cstmQnaList.jsp(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
