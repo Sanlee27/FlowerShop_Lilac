@@ -7,6 +7,7 @@
 	request.setCharacterEncoding("UTF-8");
 	
 	// 들어온 값 유효성검사
+	/*
 	System.out.println(request.getParameter("id"));
 	System.out.println(request.getParameter("pw"));
 	System.out.println(request.getParameter("rePw"));
@@ -21,6 +22,7 @@
 	System.out.println(request.getParameter("email1"));
 	System.out.println(request.getParameter("email2"));
 	System.out.println(request.getParameter("agree"));
+	*/
 		// 유효성검사_오류 발생시 메세지 표시
 	String msg = null;
 	
