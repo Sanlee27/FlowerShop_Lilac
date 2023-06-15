@@ -24,24 +24,24 @@
 	System.out.println(mRequest.getContentType("productImg"));
 	
 	//유효성검사
-			if(mRequest.getParameter("productName") == null
-				||mRequest.getParameter("productInfo") == null
-				||mRequest.getParameter("productPrice") == null
-				||mRequest.getParameter("productStock") == null
-				||mRequest.getParameter("productName").equals("")
-				||mRequest.getParameter("productInfo").equals("")
-				||mRequest.getParameter("productPrice").equals("")
-				||mRequest.getParameter("productStock").equals("")){
-			
-					System.out.println(mRequest.getParameter("productName"));
-					System.out.println(mRequest.getParameter("productInfo"));
-					System.out.println(mRequest.getParameter("productPrice"));
-					System.out.println(mRequest.getParameter("productStock"));
-					System.out.println("productName, productInfo, productPrice, productStock 값 필요");
-				msg = URLEncoder.encode("모든 내용을 입력해주세요.","utf-8"); 
-				response.sendRedirect(request.getContextPath() + "/emp/addProduct.jsp?msg=" + msg);
-				return;
-			}
+	if(mRequest.getParameter("productName") == null
+		||mRequest.getParameter("productInfo") == null
+		||mRequest.getParameter("productPrice") == null
+		||mRequest.getParameter("productStock") == null
+		||mRequest.getParameter("productName").equals("")
+		||mRequest.getParameter("productInfo").equals("")
+		||mRequest.getParameter("productPrice").equals("")
+		||mRequest.getParameter("productStock").equals("")){
+	
+			System.out.println(mRequest.getParameter("productName"));
+			System.out.println(mRequest.getParameter("productInfo"));
+			System.out.println(mRequest.getParameter("productPrice"));
+			System.out.println(mRequest.getParameter("productStock"));
+			System.out.println("productName, productInfo, productPrice, productStock 값 필요");
+		msg = URLEncoder.encode("모든 내용을 입력해주세요.","utf-8"); 
+		response.sendRedirect(request.getContextPath() + "/emp/addProduct.jsp?msg=" + msg);
+		return;
+	}
 	
 	//업로드 된 컨텐츠파일이 PNG, JPG, JEPG파일이 아니면 돌아가도록
 	if(mRequest.getContentType("productImg").equals("image/png") == false 

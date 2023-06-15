@@ -34,7 +34,7 @@ public class ReviewDao {
 	//보이는 이미지 없음
 	// 정렬 날짜 최신순으로
 
-	public ArrayList<Review> reviewProduct (int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<Review> reviewProduct (int productNo, int reBeginRow, int reRowPerPage) throws Exception{
 
 		
 		
@@ -46,21 +46,22 @@ public class ReviewDao {
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no ORDER BY order_no DESC LIMIT ?, ?";
+		String sql = "SELECT * FROM review r INNER JOIN orders o ON r.order_no = o.order_no WHERE o.product_no = ? ORDER BY o.order_no DESC LIMIT ?, ?";
 		PreparedStatement reviewStmt = conn.prepareStatement(sql);
 		
-		reviewStmt.setInt(1, beginRow);
-		reviewStmt.setInt(2, rowPerPage);
+		reviewStmt.setInt(1, productNo);
+		reviewStmt.setInt(2, reBeginRow);
+		reviewStmt.setInt(3, reRowPerPage);
 		ResultSet reviewRs = reviewStmt.executeQuery();
 		
 		while(reviewRs.next()) {
 			Review m = new Review();
 			
-				m.setOrderNo(reviewRs.getInt("orderNo"));
-				m.setReviewTitle(reviewRs.getString("reviewTitle"));
-				m.setReviewContent(reviewRs.getString("reviewContent"));
-				m.setCreatedate(reviewRs.getString("createdate"));
-				m.setUpdatedate(reviewRs.getString("updatedate"));
+				m.setOrderNo(reviewRs.getInt("o.order_no"));
+				m.setReviewTitle(reviewRs.getString("r.review_title"));
+				m.setReviewContent(reviewRs.getString("r.review_content"));
+				m.setCreatedate(reviewRs.getString("r.createdate").substring(0,10));
+				m.setUpdatedate(reviewRs.getString("r.updatedate").substring(0,10));
 				list.add(m);
 		}
 		
