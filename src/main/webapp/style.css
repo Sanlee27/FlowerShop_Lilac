@@ -65,6 +65,12 @@ del{
 	grid-template-columns: 10% 20% 15% 10% 10% 10% 15% 5% 5%;
 }
 
+.hovered:hover {
+	background-color: #FFDAE4; /* 커서가 닿았을 때 background 색 변함 */
+	cursor: pointer;
+	transition: all linear 0.2s;
+}
+
 [class*='list-wrapper'] > .list-item:first-of-type {
 	border-top: 2px solid pink;
 	font-weight: bold;	
