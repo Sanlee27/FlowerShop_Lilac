@@ -7,12 +7,12 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//유효성 검사 _ 로그인전이면 로그인폼으로 돌아가게
-	if(session.getAttribute("고객") == null){ 
+	if(session.getAttribute("loginId") == null){ 
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;		
 	}
 	
-	String loginMemberId = (String)session.getAttribute("고객");
+	String loginId = (String)session.getAttribute("loginId");
 	// System.out.println(loginMemberId);
 	
 	// 클래스 객체 생성
@@ -20,7 +20,7 @@
 	
 	// 고객정보출력 메소드
 	Customer cstm = new Customer();
-	cstm = dao.selectCustomerInfo(loginMemberId);
+	cstm = dao.selectCustomerInfo(loginId);
 	
 	// 이메일 @ 앞/뒤 부분 잘라서 변수에 저장
 	String email = cstm.getCstmEmail();
@@ -221,6 +221,8 @@
 	 	    	if(!ckPwButton.prop('disabled')){
 	 	    		event.preventDefault(); // submit막음
 	 	    		pwMsg.text('비밀번호 확인을 먼저 해주세요');
+	 	    	} else {
+	 	    		pwMsg.text('');
 	 	    	}
 	 	    });
 		});
