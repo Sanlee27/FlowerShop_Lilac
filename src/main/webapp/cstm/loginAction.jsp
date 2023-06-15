@@ -7,7 +7,7 @@
 	request.setCharacterEncoding("UTF-8");
 
 	//세션 유효성 검사
-	if(session.getAttribute("loginMemberId") != null){
+	if(session.getAttribute("loginId") != null){
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;
 	}
