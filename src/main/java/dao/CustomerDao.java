@@ -272,7 +272,7 @@ public class CustomerDao {
 	}
 	
 	// 중복(이전) 비밀번호 확인(pw_history테이블)
-	public int checkPwHistory(Id id) throws Exception {
+	public int checkPwHistory(Id id, String pw) throws Exception {
 		int ckPwRow = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -281,7 +281,7 @@ public class CustomerDao {
 		String chPwSql = "SELECT COUNT(*) FROM pw_history WHERE id = ? AND pw = PASSWORD(?)";
 		PreparedStatement chPwStmt = conn.prepareStatement(chPwSql);
 		chPwStmt.setString(1, id.getId());
-		chPwStmt.setString(2, id.getLastPw());
+		chPwStmt.setString(2, pw);
 		// 실행
 		ResultSet chPwRs = chPwStmt.executeQuery();
 		if(chPwRs.next()) {
@@ -291,11 +291,9 @@ public class CustomerDao {
 	}
 	
 	// 비밀번호 변경
-	public int updatePw(Id id) throws Exception {
-		// id_list 변경
+	public int updatePw(Id id, String pw) throws Exception {
+		// row값
 		int newPwRow = 0;
-		//  pw_history 입력
-		int pwHstryRow = 0;
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
@@ -303,20 +301,20 @@ public class CustomerDao {
 		// id_list_비밀번호 변경에 변경값 업데이트
 		String newPwSql = "UPDATE id_list SET last_pw = PASSWORD(?) WHERE id = ?"; // 비밀번호 변경값 입력
 		PreparedStatement newPwStmt = conn.prepareStatement(newPwSql);
-		newPwStmt.setString(1, id.getLastPw());
+		newPwStmt.setString(1, pw);
 		newPwStmt.setString(2, id.getId());
 		// 실행
 		newPwRow = newPwStmt.executeUpdate();
-		System.out.println("newPwRow : " + newPwRow);
+		// System.out.println("newPwRow : " + newPwRow);
 		
 		// pw_history_비밀번호 이력에 id, pw 입력
 		String pwHstrySql = "INSERT INTO pw_history(id, pw, createdate) values (?, PASSWORD(?), NOW())";
 		PreparedStatement pwHstryStmt = conn.prepareStatement(pwHstrySql);
 		pwHstryStmt.setString(1, id.getId());
-		pwHstryStmt.setString(2, id.getLastPw());
+		pwHstryStmt.setString(2, pw);
 		// 실행
-		pwHstryRow = pwHstryStmt.executeUpdate();
-		System.out.println("pwHstryRow : " + pwHstryRow);
+		newPwRow += pwHstryStmt.executeUpdate();
+		// System.out.println("newPwRow : " + newPwRow);
 		
 		// pw_history 이력 개수 몇개인지
 		int pwCnt = 0;
@@ -328,17 +326,16 @@ public class CustomerDao {
 		if(pwCntRs.next()) {
 			pwCnt = pwCntRs.getInt(1);
 		}
-		// 3개 이상일 경우 가장 오래된(생성일자 가장 작은_min(createdate)) 번호 삭제 
+		// 업데이트 후 3개 초과일 경우 가장 오래된(생성일자 가장 작은_min(createdate)) 번호 삭제 
 		if(pwCnt > 3) {
-			int delPwHstryRow = 0;
 			// 이력 중 가장 오래된거 하나 삭제
 			String delPwHstrySql = "DELETE FROM pw_history WHERE id = ? AND createdate = (SELECT min(createdate) FROM pw_history WHERE id = ?)";
 			PreparedStatement delPwHstryStmt = conn.prepareStatement(delPwHstrySql);
 			delPwHstryStmt.setString(1, id.getId());
 			delPwHstryStmt.setString(2, id.getId());
 			// 실행
-			delPwHstryRow = delPwHstryStmt.executeUpdate();
-			System.out.println("delPwHstryRow : " + delPwHstryRow);
+			newPwRow += delPwHstryStmt.executeUpdate();
+			// System.out.println("newPwRow : " + newPwRow);
 		}
 		return newPwRow;
 	}
@@ -401,7 +398,7 @@ public class CustomerDao {
 	}
 	
 	// 고객삭제_회원탈퇴_아이디가 남게,, 
-	public int deleteCustomer(String id) throws Exception{
+	public int deleteCustomer(Id id) throws Exception{
 		int row = 0;
 		// 삭제
 		// DB메소드
@@ -409,14 +406,14 @@ public class CustomerDao {
 		Connection conn = dbUtil.getConnection();
 		// 고객 정보 삭제 쿼리 
 		PreparedStatement stmt = conn.prepareStatement("DELETE FROM customer WHERE id = ?");
-		stmt.setString(1, id);	
+		stmt.setString(1, id.getId());	
 			
 		row = stmt.executeUpdate();
 		// 탈퇴 회원 비활성화 처리
 		PreparedStatement stmt2 = conn.prepareStatement("UPDATE id_list SET active = 'N' WHERE id = ?");
-		stmt2.setString(1, id);
+		stmt2.setString(1, id.getId());
 		
-		row += stmt.executeUpdate();
+		row += stmt2.executeUpdate();
 				
 		return row;
 	}
