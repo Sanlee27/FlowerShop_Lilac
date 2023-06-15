@@ -90,16 +90,34 @@
 			let phonePattern2 = /^\d{3,4}$/;
 			let phonePattern3 = /^\d{4}$/;
 			
-			phone.blur(function(){
-				// 폰번호 패턴에 부합할 때
-				// 중간 번호만 확인
-				if(!phonePattern1.test(phone1.val()) || !phonePattern2.test(phone2.val()) || !phonePattern3.test(phone3.val())){
+			phone1.blur(function(){
+				// 폰번호 패턴에 틀릴 때
+				// 첫번째 번호 변경후
+				if(!phonePattern1.test(phone1.val())){
 					swal("경고", "연락처를 정확하게 입력해주세요.", "warning");
 					phone1.val('<%=cstm.getCstmPhone().substring(0, 3)%>');
+				}
+			});
+			
+			phone2.blur(function(){
+				// 폰번호 패턴에 틀릴 때
+				// 중간 번호 변경후
+				if(!phonePattern2.test(phone2.val())){
+					swal("경고", "연락처를 정확하게 입력해주세요.", "warning");
 					phone2.val('<%=cstm.getCstmPhone().substring(3, 7)%>');
+				}
+			});
+			
+			phone3.blur(function(){
+				// 폰번호 패턴 틀릴 때
+				// 마지막 번호 변경후
+				if(!phonePattern3.test(phone3.val())){
+					swal("경고", "연락처를 정확하게 입력해주세요.", "warning");
 					phone3.val('<%=cstm.getCstmPhone().substring(7, 11)%>');
 				}
 			});
+			
+			
 			
 			// ===========================================	
 			// 이메일 도메인 선택값 value설정
@@ -107,6 +125,28 @@
 				$('#domainInput').val($('#domain').val());
 			});
 			
+			// 이메일 패턴값 틀릴때 함수
+			let email1 = $('input[name="email1"]')
+			let email2 = $('#domain')
+			
+			function ckEmail(){
+				let email = email1.val() + '@' + email2.val();
+				let emailPattern =  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+				
+				if(!emailPattern.test(email)){
+					swal("경고", "이메일을 정확하게 입력해주세요.", "warning");
+					email1.val('<%=email1%>')
+					email2.val('<%=email2%>')
+				}
+			}
+			
+			// 이메일 커서떼었을때 함수 실행
+			email1.blur(function(){
+				ckEmail();
+			});
+			email2.blur(function(){
+				ckEmail();
+			});
 			
 			// ===========================================	
 			// 주소
@@ -135,20 +175,54 @@
 			    }
 			  });
 			
-			
 			// ===========================================
 			// 비밀번호 필수 입력
+			let pw = $('input[name="pw"]');
+			let ckPwButton = $('input[name="ckPw"]');
 			let pwMsg = $('#pwMsg');
 			
 			// 비밀번호 입력이 안되면 입력창 focus > 메세지 표시
-			$('input[name="pw"]').focus(function() {
+			pw.focus(function() {
 				pwMsg.text('현재 비밀번호를 입력해주세요');
 		    })
 		    
-		    // 입력 후 focus 안하면 > 메세지 공백
-			$('input[name="pw"]').focusout(function() {
-				pwMsg.text('');
-		    })
+		    // 비밀번호입력 후 커서 뗄때
+    		pw.blur(function(){
+    			// 비밀번호가 4글자를 넘지않는다면
+	    		if(pw.val().length < 4){
+	    			swal("경고", "비밀번호는 최소 4자를 충족해야합니다.", "warning");
+	    			pwMsg.text('비밀번호는 최소 4자를 충족해야합니다.');
+	    			ckPwButton.prop('disabled', true);
+	    		} else {
+	    			pwMsg.text('');
+	    			ckPwButton.prop('disabled', false);
+	    		}
+	    	});
+		    
+		 	// 버튼 클릭시 비밀번호 확인폼 출력
+		 	let id = $('input[name="id"]'); // 아이디 값
+		 	ckPwButton = $('input[name="ckPw"]');
+		 	pw = $('input[name="pw"]');
+		 	let submitButton = $('button[type="submit"]');
+		    
+		 	// 비밀번호 확인 창
+		    function confirmPw(){
+	    		url = "pwCheckFormByModifyCstmInfo.jsp?id=" + id.val() + "&pw=" + encodeURIComponent(pw.val());
+				open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
+	 	    };
+	 	    
+	 	    // 클릭시 확인창 열기
+			ckPwButton.click(function() {
+				confirmPw();
+			});
+	 	    
+	 	    // 비밀번호 확인을 안하고 저장을 먼저 눌렀을때.
+	 	    submitButton.click(function(){
+	 	    	if(!ckPwButton.prop('disabled')){
+	 	    		event.preventDefault(); // submit막음
+	 	    		pwMsg.text('비밀번호 확인을 먼저 해주세요');
+	 	    	}
+	 	    });
 		});
 	</script>
 </head>
@@ -162,7 +236,10 @@
 			<table>
 				<tr>
 					<th>아이디</th>
-					<td><%=cstm.getId()%></td>
+					<td>
+						<%=cstm.getId()%>
+						<input type="hidden" name="id" value="<%=cstm.getId()%>">
+					</td>
 				</tr>
 				<tr>
 					<th>이름</th>
@@ -239,6 +316,7 @@
 					<th>현재 비밀번호</th>
 					<td>
 						<input type = "password" name = "pw" required="required">
+						<input type="button" name="ckPw" value="비밀번호 확인" >
 						<span id="pwMsg" style="color: red;"></span>
 					</td>
 				</tr>
