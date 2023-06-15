@@ -2,8 +2,13 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String loginMemberId = (String)session.getAttribute("loginMemberId");
+	String loginMemberId = (String)session.getAttribute("고객");
 
+	// 로그인한 상태로 로그인폼에 접근시, 홈으로 이동
+	if(loginMemberId != null){
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+	}
+		
 	String msg = null;
 	if(request.getParameter("msg") != null){
 		msg = request.getParameter("msg");
