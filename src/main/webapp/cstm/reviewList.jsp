@@ -20,15 +20,23 @@
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+		
 	//reviewDao 객체 선언
 		ReviewDao reviewDao = new ReviewDao();
-	
+		ProductDao productDao = new ProductDao();
 
+		
+	//요청값 변수에 저장
+	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	int orderNo = 2;
+	
+	System.out.println(orderNo);
+	
 	// 페이징을 위한 변수 선언
 		int totalRow = reviewDao.selectReviewCnt();
-		int rowPerPage = 2;
+		int rowPerPage = 3;
 		int beginRow = (currentPage - 1) * rowPerPage;
-		int pagePerPage = 2;
+		int pagePerPage = 3;
 		int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
 		int endPage = totalRow / rowPerPage;
 		if(totalRow % rowPerPage != 0){
@@ -41,7 +49,8 @@
 
 	
 	//현재 페이지에 표시 할 리스트 생성
-		ArrayList<Review> list = reviewDao.reviewList(beginRow, rowPerPage);
+		ArrayList<HashMap<String, Object>> list = reviewDao.reviewList(orderNo, beginRow, rowPerPage);
+
 		
 		
 	
@@ -51,13 +60,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Lilac</title>
 
 	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
+	<script>
+		$(document).ready(function() {
+			$('.list-item').click(function() {
+				let orderNo = $(this).find('.orderNo').text();
+				window.location.href ="<%=request.getContextPath()%>/cstm/review.jsp?orderNo=" + orderNo;
+			});
+		});
+	</script>
 </head>
 <body>
 <div>
@@ -70,21 +89,26 @@
 		<h2>후기 리스트</h2>
 		<div class="list-item marginTop20">
 			<div>주문번호</div>
-			<!-- 상품 -->
+			<div>상품명</div>
 			<div>제목</div>
 			<div>작성일</div>
 			<div>수정일</div>
 		</div>
 		
 		<%
-			for(Review m : list){
+			for(HashMap<String, Object> map: list){
+				Review review = (Review)map.get("review");
+				String productName = (String)map.get("productName");
+
 		%>
-			<div class="list-item">
-					<div><%=m.getOrderNo() %></div>
-					<!-- 상품 -->
-					<div><%=m.getReviewTitle() %></div>
-					<div><%=m.getCreatedate().substring(0,10) %></div>
-					<div><%=m.getUpdatedate().substring(0,10) %></div>
+			<div class="list-item hovered">
+				<input type="hidden" name="orderNo" value="<%=review.getOrderNo()%>">
+				
+				<div class="orderNo"><%=review.getOrderNo() %></div>
+				<div><%=productName %></div>
+				<div><%=review.getReviewTitle() %></div>
+				<div><%=review.getUpdatedate().substring(0,10) %></div>
+				<div><%=review.getCreatedate().substring(0,10) %></div>
 
 			</div>
 	
@@ -131,7 +155,7 @@
 					%>
 				</div>
 			</div>	
-	
-
+		</div>
+	</div>
 </body>
 </html>

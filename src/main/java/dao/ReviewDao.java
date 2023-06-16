@@ -74,35 +74,62 @@ public class ReviewDao {
 	//보이는 이미지 없음
 	// 정렬 날짜 최신순으로
 	
-	public  ArrayList <Review> reviewList(int beginRow, int rowPerPage) throws Exception{
+	public  ArrayList <HashMap<String, Object>> reviewList(int orderNo, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
-		ArrayList<Review> list = new ArrayList<>();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
-		
+
+
 		//db접속
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
 			//sql 전송, 결과셋 반환해 리스트에 저장
-			String sql = " SELECT order_no orderNo, review_title reviewTitle, createdate, updatedate FROM review WHERE order_no ORDER BY order_no DESC LIMIT ?, ?";
+			//+) 리스트 항목에 상품명이 보이게 수정
+			/*SELECT order_no orderNo, review_title reviewTitle, createdate, updatedate 
+				FROM review 
+				WHERE order_no 
+				ORDER BY order_no DESC 
+				LIMIT ?, ?
+			 */
+			
+			String sql = "SELECT R.order_no orderNo, R.review_title reviewTitle, P.product_name productName, R.createdate, R.updatedate\r\n"
+					+ " FROM review R\r\n"
+					+ "LEFT OUTER JOIN orders O\r\n"
+					+ "ON R.order_no = O.order_no\r\n"
+					+ "LEFT OUTER JOIN product P\r\n"
+					+ "ON P.product_no = O.product_no\r\n"
+					+ "WHERE O.order_no = ?\r\n"
+					+ "ORDER BY R.order_no DESC\r\n"
+					+ "limit ?, ?";
+			
 			PreparedStatement rListStmt = conn.prepareStatement(sql);
 			
-			rListStmt.setInt(1, beginRow);
-			rListStmt.setInt(2, rowPerPage);
+			rListStmt.setInt(1, orderNo);
+			rListStmt.setInt(2, beginRow);
+			rListStmt.setInt(3, rowPerPage);
 			ResultSet rListRs = rListStmt.executeQuery();
 			
 			while(rListRs.next()) {
-				Review m = new Review();
+				HashMap<String, Object> map = new HashMap<>();
+				Review review = new Review();
+				review.setOrderNo(rListRs.getInt("orderNo"));
+				review.setReviewTitle(rListRs.getString("reviewTitle"));
+				review.setUpdatedate(rListRs.getString("updatedate"));
+				review.setCreatedate(rListRs.getString("createdate"));
 
-					m.setOrderNo(rListRs.getInt("orderNo"));
-					m.setReviewTitle(rListRs.getString("reviewTitle"));
-					m.setCreatedate(rListRs.getString("createdate"));
-					m.setUpdatedate(rListRs.getString("updatedate"));
-					list.add(m);
-			}
+				map.put("review", review);
+				map.put("productName", rListRs.getString("productName"));
 				
+			    list.add(map);
+				
+			}
 			return list;
-		
+	
+			
+
+				
+			
 		}
 	
 		
