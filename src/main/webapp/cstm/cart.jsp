@@ -4,86 +4,119 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	// 변수 초기화
+	int productNo = 0;
+	int cartCnt = 0;
+	String id = (String)session.getAttribute("loginId");
+	int cartNo = 0;
+	
 	// 만약에 아이디가 세션에 없으면
-		// 장바구니세션에서 가져오기
-		
-	// 아니면
-	String id = "user3";
-	// CartDao 객체선언
-	CartDao cartDao = new CartDao();
+	if(id == null){
+		// 장바구니 세션에 데이터가 있으면
+		if(session.getAttribute("cart") != null){
+			// 장바구니세션에서 가져오기
+			HashMap<String, Object> cart = (HashMap<String, Object>)session.getAttribute("cart");
+			productNo = (Integer)cart.get("productNo");
+			cartCnt = (Integer)cart.get("cartCnt");
+		}
+	}else{
+		// CartDao 객체선언
+		CartDao cartDao = new CartDao();
 
-	// 아이디에 해당하는 cart정보 가져오기
-	Cart cart = cartDao.selectCart(id);
+		// 아이디에 해당하는 cart정보 가져오기
+		Cart cart = cartDao.selectCart(id);
+		
+		// cart에 있는 productNo저장
+		productNo = cart.getProductNo();
+		
+		// cart에 있는 나머지 값 저장
+		cartCnt = cart.getCartCnt();
+		cartNo = cart.getCartNo();
+	}
 	
-	// cart에 있는 productNo저장
-	int productNo = cart.getProductNo();
+	ProductImg productImg = new ProductImg();
+	int discountPrice = 0;
+	double discountRate = 0.0;
+	Product product = new Product();
 	
-	// ProdcutDao 객체선언
-	ProductDao productDao = new ProductDao();
-	
-	// productNo에 해당하는 product정보 가져오기
-	HashMap<String, Object> map = productDao.getProductDetail(productNo);
-	Product product = (Product)map.get("product");
-	ProductImg productImg = (ProductImg)map.get("productImg");
-	int discountPrice = (Integer)map.get("discountPrice");
-	double discountRate = (Double)map.get("discountRate");
+	if(id != null || session.getAttribute("cart") != null){
+		// ProdcutDao 객체선언
+		ProductDao productDao = new ProductDao();
+		
+		// productNo에 해당하는 product정보 가져오기
+		HashMap<String, Object> map = productDao.getProductDetail(productNo);
+		product = (Product)map.get("product");
+		productImg = (ProductImg)map.get("productImg");
+		discountPrice = (Integer)map.get("discountPrice");
+		discountRate = (Double)map.get("discountRate");
+	}
 	
 	// 가격 표시해줄 포맷터
 	DecimalFormat dc = new DecimalFormat("###,###,###,###");
+	
 %>
 <div class="modal-container">
 	<div class="modal">
 		<h2>장바구니</h2>
-		<button type="button" onclick='modalClose()' class="closeBtn">
-			<img src="<%=request.getContextPath() %>/images/close.png">
-		</button>
-		<div class="flex-wrapper marginTop30">
-			<div>
-				<img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename() %>" class="product-img">
+		<%
+			if(productNo == 0 && cartCnt ==0){
+		%>
+			<div class="empty">
+				장바구니가 비었습니다.
 			</div>
-			<div class="modal-content">
-				<h3><%=product.getProductName() %></h3>
+		<% 
+			}else{
+		%>
+			<button type="button" onclick='modalClose()' class="closeBtn">
+				<img src="<%=request.getContextPath() %>/images/close.png">
+			</button>
+			<div class="flex-wrapper marginTop30">
 				<div>
-					가격 : 
-					<%
-						if(discountRate == 0.0){
-					%>
-							<%=dc.format(product.getProductPrice()) %>
-					<%
-						}else{
-					%>
-							<del><%=dc.format(product.getProductPrice()) %></del>
-							<span class="price"><%=dc.format(discountPrice) %></span>
-					<%
-						}
-					%>
-				
+					<img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename() %>" class="product-img">
 				</div>
-				<div class="cnt-wrapper">
-					<a class="pmBtn" onclick="changeCartCnt(<%=cart.getCartNo() %>, parseInt($(this).parent().find('#cartCnt').text(), 10) - 1)">
-						<img src="<%=request.getContextPath() %>/images/minus.png">
-					</a>
-					<div id="cartCnt"><%=cart.getCartCnt() %></div>
-					<a class="pmBtn" onclick="changeCartCnt(<%=cart.getCartNo() %>, parseInt($(this).parent().find('#cartCnt').text(), 10) + 1)">
-						<img src="<%=request.getContextPath() %>/images/plus.png">
-					</a>
+				<div class="modal-content">
+					<h3><%=product.getProductName() %></h3>
+					<div>
+						가격 : 
+						<%
+							if(discountRate == 0.0){
+						%>
+								<%=dc.format(product.getProductPrice()) %>
+						<%
+							}else{
+						%>
+								<del><%=dc.format(product.getProductPrice()) %></del>
+								<span class="price"><%=dc.format(discountPrice) %></span>
+						<%
+							}
+						%>
+					
+					</div>
+					<div class="cnt-wrapper">
+						<a class="pmBtn" onclick="changeCartCnt(<%=cartNo %>, parseInt($(this).parent().find('#cartCnt').text(), 10) - 1)">
+							<img src="<%=request.getContextPath() %>/images/minus.png">
+						</a>
+						<div id="cartCnt"><%=cartCnt %></div>
+						<a class="pmBtn" onclick="changeCartCnt(<%=cartNo %>, parseInt($(this).parent().find('#cartCnt').text(), 10) + 1)">
+							<img src="<%=request.getContextPath() %>/images/plus.png">
+						</a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<h3 class="marginTop20" id="cartTotal">
-			주문금액 : <%=dc.format(discountPrice * cart.getCartCnt()) %>
-		</h3>
-		<div class="flex-wrapper marginTop20">
-			<a href="<%=request.getContextPath() %>/cstm/order.jsp?cartNo=<%=cart.getCartNo() %>" class="cartBtn">구매</a>
-			<a href="<%=request.getContextPath() %>/cstm/removeCartAction.jsp?cartNo=<%=cart.getCartNo() %>" class="cartBtn">삭제</a>
-		</div>
+			<h3 class="marginTop20" id="cartTotal">
+				주문금액 : <%=dc.format(discountPrice * cartCnt) %>
+			</h3>
+			<div class="flex-wrapper marginTop20">
+				<a href="<%=request.getContextPath() %>/cstm/order.jsp" class="cartBtn">구매</a>
+				<a href="<%=request.getContextPath() %>/cstm/removeCartAction.jsp" class="cartBtn">삭제</a>
+			</div>
+		<%
+			}
+		%>
 	</div>
 </div>
 <script>
 	function changeCartCnt(cartNo, cartCnt) {
-		if(cartCnt == 0 || cartNo == 0){
-			return;
-		}
 	    var xhr = new XMLHttpRequest();
 	    var url = '<%=request.getContextPath()%>/cstm/modifyCartAction.jsp';
 	    var params = 'cartNo=' + encodeURIComponent(cartNo) + '&cartCnt=' + encodeURIComponent(cartCnt);

@@ -395,3 +395,13 @@ del{
 	place-items: center;
 	margin: 0;
 }
+.modal-container .modal .empty{
+	position: absolute;
+	top: calc(50% - 15px);
+	left: calc(50% - 100px);
+	display: grid;
+	place-items: center;
+	width: 200px;
+	height: 30px;
+	text-align: center;
+}
