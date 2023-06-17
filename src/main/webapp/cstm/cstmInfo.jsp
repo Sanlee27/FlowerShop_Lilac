@@ -87,7 +87,10 @@
 			</tr>
 			<tr>
 				<th>보유 포인트</th>
-				<td><%=cstm.getCstmPoint()%></td>
+				<td>
+					<%=cstm.getCstmPoint()%>
+					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/pointList.jsp?id=<%=cstm.getId()%>'">나의 포인트</button>
+				</td>
 			</tr>
 			<tr>
 				<th>현재 등급</th>
@@ -101,6 +104,10 @@
 		<br>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/modifyCstmInfo.jsp?id=<%=cstm.getId()%>'">수정하기</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/removeCstmInfo.jsp?id=<%=cstm.getId()%>'">회원탈퇴</button>
+		<br>
+		<br>
+		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/orderList.jsp?id=<%=cstm.getId()%>'">나의 주문내역</button>
+		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmQnaList.jsp?id=<%=cstm.getId()%>'">나의 문의내역</button>
 	</div>
 </body>
 </html>
