@@ -22,16 +22,18 @@
 	}else{
 		// CartDao 객체선언
 		CartDao cartDao = new CartDao();
-
+		
 		// 아이디에 해당하는 cart정보 가져오기
 		Cart cart = cartDao.selectCart(id);
 		
-		// cart에 있는 productNo저장
-		productNo = cart.getProductNo();
-		
-		// cart에 있는 나머지 값 저장
-		cartCnt = cart.getCartCnt();
-		cartNo = cart.getCartNo();
+		if(cart != null){
+			// cart에 있는 productNo저장
+			productNo = cart.getProductNo();
+			
+			// cart에 있는 나머지 값 저장
+			cartCnt = cart.getCartCnt();
+			cartNo = cart.getCartNo();
+		}
 	}
 	
 	ProductImg productImg = new ProductImg();
@@ -39,7 +41,7 @@
 	double discountRate = 0.0;
 	Product product = new Product();
 	
-	if(id != null || session.getAttribute("cart") != null){
+	if(cartNo != 0 || session.getAttribute("cart") != null){
 		// ProdcutDao 객체선언
 		ProductDao productDao = new ProductDao();
 		
@@ -58,6 +60,9 @@
 <div class="modal-container">
 	<div class="modal">
 		<h2>장바구니</h2>
+		<button type="button" onclick='modalClose()' class="closeBtn">
+				<img src="<%=request.getContextPath() %>/images/close.png">
+		</button>
 		<%
 			if(productNo == 0 && cartCnt ==0){
 		%>
@@ -67,9 +72,6 @@
 		<% 
 			}else{
 		%>
-			<button type="button" onclick='modalClose()' class="closeBtn">
-				<img src="<%=request.getContextPath() %>/images/close.png">
-			</button>
 			<div class="flex-wrapper marginTop30">
 				<div>
 					<img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename() %>" class="product-img">
@@ -107,8 +109,8 @@
 				주문금액 : <%=dc.format(discountPrice * cartCnt) %>
 			</h3>
 			<div class="flex-wrapper marginTop20">
-				<a href="<%=request.getContextPath() %>/cstm/order.jsp" class="cartBtn">구매</a>
-				<a href="<%=request.getContextPath() %>/cstm/removeCartAction.jsp" class="cartBtn">삭제</a>
+				<a onclick="orderBtnClick()" class="cartBtn">구매</a>
+				<a onclick="removeCart(<%=cartNo %>)" class="cartBtn">삭제</a>
 			</div>
 		<%
 			}
@@ -116,6 +118,35 @@
 	</div>
 </div>
 <script>
+	function orderBtnClick(){
+		const cartCnt = $("#cartCnt").text();
+		location.href="<%=request.getContextPath()%>" + "/cstm/order.jsp?productNo=" + <%=productNo%> + "&cartCnt=" + cartCnt;
+	}
+	function removeCart(cartNo){
+		var xhr = new XMLHttpRequest();
+		var url = '<%=request.getContextPath()%>/cstm/removeCartAction.jsp';
+		var params = 'cartNo=' + encodeURIComponent(cartNo);
+
+		
+		xhr.open('POST', url, true);
+	    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	
+	    xhr.onreadystatechange = function() {
+	        if (xhr.readyState === 4) {
+	            if (xhr.status === 200) {
+	                // 성공시 장바구니 비우기
+	                $('.modal').html("<h2>장바구니</h2>"
+	                	+ "<button type='button' onclick='modalClose()' class='closeBtn'><img src='<%=request.getContextPath() %>/images/close.png'></button>"
+	            		+ "<div class='empty'>장바구니가 비었습니다.</div>");
+	            } else {
+	                // 요청이 실패한 경우
+	                console.error('장바구니 삭제 실패');
+	            }
+	        }
+	    };
+	
+	    xhr.send(params);
+	}
 	function changeCartCnt(cartNo, cartCnt) {
 	    var xhr = new XMLHttpRequest();
 	    var url = '<%=request.getContextPath()%>/cstm/modifyCartAction.jsp';

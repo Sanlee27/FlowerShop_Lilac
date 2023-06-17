@@ -370,8 +370,10 @@ del{
 }
 .modal-container .modal .cnt-wrapper{
 	display: flex;
-	justify-content: center;
-	align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    width: 80px;
+    margin: 0 auto;
 }
 .modal-container .modal .pmBtn{
 	display: grid;
