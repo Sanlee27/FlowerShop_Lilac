@@ -6,6 +6,8 @@ public class Point {
 	private String pointPm;
 	private int point;
 	private String createdate;
+	private String productName;
+	private String productSaveFileName;
 	
 	public int getPointNo() {
 		return pointNo;
@@ -36,5 +38,17 @@ public class Point {
 	}
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getProductSaveFileName() {
+		return productSaveFileName;
+	}
+	public void setProductSaveFileName(String productSaveFileName) {
+		this.productSaveFileName = productSaveFileName;
 	}
 }
