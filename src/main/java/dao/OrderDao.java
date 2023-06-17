@@ -177,7 +177,7 @@ public class OrderDao {
 			order.setOrderNo(rs.getInt("order_no"));
 			order.setProductNo(rs.getInt("product_no"));
 			order.setId(rs.getString("id"));
-			order.setOrderStatus("order_status");
+			order.setOrderStatus(rs.getString("order_status"));
 			order.setOrderCnt(rs.getInt("order_cnt"));
 			order.setOrderPrice(rs.getInt("order_price"));
 			order.setCreatedate(rs.getString("createdate"));
