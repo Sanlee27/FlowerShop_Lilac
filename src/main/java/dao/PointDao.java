@@ -1,11 +1,13 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import util.*;
 import vo.*;
 
 public class PointDao {
-	// 고객 포인트 내역
+	// 고객의 현재 포인트
 	public Customer selectCstmPoint(Customer cstm) throws Exception {
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
@@ -21,6 +23,41 @@ public class PointDao {
 			cstm.setCstmPoint(pointRs.getInt("cstm_point"));
 		}
 		return cstm;
+	}
+	
+	// 고객의 포인트 증감 이력
+	public ArrayList<Point> selectPointHistory(String id) throws Exception {
+		ArrayList<Point> list = new ArrayList<>();
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 고객 포인트 증감이력 출력
+		String sql = "SELECT o.id, p.point_no, p.order_no, p.point_pm, p.point, p.createdate FROM orders o	JOIN point_history p ON o.order_no = p.order_no	WHERE o.id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Point point = new Point();
+			point.setOrderNo(rs.getInt("p.order_no"));
+			point.setPointPm(rs.getString("p.point_pm"));
+			point.setPoint(rs.getInt("p.point"));
+			point.setCreatedate(rs.getString("p.createdate"));
+			
+			String productSql = "SELECT p.product_name, pi.product_save_filename FROM point_history ph JOIN orders o ON ph.order_no = o.order_no JOIN product p ON o.product_no = p.product_no JOIN product_img pi ON p.product_no = pi.product_no WHERE ph.order_no = ?";
+			PreparedStatement stmt2 = conn.prepareStatement(productSql);
+			stmt2.setInt(1, point.getOrderNo());
+			ResultSet rs2 = stmt2.executeQuery();
+			
+			if(rs2.next()) {
+				String productName = rs2.getString("product_name");
+				String productSaveFileName = rs2.getString("product_save_filename");
+				point.setProductName(productName);
+				point.setProductSaveFileName(productSaveFileName);
+			}
+			list.add(point);
+		}
+		return list;
 	}
 	
 	// 포인트 이력 추가 & 고객 포인트 반영, 고객 포인트에 따른 등급 변경
