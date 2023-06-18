@@ -2,11 +2,47 @@ package dao;
 
 import vo.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import util.DBUtil;
 
 public class DiscountDao {
-	// 제품별 할인기간 중복 확인 > jsp처리
+	// 상품리스트 조회
+	public ArrayList<HashMap<String, Object>> getAllProduct() throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 조회 쿼리
+		String getSql = "SELECT p.product_no, p.product_name, p.product_price, p.product_status, p.product_sale_cnt, IFNULL(date_format(d.discount_start, '%Y-%m-%d'), '-') discount_start, IFNULL(date_format(d.discount_end, '%Y-%m-%d'),'-') discount_end, d.discount_rate FROM product p LEFT OUTER JOIN discount d ON p.product_no = d.product_no ORDER BY p.product_no, d.discount_start ASC";
+		PreparedStatement stmt = conn.prepareStatement(getSql);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			
+			Product p = new Product();
+			p.setProductNo(rs.getInt("product_no"));
+			p.setProductName(rs.getString("product_name"));
+			p.setProductPrice(rs.getInt("product_price"));
+			p.setProductStatus(rs.getString("product_status"));
+			p.setProductSaleCnt(rs.getInt("product_sale_cnt"));
+			
+			Discount d = new Discount();
+			d.setDiscountStart(rs.getString("discount_start"));
+			d.setDiscountEnd(rs.getString("discount_end"));
+			d.setDiscountRate(rs.getDouble("discount_rate"));
+			
+			map.put("product", p);
+			map.put("discount", d);
+			
+			list.add(map);
+		}
+		
+		return list;
+	}
+	
 	
 	// 할인율 입력
 	// public int addDiscountRate(int productNo, String discountStart, String discountEnd, double discountRate) throws Exception {
