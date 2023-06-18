@@ -3,6 +3,14 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	//요청값 유효성 검사
+	if(request.getParameter("productNo") == null
+	|| request.getParameter("productNo").equals("")
+	|| request.getParameter("orderCnt") == null
+	|| request.getParameter("orderCnt").equals("")){
+		return;
+	}
+
 	// 요청값 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));

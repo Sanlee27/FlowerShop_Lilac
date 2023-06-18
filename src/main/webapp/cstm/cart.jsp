@@ -120,7 +120,7 @@
 <script>
 	function orderBtnClick(){
 		const cartCnt = $("#cartCnt").text();
-		location.href="<%=request.getContextPath()%>" + "/cstm/order.jsp?productNo=" + <%=productNo%> + "&cartCnt=" + cartCnt;
+		location.href="<%=request.getContextPath()%>" + "/cstm/order.jsp?productNo=" + <%=productNo%> + "&orderCnt=" + cartCnt;
 	}
 	function removeCart(cartNo){
 		var xhr = new XMLHttpRequest();
