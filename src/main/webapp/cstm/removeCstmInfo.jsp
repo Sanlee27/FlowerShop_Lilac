@@ -61,7 +61,6 @@
 			<a>탈퇴 후 재가입시 현재 아이디는 사용이 불가합니다.</a><br>
 			<button type="submit">회원탈퇴</button>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/logoutAction.jsp'">로그아웃</button>
 		</form>
 	</div>
 </body>
