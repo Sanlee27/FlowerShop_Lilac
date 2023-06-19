@@ -411,7 +411,7 @@ public class ProductDao {
 	}
 	
 	// 전체 상품 개수를 반환하는 메서드
-	public int getProductCnt() throws Exception {
+	public int getProductCnt(String searchCategory, String searchName) throws Exception {
 		// 결과값을 반환할 int타입 변수 선언
 		int result = 0;
 		
@@ -419,8 +419,24 @@ public class ProductDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
+		// 검색부분 매개변수값 있으면 추가
+		String searchQuery = "";
+		
+		if(searchCategory != null && !searchCategory.equals("")) {
+			searchQuery += "where p.category_name = '" + searchCategory + "' ";
+		}
+		
+		if(searchName != null && !searchName.equals("")) {
+			if(searchQuery.equals("")) {
+				searchQuery += "where";
+			}else {
+				searchQuery += "and";
+			}
+			searchQuery += " p.product_name like '%" + searchName + "%'";
+		}
+		
 		// 카테고리별 상품 개수를 가져오는 쿼리
-		String sql = "select count(*) from product";
+		String sql = "select count(*) from product" + searchQuery;
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리 실행 후 결과값 저장
