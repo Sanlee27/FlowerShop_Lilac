@@ -437,7 +437,7 @@ public class ProductDao {
 		}
 		
 		// 카테고리별 상품 개수를 가져오는 쿼리
-		String sql = "select count(*) from product" + searchQuery;
+		String sql = "select count(*) from product " + searchQuery;
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리 실행 후 결과값 저장
