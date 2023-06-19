@@ -50,6 +50,11 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		function addressModalOpen(){
+			$('#addressModal').show();
+		}
+	</script>
 </head>
 <body>
 	<div>
@@ -57,13 +62,18 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 		<!-- 장바구니 모달 -->
 		<jsp:include page="/cstm/cart.jsp"></jsp:include>
+		<!-- 주소리스트 모달 -->
+		<jsp:include page="/cstm/address.jsp"></jsp:include>
 		
 		<div class="container">
 			<h2>구매자 정보</h2>
 			<div>이름 : <%=customer.getCstmName() %></div>
 			<div>이메일 : <%=customer.getCstmEmail() %></div>
 			<div>전화번호 : <%=customer.getCstmPhone() %></div>
-			<div>배송지 선택 : </div>
+			<div>
+				기본배송지 : <%=customer.getCstmAddress() %>
+				<button type="button" onclick='addressModalOpen()'>배송지 선택</button>
+			</div>
 			<hr>
 			
 			<h2>구매정보</h2>
