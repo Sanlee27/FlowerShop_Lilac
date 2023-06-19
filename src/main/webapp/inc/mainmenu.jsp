@@ -2,8 +2,8 @@
 <div class="main-menu-container">
 	<div class="main-menu">
 	<script>
-		function modalOpen(){
-			$('.modal-container').show();
+		function cartModalOpen(){
+			$('#cartModal').show();
 		}
 	</script>
 		<div>
@@ -34,7 +34,7 @@
 			%>
 		</nav>
 		<div class="icons">
-			<a onclick='modalOpen()'>
+			<a onclick='cartModalOpen()'>
 				<img src="<%=request.getContextPath() %>/images/cart.png">
 			</a>
 			<a href="<%=request.getContextPath()%>/cstm/login.jsp">
