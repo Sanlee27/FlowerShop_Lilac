@@ -424,7 +424,7 @@ public class ProductDao {
 		String searchQuery = "";
 		
 		if(searchCategory != null && !searchCategory.equals("")) {
-			searchQuery += "where p.category_name = '" + searchCategory + "' ";
+			searchQuery += "where product.category_name = '" + searchCategory + "' ";
 		}
 		
 		if(searchName != null && !searchName.equals("")) {
@@ -433,7 +433,7 @@ public class ProductDao {
 			}else {
 				searchQuery += "and";
 			}
-			searchQuery += " p.product_name like '%" + searchName + "%'";
+			searchQuery += " product.product_name like '%" + searchName + "%'";
 		}
 		
 		// 카테고리별 상품 개수를 가져오는 쿼리
