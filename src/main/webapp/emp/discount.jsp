@@ -18,13 +18,63 @@
 	ProductDao dao = new ProductDao();
 	DiscountDao dDao = new DiscountDao();
 	
-	// 전체 row수
-	int totalRow = 0; 
-	int totalPdctRow = dao.getProductCnt();
-	totalRow = totalPdctRow;
+	String searchCategory = "";
+	if(request.getParameter("searchCategory") != null) {
+		searchCategory = request.getParameter("searchCategory");
+	}
+	String searchName = "";
+	if(request.getParameter("searchName") != null) {
+		searchName = request.getParameter("searchName");
+	}
 	
+	//================== 페이지 ===================
+	// 현재 페이지
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	// 페이지 당 행 개수
+	int rowPerPage  = 20;
+	if(request.getParameter("rowPerPage") != null) {
+	      rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+	}
+	
+	// 총 행의 수
+	int totalRow = 0; 
+	int totalPdctRow = dDao.getDcProductCnt();
+	totalRow = totalPdctRow;
+	// System.out.println(totalRow);
+	
+	// 시작행 = ((현재 페이지 - 1) x 페이지당 개수 20개)
+	int startRow = (currentPage-1) * rowPerPage;
+	
+	// 마지막행 = 시작행 + (페이지당 개수 20개 - 1 = 19);
+	int endRow = startRow + (rowPerPage - 1);
+	if(endRow > totalRow){
+		endRow = totalRow;
+	}
+	
+	// 각 페이지 선택 버튼 몇개 표시?
+	int pagePerPage = 10;
+	
+	// 마지막 페이지
+	int lastPage = totalRow / rowPerPage; 
+	if(totalRow % rowPerPage != 0){ // 페이지가 떨어지지않아 잔여 행이 있다면 
+		lastPage = lastPage + 1; // 1 추가, 잔여 행을 lastPage에 배치
+	}
+	
+	// 페이지 선택 버튼 최소값 >> 1~10 / 11~20 에서 1 / 11 / 21 ,,,
+	int minPage = (((currentPage-1) / pagePerPage) * pagePerPage) + 1;
+		
+	// 페이지 선택 버튼 최대값 >> 1~10 / 11~20 에서 10 / 20 / 30 ,,,
+	int maxPage = minPage + (pagePerPage - 1);
+	if(maxPage > lastPage){ // ex) lastPage는 27, maxPage가 30(21~30) 일 경우
+		maxPage = lastPage;  // maxPage를 lastPage == 27로 한다. 
+	}
+		
 	// 상품정보 메소드
-	ArrayList<HashMap<String, Object>> list = dDao.getAllProduct();
+	ArrayList<HashMap<String, Object>> list = dDao.getAllProduct(startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> dcList = dDao.getAllDcProduct(startRow, rowPerPage);
 	
 	// 오늘 날짜
 	Calendar cal = Calendar.getInstance();
@@ -68,15 +118,6 @@
 				}
 			});
 			
-			let dcRate = $('input[name="dcRate"]');
-			let pattern = /^[0-9]+$/; 
-			dcRate.blur(function(){
-				if(!pattern.test(dcRate.val()) || dcRate.val().length<3){
-					swal("경고", "할인율은 1 ~ 99까지 설정가능합니다..", "warning");
-					dcRate.val('');
-				}
-			});
-			
 			if("<%=request.getParameter("msg")%>" != "null"){
 		 		swal("완료", "<%=request.getParameter("msg")%>", "success");
 		 	}
@@ -88,66 +129,93 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>할인 관리</h1> <h3>오늘 날짜 : <%=today%></h3>
-		<div>
-			<button type="button" id="delCk" onclick="removeChecked()">개별삭제</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 제품 일괄삭제</button>
+		<div class="list-wrapper9">
+			<h1>할인 관리</h1>
+			<h3>오늘 날짜 : <%=today%></h3>
+			<div>
+				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 제품 일괄삭제</button>
+				<button type="submit">수정</button>
+			</div>
+				<div class="list-item">
+					<div>상품 번호</div>
+					<div>상품 이름</div>
+					<div>상품 원가</div>
+					<div>상태</div>
+					<div>판매량</div>
+					<div>할인 시작</div>
+					<div>할인 종료</div>
+					<div>할인율</div>
+					<div><input type="checkbox" name="ckAll" value="선택"></div>
+				</div>
+				<%
+					for(HashMap<String, Object> dc : dcList){
+						Product product = (Product)dc.get("product");
+						Discount discount = (Discount)dc.get("discount");
+				%>		
+						<div class="list-item">
+							<div>
+								<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
+								<%=product.getProductNo()%>
+							</div>
+							<div>
+								<%=product.getProductName()%>
+							</div>
+							<div>
+								<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="#,###"/>
+							</div>
+							<div><%=product.getProductStatus()%></div>
+							<div><%=product.getProductSaleCnt()%></div>
+							<div>
+								<input type="date" name="dcStart" value="<%=discount.getDiscountStart()%>">
+							</div>
+							<div>
+								<input type="date" name="dcEnd" value="<%=discount.getDiscountEnd()%>">
+							</div>
+							<div>
+								<input type="number" pattern="\d*" name="dcRate" value="<%=Math.round(discount.getDiscountRate()*100)%>" maxlength="2">
+							</div>
+							<div>
+								<input type="checkbox" name="ck">
+							</div>
+						</div>
+				<%
+					}
+				%>
+			<!-- ================ 페이지 ================ -->
+			<div>
+				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=1">처음으로</a>
+				<%
+					// 10p 단위 이전 버튼
+					if(minPage>1){
+				%>
+						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage-pagePerPage%>">이전</a>
+				<%
+					}
+				
+					for(int i=minPage; i<=maxPage; i=i+1){
+						if(i == currentPage){
+						%>
+							<span><%=i%></span>
+						<%	
+						} else {
+						%>
+							<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=i%>"><%=i%></a>
+						<%	
+						}
+					}
+					// 10p단위 다음버튼
+					if(maxPage != lastPage){
+				%>	
+						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage+pagePerPage%>">다음</a>	
+				<%
+					}
+				%>
+				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">마지막으로</a>
+			</div>
 		</div>
-		<table>
-			<tr>
-				<th>상품 번호</th>
-				<th>상품 이름</th>
-				<th>상품 원가</th>
-				<th>상태</th>
-				<th>판매량</th>
-				<th>할인 시작 ~ </th>
-				<th>할인 종료</th>
-				<th>할인율</th>
-				<th>선택<input type="checkbox" name="ckAll"></th>
-			</tr>
-			<%
-				for(HashMap<String, Object> dc : list){
-					Product product = (Product)dc.get("product");
-					Discount discount = (Discount)dc.get("discount");
-			%>		
-					<tr>
-						<td>
-							<input type="hidden" name="productNo" value="<%=product.getProductNo()%>">
-							<%=product.getProductNo()%>
-						</td>
-						<td>
-							<%=product.getProductName()%>
-						</td>
-						<td>
-							<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="#,###"/>
-						</td>
-						<td><%=product.getProductStatus()%></td>
-						<td><%=product.getProductSaleCnt()%></td>
-						<td><%=discount.getDiscountStart()%> ~ </td>
-						<td><%=discount.getDiscountEnd()%></td>
-						<%
-							if(discount.getDiscountRate() == 0){
-						%>
-								<td>
-									<input type="text" name="dcRate" value="-">
-								</td>
-						<%
-							} else {
-						%>
-								<td>
-									<input type="text" name="dcRate" value="<%=Math.round(discount.getDiscountRate()*100)%>">%
-								</td>
-						<%
-							}
-						%>
-						<td>
-							<input type="checkbox" name="ck">
-						</td>
-					</tr>
-			<%
-				}
-			%>
-		</table>
+	</div>
+	<div style="position:fixed; bottom:5px; right:5px;">
+		<a href="#header"><img src="top.jpg" title="위로가기"></a>
 	</div>
 </body>
 </html>
