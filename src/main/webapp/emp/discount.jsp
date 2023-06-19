@@ -8,10 +8,10 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//유효성 검사 _ 로그인전이면 로그인폼으로 돌아가게
-	if(session.getAttribute("loginId").equals("admin1") && session.getAttribute("loginId").equals("admin2")){ 
+	if(!session.getAttribute("loginId").equals("admin1") && !session.getAttribute("loginId").equals("admin2")){ 
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;		
-	}
+	}	
 	// System.out.println(session.getAttribute("loginId"));
 	
 	// 클래스 객체
