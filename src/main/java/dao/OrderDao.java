@@ -254,12 +254,13 @@ public class OrderDao {
 		row = stmt.executeUpdate();
 		
 		// 주문한 제품의 판매수량을 더해주는 쿼리
-		String productSql = "update product set product_sale_cnt = product_sale_cnt + ?, updatedate = now() where product_no = ?";
+		String productSql = "update product set product_sale_cnt = product_sale_cnt + ?, updatedate = now(), product_stock = product_stock - ? where product_no = ?";
 		PreparedStatement productStmt = conn.prepareStatement(productSql);
 		
 		// ?값 세팅
 		productStmt.setInt(1, order.getOrderCnt());
 		productStmt.setInt(2, order.getProductNo());
+		productStmt.setInt(1, order.getOrderCnt());
 		
 		// 쿼리 실행 후 영향받은 행 저장
 		row += productStmt.executeUpdate();
