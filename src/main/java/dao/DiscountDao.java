@@ -9,13 +9,47 @@ import util.DBUtil;
 
 public class DiscountDao {
 	// 상품리스트 조회
-	public ArrayList<HashMap<String, Object>> getAllProduct(int startRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> getAllProduct(String searchCategory, String searchName, String order,int startRow, int rowPerPage) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		// DB메소드
 		DBUtil dbUtil = new DBUtil(); 
 		Connection conn = dbUtil.getConnection();
+		
+		// 검색부분 매개변수값 있으면 추가
+		String searchQuery = "";
+		
+		if(searchCategory != null && !searchCategory.equals("")) {
+			searchQuery += "where p.category_name = '" + searchCategory + "' ";
+		}
+		
+		if(searchName != null && !searchName.equals("")) {
+			if(searchQuery.equals("")) {
+				searchQuery += "where";
+			}else {
+				searchQuery += "and";
+			}
+			searchQuery += " p.product_name like '%" + searchName + "%'";
+		}
+		
+		// 정렬부분 매개변수값 있으면 추가
+		String orderQuery = "order by p.product_no";
+		if(order != null && !order.equals("")) {
+			if(order.equals("원가높은순")) {
+				orderQuery = "ORDER BY p.product_price DESC";
+			}
+			if(order.equals("이름순")) {
+				orderQuery = "ORDER BY p.product_name";
+			}
+			if(order.equals("재고많은순")) {
+				orderQuery = "ORDER BY p.product_stock DESC";
+			}
+			if(order.equals("판매량낮은순")) {
+				orderQuery = "ORDER BY p.product_sale_cnt";
+			}
+		}
+				
 		// 조회 쿼리
-		String getSql = "SELECT p.product_no, p.product_name, p.product_price, p.product_status, p.product_sale_cnt, IFNULL(date_format(d.discount_start, '%Y-%m-%d'), '-') discount_start, IFNULL(date_format(d.discount_end, '%Y-%m-%d'),'-') discount_end, d.discount_rate FROM product p LEFT OUTER JOIN discount d ON p.product_no = d.product_no ORDER BY p.product_no, d.discount_start ASC LIMIT ?,?";
+		String getSql = "SELECT p.product_no, p.category_name, p.product_name, p.product_price, p.product_status, p.product_sale_cnt, p.product_stock, IFNULL(date_format(d.discount_start, '%Y-%m-%d'), '') discount_start, IFNULL(date_format(d.discount_end, '%Y-%m-%d'),'') discount_end, d.discount_rate FROM product p LEFT OUTER JOIN discount d ON p.product_no = d.product_no " + searchQuery + " " + orderQuery + " LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(getSql);
 		stmt.setInt(1, startRow);
 		stmt.setInt(2, rowPerPage);
@@ -30,6 +64,8 @@ public class DiscountDao {
 			p.setProductPrice(rs.getInt("product_price"));
 			p.setProductStatus(rs.getString("product_status"));
 			p.setProductSaleCnt(rs.getInt("product_sale_cnt"));
+			p.setProductStock(rs.getInt("product_stock"));
+			p.setCategoryName(rs.getString("category_name"));
 			
 			Discount d = new Discount();
 			d.setDiscountStart(rs.getString("discount_start"));
@@ -82,6 +118,23 @@ public class DiscountDao {
 		return list;
 	}
 	
+	// 할인 테이블에 상품번호가 있는지 확인
+	public int ckProduct(Discount discount) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		// 확인 쿼리
+		String sql = "SELECT COUNT(*) FROM discount WHERE product_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, discount.getProductNo());
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt(1);
+		}
+		return row;
+	}
 	
 	// 할인기간 있는 상품 개수
 	public int getDcProductCnt() throws Exception {
