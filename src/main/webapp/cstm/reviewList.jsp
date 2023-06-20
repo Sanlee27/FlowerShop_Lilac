@@ -25,12 +25,15 @@
 		ReviewDao reviewDao = new ReviewDao();
 		ProductDao productDao = new ProductDao();
 
+
 		
-	//요청값 변수에 저장
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	int orderNo = 2;
-	
-	System.out.println(orderNo);
+	// 요청값 변수에 저장
+	//int orderNo = 0;
+	//String orderNoParam = request.getParameter("orderNo");
+	//if (orderNoParam != null && !orderNoParam.equals("")) {
+	//    orderNo = Integer.parseInt(orderNoParam);
+	//}
+	//System.out.println(orderNoParam);
 	
 	// 페이징을 위한 변수 선언
 		int totalRow = reviewDao.selectReviewCnt();
@@ -49,7 +52,7 @@
 
 	
 	//현재 페이지에 표시 할 리스트 생성
-		ArrayList<HashMap<String, Object>> list = reviewDao.reviewList(orderNo, beginRow, rowPerPage);
+		ArrayList<HashMap<String, Object>> list = reviewDao.reviewList( beginRow, rowPerPage);
 
 		
 		

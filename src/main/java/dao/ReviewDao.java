@@ -110,7 +110,7 @@ public class ReviewDao {
 	//보이는 이미지 없음
 	// 정렬 날짜 최신순으로
 	
-	public  ArrayList <HashMap<String, Object>> reviewList(int orderNo, int beginRow, int rowPerPage) throws Exception{
+	public  ArrayList <HashMap<String, Object>> reviewList(int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
@@ -135,15 +135,15 @@ public class ReviewDao {
 					+ "ON R.order_no = O.order_no\r\n"
 					+ "LEFT OUTER JOIN product P\r\n"
 					+ "ON P.product_no = O.product_no\r\n"
-					+ "WHERE O.order_no = ?\r\n"
+					//+ "WHERE O.order_no = ?\r\n"
 					+ "ORDER BY R.order_no DESC\r\n"
 					+ "limit ?, ?";
 			
 			PreparedStatement rListStmt = conn.prepareStatement(sql);
 			
-			rListStmt.setInt(1, orderNo);
-			rListStmt.setInt(2, beginRow);
-			rListStmt.setInt(3, rowPerPage);
+			//rListStmt.setInt(1, orderNo);
+			rListStmt.setInt(1, beginRow);
+			rListStmt.setInt(2, rowPerPage);
 			ResultSet rListRs = rListStmt.executeQuery();
 			
 			while(rListRs.next()) {
@@ -183,7 +183,12 @@ public class ReviewDao {
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
 		//select 쿼리
-		String sql = "SELECT order_no orderNo, review_title reviewTitle, review_content reviewContent, createdate, updatedate FROM review WHERE order_no=? ORDER BY order_no";
+		String sql = "SELECT R.order_no orderNo, R.review_title reviewTitle, R.review_content reviewContent, O.id, R.createdate, R.updatedate \r\n"
+				+ "FROM review R \r\n"
+				+ "LEFT OUTER JOIN orders O\r\n"
+				+ "ON R.order_no = O.order_no\r\n"
+				+ "WHERE R.order_no = 5\r\n"
+				+ "ORDER BY R.order_no";
 		PreparedStatement oneStmt = conn.prepareStatement(sql);
 		oneStmt.setInt(1, orderNo);
 		ResultSet oneRs = oneStmt.executeQuery();
@@ -195,6 +200,7 @@ public class ReviewDao {
 		if(oneRs.next()) {
 			review = new Review();
 			review.setOrderNo(oneRs.getInt("orderNo"));
+			
 			review.setReviewTitle(oneRs.getString("reviewTitle"));
 			review.setReviewContent(oneRs.getString("reviewContent"));
 			review.setCreatedate(oneRs.getString("createdate"));
@@ -229,6 +235,7 @@ public class ReviewDao {
 		
 		map.put("review", review);
 		map.put("reviewImg", reviewImg);
+		map.put("id", oneRs.getString("id"));
 		
 		//hash map 키 값 존재하는지 디버깅
 		System.out.println(map.get("review") != null ? true : false);	//true
