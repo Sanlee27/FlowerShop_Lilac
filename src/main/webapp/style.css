@@ -35,6 +35,9 @@ del{
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
+.marginTop100{
+	margin-top: 100px;
+}
 .marginTop50{
 	margin-top: 50px;
 }
@@ -63,6 +66,9 @@ del{
 }
 .list-wrapperod .list-item{
 	grid-template-columns: 10% 10% 15% 10% 15% 10% 10% 10% 10%;
+}
+.list-wrapper3 .list-item{
+	grid-template-columns: 30% 30% 40%;
 }
 .list-wrapper5 .list-item{
 	grid-template-columns: 30% 30% 30% 5% 5%;
