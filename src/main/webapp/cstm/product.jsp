@@ -7,12 +7,14 @@
 	//인코딩
 	request.setCharacterEncoding("utf-8");
 
-	/*
-	//유효성검사
-	if(request.getParameter("productNo") == null) {
-		
-	}
-	*/
+	/*//유효성검사
+	if(request.getParameter("productNo") == null
+		||request.getParameter("orderNo") == null
+		||request.getParameter("productNo").equals("")
+		||request.getParameter("orderNo").equals("")) {
+		response.sendRedirect(request.getContextPath()+"/cstm/productList.jsp");
+		return;
+	}*/
 	
 	//DAO
 	ProductDao productdao = new ProductDao();
@@ -23,8 +25,6 @@
 	//변수
 	int productNo = 2;
 	//int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int orderNo = 4;
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 	
 	//productdao
 	HashMap<String, Object> map = productdao.getProductDetail(productNo);
@@ -33,24 +33,61 @@
 	double discountrate = (double)map.get("discountRate");
 	int discountprice = (int)map.get("discountPrice");
 	
-	//order
-	Order order = orderdao.getOrderDetail(orderNo);
-	
 	//리뷰 페이징
-	int reBeginRow = 0;
-	int reRowPerPage = 10;
+	int reCurrentPage = 1; // 현재페이지
+		if(request.getParameter("reCurrentPage") != null) {
+			reCurrentPage = Integer.parseInt(request.getParameter("reCurrentPage"));
+		}
+			System.out.println(reCurrentPage + "<-reCurrentPage");
+			
+	int reRowPerPage = 2; // 페이지당 행
+
+	int reBeginRow = (reCurrentPage - 1) * reRowPerPage; // 첫 행
+	int reTotalRow = reviewdao.selectReviewProductNoCnt(productNo); // 전체 행 
+	int reLastPage = reTotalRow / reRowPerPage; // 마지막 페이지
+	if(reTotalRow % reRowPerPage != 0) { // 전체행 / 페이지당 행 != 0 -> 페이지 추가
+		reLastPage++;
+	}
+
+	int rePagePerNum = 2; // 페이지당 페이지 수
+	
+	int reMinPageNum = (reCurrentPage - 1)/rePagePerNum * rePagePerNum + 1; // 페이지당 최소 페이지 번호 
+	int reMaxPageNum = reMinPageNum * rePagePerNum; // 페이지당 최대 페이지 번호 
+	if(reMaxPageNum > reLastPage) {
+		reMaxPageNum = reLastPage;
+	}
 	
 	//review
-	ArrayList<Review> reList = reviewdao.reviewProduct(productNo, reBeginRow, reRowPerPage);
-		System.out.println(reList);
+	ArrayList<HashMap<String, Object>> reList = reviewdao.reviewProductList(productNo, reBeginRow, reRowPerPage);
+		System.out.println(reList.size() + "<-reList");
 		
-	//문의 페이징
-	int beginRow = 0;
-	int rowPerPage = 10;
+	//문의 페이징 
+	int currentPage = 1; // 현재페이지
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+			System.out.println(currentPage + "<-currentPage");
+	int rowPerPage = 2; // 페이지당 행
+
+	int beginRow = (currentPage - 1) * rowPerPage; // 첫 행
+	int totalRow = questiondao.selectProductNoCnt(productNo);// 전체 행
+		System.out.println(totalRow);
+	int lastPage = totalRow / rowPerPage; // 마지막 페이지
+	if(totalRow % rowPerPage != 0) { // 전체행 / 페이지당 행 != 0 -> 페이지 추가
+		lastPage++;
+	}
+
+	int pagePerNum = 2; // 페이지당 페이지 수
+	
+	int minPageNum = (currentPage - 1)/pagePerNum * pagePerNum + 1; // 페이지당 최소 페이지 번호 
+	int maxPageNum = minPageNum * pagePerNum; // 페이지당 최대 페이지 번호 
+	if(maxPageNum > lastPage) {
+		maxPageNum = lastPage;
+	}
 	
 	//question
 	ArrayList<Question> qList = questiondao.QuestionProduct(productNo, beginRow, rowPerPage);
-		System.out.println(qList);
+		System.out.println(qList + "<-qList");
 
 	// 가격 표시해줄 포맷터
 	DecimalFormat dc = new DecimalFormat("###,###,###,###");
@@ -80,14 +117,45 @@
 	
 			});
 			$("#toReview").click(function(){
-				window.scrollTo({top:2490, behavior: "smooth"});
+				window.scrollTo({top:2690, behavior: "smooth"});
 	
 			});
 			$("#toQna").click(function(){
-				window.scrollTo({top:3360, behavior: "smooth"});
+				window.scrollTo({top:3700, behavior: "smooth"});
 	
 			});
 			
+			//스크롤 위치에 따른 네비바 색 변환
+			$(window).scroll(function() {
+				  var scrollPosition = $(this).scrollTop();
+				  var threshold = 900;
+				  var navbar = $('.navbar-wrapper');
+				  var toDetail = $('#toDetail');
+				  var toReview = $('#toReview');
+				  var toQna = $('#toQna');
+					
+				  if (scrollPosition < threshold) {//0~900
+				    navbar.removeClass('fixed');
+				    toDetail.removeClass('active');
+				    toReview.removeClass('active');
+				    toQna.removeClass('active');
+				  } else if (scrollPosition >= threshold && scrollPosition < 2690) { //900~2690-상세
+				    navbar.addClass('fixed');
+				    toDetail.addClass('active');
+				    toReview.removeClass('active');
+				    toQna.removeClass('active');
+				  } else if (scrollPosition >= 2490 && scrollPosition < 3700) { //2490~3700-리뷰
+				    navbar.addClass('fixed');
+				    toDetail.removeClass('active');
+				    toReview.addClass('active');
+				    toQna.removeClass('active');
+				  } else { // 그이상 - 문의
+				    navbar.addClass('fixed');
+				    toDetail.removeClass('active');
+				    toReview.removeClass('active');
+				    toQna.addClass('active');
+				  }
+			});
 			//상품 수량 변경 버튼
 			let productCnt = $("#productCnt_input").val();
 			$("#plus").click(function(){
@@ -130,66 +198,116 @@
 
 <div class="container">
 	<!-- 상품 주문 -->
-	<div style="margin-bottom: 600px">
-	<div><img src="<%=path%>" width="100px"></div>
-	<div>상품명 : <%=product.getProductName()%></div>
-	<div>가격 : <%=dc.format(product.getProductPrice())%>원</div>
-	<div>할인율 : <%=Math.round(discountrate * 100)%>%</div>
-	<div>할인된 가격 : <%=dc.format(discountprice)%>원</div>
-	
-	<div id="productCnt">
-	<div>수량 : <input type="number" id="productCnt_input" value="1"></div>
-	<span>
-			<button id="plus">+</button>
-			<button id="minus">-</button>
-	</span>
+	<div class="productOrder">
+		<div class="productLeft">
+			<img src="<%=path%>">
+		</div>
+		
+		<div class="productRight">
+			<div class="productName">상품명 : <%=product.getProductName()%></div>
+			<div class="productPrice">가격 : <%=dc.format(product.getProductPrice())%>원</div>
+			<div class="productDc">할인율 : <%=Math.round(discountrate * 100)%>%</div>
+			<div class="productDp">할인된 가격 : <%=dc.format(discountprice)%>원</div>
+		
+			<div id="productCnt">
+				<div>수량 : <input type="number" id="productCnt_input" value="1"></div>
+				<span>
+						<button id="plus">+</button>
+						<button id="minus">-</button>
+				</span>
+			</div>
+			
+			<div><a onclick="orderClick()">주문하기</a></div>
+			<div id="cart"><a onclick="cartClick()">장바구니</a></div>
+		</div>
 	</div>
 	
-	<div><a onclick="orderClick()">주문하기</a></div>
-	<div id="cart"><a onclick="cartClick()">장바구니</a></div>
+	<div class="navbar-wrapper">
+		<div id="navbar" class="marginTop20 productNavbar">
+			<div><button id="toDetail" class="" >상세설명</button></div>
+			<div><button id="toReview" >리뷰</button></div>
+			<div><button id="toQna" >문의</button></div>
+		</div>	
 	</div>
-	<div>---------</div>
-	
-	<div id="navbar">
-	<div><button id="toDetail" >상세설명</button></div>
-	<div><button id="toReview" >리뷰</button></div>
-	<div><button id="toQna" >문의</button></div>
-	</div>
-	
-	<div>---------</div>
-	<div style="margin-bottom: 400px">
-		<h1>상세설명</h1>
-		<div><img src="<%=path%>" width="500px"></div>
+	<div class="productInfo marginTop100">
+		<!-- <h1>상세설명</h1> -->
+		<div class="productImg"><img src="<%=path%>"></div>
+		<div class="detailName"><h1><%=product.getProductName()%></h1></div>
 		<div><%=product.getProductInfo()%></div>
 	</div>
 	
-	<div>---------</div>
-	<div class="list-wrapper5" style="margin-bottom: 700px">
-		<h1>리뷰</h1>
+	<div id="reviewPageBtn"></div>
+	<div class="list-wrapper3 marginTop300 productReview">
+		<h2 class="">리뷰</h2>
+		<span class="font-line"></span>
 		<div class="list-item">
 			<div>제목</div>
-			<div>내용</div>
 			<div>작성자</div>
 			<div>작성일</div>
 		</div>
 		
 		<%
-			for(Review r : reList) {
+			for(HashMap<String, Object> r : reList) {
+				Review review = (Review)r.get("review");
+				
 		%>
 		<div class="list-item">
-			<div><%=r.getReviewTitle()%></div>
-			<div><%=r.getReviewContent()%></div>
-			<div><%=order.getId()%></div>
-			<div><%=r.getCreatedate()%></div>
+			<div><%=review.getReviewTitle()%></div>
+			<div><%=r.get("id")%></div>
+			<div><%=review.getCreatedate()%></div>
 		</div>
 		<%
 			}
 		%>
+		
+		<!-- 페이징 -->
+		<div class="pagination flex-wrapper">
+		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
+			<div>
+				<%
+					if(reMinPageNum != 1){
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMinPageNum - rePagePerNum%>#reviewPageBtn">
+							◀
+						</a>
+				<%
+					}
+				%>
+			</div>
+			
+			<!-- 페이지 번호 -->
+			<div class="page">
+				<%
+					for(int i = reMinPageNum; i <= reMaxPageNum; i++){
+						String selected = i == reCurrentPage ? "selected" : "";
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=i%>#reviewPageBtn" class="<%=selected%>">
+							<%=i%>
+						</a>
+				<%
+					}
+				%>
+			</div>
+			
+			<!-- 다음 -->
+			<div>
+				<%
+					if(reMaxPageNum != reLastPage){
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMaxPageNum + 1%>#reviewPageBtn">
+							▶
+						</a>
+				<%
+					}
+				%>
+			</div>
+		</div>
 	</div>
 	
-	<div>---------</div>
-	<div class="list-wrapper6" id="qna" style="margin-bottom: 800px">
-	<h1>문의</h1>
+	<div id="qnaPageBtn"></div>
+	<div class="list-wrapper6-2 marginTop300 productQna" id="qna">
+	<h2>문의</h2>
+	<span class="font-line"></span>
 		<div class="list-item">
 			<div>카테고리</div>
 			<div>제목</div>
@@ -212,6 +330,50 @@
 		<%
 			}
 		%>
+		
+		<!-- 문의 페이징 -->
+		<div class="pagination flex-wrapper">
+		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
+			<div>
+				<%
+					if(minPageNum != 1){
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=minPageNum - pagePerNum%>#qnaPageBtn">
+							◀
+						</a>
+				<%
+					}
+				%>
+			</div>
+			
+			<!-- 페이지 번호 -->
+			<div class="page">
+				<%
+					for(int i = minPageNum; i <= maxPageNum; i++){
+						String selected = i == currentPage ? "selected" : "";
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=i%>#qnaPageBtn" class="<%=selected%>">
+							<%=i%>
+						</a>
+				<%
+					}
+				%>
+			</div>
+			
+			<!-- 다음 -->
+			<div>
+				<%
+					if(maxPageNum != lastPage){
+				%>
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=maxPageNum + 1%>#qnaPageBtn" >
+							▶
+						</a>
+				<%
+					}
+				%>
+			</div>
+			
+		</div>
 	</div>
 </div>
 </body>
