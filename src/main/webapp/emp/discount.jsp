@@ -73,7 +73,7 @@
 	}
 		
 	// 상품정보 메소드
-	ArrayList<HashMap<String, Object>> list = dDao.getAllProduct(startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> list = dDao.getAllDcProduct(startRow, rowPerPage);
 	ArrayList<HashMap<String, Object>> dcList = dDao.getAllDcProduct(startRow, rowPerPage);
 	
 	// 오늘 날짜
@@ -118,6 +118,30 @@
 				}
 			});
 			
+			// 상품 삭제 함수
+			function removeDiscount() {
+		        var checkedDiscounts = [];
+
+		        $("input[name=ck]:checked").each(function() {
+		        	checkedDiscounts.push($(this).closest(".list-item").find("input[name=productNo]").val());
+		        });
+
+		        if (checkedDiscounts.length > 0) {
+		            var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+		            if (confirmation) {
+		            	// 선택된것들 action으로 넘김
+		            	location.href = "<%=request.getContextPath()%>/emp/removeDiscountAction.jsp?productNos=" + checkedDiscounts.join(",");
+		            }
+		        } else {
+		            swal("경고", "삭제할 상품을 선택해주세요.", "warning");
+		        }
+		    }
+			
+			// 삭제 함수 실행
+			$('#removeCk').click(function(){
+				removeDiscount();
+			});
+			
 			if("<%=request.getParameter("msg")%>" != "null"){
 		 		swal("완료", "<%=request.getParameter("msg")%>", "success");
 		 	}
@@ -129,12 +153,13 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<div class="list-wrapper9">
+		<div class="list-wrapper10">
 			<h1>할인 관리</h1>
 			<h3>오늘 날짜 : <%=today%></h3>
 			<div>
-				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 제품 일괄삭제</button>
-				<button type="submit">수정</button>
+				<button type="button" id="removeCk">개별삭제</button>
+				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 상품 일괄삭제</button>
+				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/modifyDiscount.jsp'">할인 수정</button>
 			</div>
 				<div class="list-item">
 					<div>상품 번호</div>
@@ -142,10 +167,13 @@
 					<div>상품 원가</div>
 					<div>상태</div>
 					<div>판매량</div>
+					<div>재고량</div>
 					<div>할인 시작</div>
 					<div>할인 종료</div>
 					<div>할인율</div>
-					<div><input type="checkbox" name="ckAll" value="선택"></div>
+					<div>
+						삭제<input type="checkbox" name="ckAll">
+					</div>
 				</div>
 				<%
 					for(HashMap<String, Object> dc : dcList){
@@ -161,19 +189,14 @@
 								<%=product.getProductName()%>
 							</div>
 							<div>
-								<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="#,###"/>
+								<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="###,###,###"/>
 							</div>
 							<div><%=product.getProductStatus()%></div>
 							<div><%=product.getProductSaleCnt()%></div>
-							<div>
-								<input type="date" name="dcStart" value="<%=discount.getDiscountStart()%>">
-							</div>
-							<div>
-								<input type="date" name="dcEnd" value="<%=discount.getDiscountEnd()%>">
-							</div>
-							<div>
-								<input type="number" pattern="\d*" name="dcRate" value="<%=Math.round(discount.getDiscountRate()*100)%>" maxlength="2">
-							</div>
+							<div><%=product.getProductStock()%></div>
+							<div><%=discount.getDiscountStart()%></div>
+							<div><%=discount.getDiscountEnd()%></div>
+							<div><%=Math.round(discount.getDiscountRate()*100)%>%</div>
 							<div>
 								<input type="checkbox" name="ck">
 							</div>
@@ -213,9 +236,6 @@
 				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">마지막으로</a>
 			</div>
 		</div>
-	</div>
-	<div style="position:fixed; bottom:5px; right:5px;">
-		<a href="#header"><img src="top.jpg" title="위로가기"></a>
 	</div>
 </body>
 </html>

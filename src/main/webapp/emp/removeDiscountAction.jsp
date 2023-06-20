@@ -6,18 +6,22 @@
 <%
 	request.setCharacterEncoding("utf-8");
 
-	// System.out.println(request.getParameter("productNo"));
-	System.out.println(request.getParameter("productNos"));
-	String[] productNos = request.getParameter("productNos").split(",");
-	// System.out.println(productNos);
+	String[] productNos = request.getParameterValues("productNos");
+	// System.out.println(Arrays.toString(productNos));
 
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
-	
 	DiscountDao dao = new DiscountDao();
 	
-	int removeDiscount = dao.delDiscountRate(productNo);
+	for (int i = 0; i < productNos.length; i++) {
+		// 쉼표로 구분, 배열에 다시 저장
+		String[] numbers = productNos[i].split(",");
+		// 개별로 다시 저장
+	    for (int j = 0; j < numbers.length; j++) {
+	        int productNo = Integer.parseInt(numbers[j]);
+		
+			int removeDiscount = dao.delDiscountRate(productNo);
+	    }
+	}
 	
-	String msg = null;
-	msg = URLEncoder.encode("할인 제품이 삭제되었습니다.","UTF-8");
+	String msg = URLEncoder.encode("할인 상품이 삭제되었습니다.","UTF-8");
 	response.sendRedirect(request.getContextPath()+"/emp/discount.jsp?msg="+msg);
 %>
