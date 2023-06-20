@@ -38,6 +38,12 @@
 	double discountRate = (Double)productDetail.get("discountRate");
 	int discountPrice = (Integer)productDetail.get("discountPrice");
 	double cstmGradePoint = customer.getCstmRank().equals("씨앗") ? 0.01 : customer.getCstmRank().equals("새싹") ? 0.03 : 0.05;
+	
+	// 전체 주문금액을 저장할 변수
+	int totalPrice = discountPrice * orderCnt;
+	
+	// 예상 적립금을 저장할 변수
+	int toAddPoint = (int)(discountPrice * orderCnt * cstmGradePoint);
 %>
 <!DOCTYPE html>
 <html>
@@ -63,7 +69,45 @@
 			}
 		}
 		function payBtnClick(){
+			// 입력값들 유효성 검사
+			if($("#address").text() == ""){
+				swal("경고", "배송지를 선택해 주세요", "warning");
+				return;
+			}
+			if($("input[name='pay']:checked").val() == undefined){
+				swal("경고", "결제수단을 선택해 주세요", "warning");
+				return;
+			}
 			
+			let toSpendPoint = $("#toSpendPoint").val() == "" ? 0 : parseInt($("#toSpendPoint").val()); 
+			let xhr = new XMLHttpRequest();
+			let url = '<%=request.getContextPath()%>/cstm/orderAction.jsp';
+			let params = {
+				productNo : <%=productNo%>,
+				id : "<%=loginId%>",
+				orderCnt : <%=orderCnt%>,
+				totalPrice : <%=totalPrice%>,
+				address : $("#address").text(),
+				toAddPoint : <%=toAddPoint%>,
+				toSpendPoint : toSpendPoint
+			};
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.onreadystatechange = function() {
+			    if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					swal("성공", "결제완료", "success");
+					setTimeout(function() {
+						window.location.href = '<%=request.getContextPath()%>' + '/cstm/orderList.jsp?id=' + '<%=loginId%>';
+					}, 5000);
+				} else {
+			        // 요청이 실패한 경우
+			    	swal("결제실패", "주문정보나 결제수단을 확인하세요", "error");
+			      }
+			    }
+			  };
+
+			  xhr.send($.param(params));
 		}
 	</script>
 </head>
@@ -107,7 +151,7 @@
 				
 			</div>
 			<div>
-				주문금액 : <%=discountPrice * orderCnt %>원
+				주문금액 : <%=totalPrice %>원
 				<%
 					if(discountRate != 0.0){
 				%>
@@ -116,12 +160,12 @@
 					}
 				%>
 			</div>
-			<div>예상적립금 : <%=(int)(discountPrice * orderCnt * cstmGradePoint) %>원</div>
+			<div>예상적립금 : <%= toAddPoint%>원</div>
 			<hr>
 			
 			<h2>결제정보</h2>
 			<div>보유 포인트 : <%=customer.getCstmPoint() %></div>
-			<div>사용할 포인트 : <input type="number" onchange="pointInputChange(this)"></div>
+			<div>사용할 포인트 : <input type="number" inputmode="numeric" onchange="pointInputChange(this)" id="toSpendPoint" value=0></div>
 			<div>
 				결제수단 : 
 				<input type="radio" value="카드결제" name="pay">카드결제

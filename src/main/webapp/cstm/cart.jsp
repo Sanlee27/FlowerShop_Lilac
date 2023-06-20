@@ -123,9 +123,9 @@
 		location.href="<%=request.getContextPath()%>" + "/cstm/order.jsp?productNo=" + <%=productNo%> + "&orderCnt=" + cartCnt;
 	}
 	function removeCart(cartNo){
-		var xhr = new XMLHttpRequest();
-		var url = '<%=request.getContextPath()%>/cstm/removeCartAction.jsp';
-		var params = 'cartNo=' + encodeURIComponent(cartNo);
+		let xhr = new XMLHttpRequest();
+		let url = '<%=request.getContextPath()%>/cstm/removeCartAction.jsp';
+		let params = 'cartNo=' + encodeURIComponent(cartNo);
 
 		
 		xhr.open('POST', url, true);
@@ -148,9 +148,9 @@
 	    xhr.send(params);
 	}
 	function changeCartCnt(cartNo, cartCnt) {
-	    var xhr = new XMLHttpRequest();
-	    var url = '<%=request.getContextPath()%>/cstm/modifyCartAction.jsp';
-	    var params = 'cartNo=' + encodeURIComponent(cartNo) + '&cartCnt=' + encodeURIComponent(cartCnt);
+	    let xhr = new XMLHttpRequest();
+	    let url = '<%=request.getContextPath()%>/cstm/modifyCartAction.jsp';
+	    let params = 'cartNo=' + encodeURIComponent(cartNo) + '&cartCnt=' + encodeURIComponent(cartCnt);
 	
 	    xhr.open('POST', url, true);
 	    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

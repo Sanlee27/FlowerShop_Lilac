@@ -78,7 +78,7 @@
 			}
 		})
 	 	function modifyOrder(orderNo) {
-		    var url = '<%= request.getContextPath() %>/emp/modifyOrderAction.jsp?orderNo=' + orderNo + '&orderStatus=' + encodeURIComponent($('div.list-item select[name=orderStatus]').val());
+		    let url = '<%= request.getContextPath() %>/emp/modifyOrderAction.jsp?orderNo=' + orderNo + '&orderStatus=' + encodeURIComponent($('div.list-item select[name=orderStatus]').val());
 		    window.location.href = url;
 		  }
 	</script>

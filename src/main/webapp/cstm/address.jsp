@@ -37,7 +37,7 @@
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	var initialValue = "";
+	let initialValue = "";
 	$(document).ready(function(){
 		initialValue = $("#address").text();
 	})
@@ -59,8 +59,8 @@
 		}).open();
 	}
 	function selectBtnClick(button){
-		var address = $(button).prevAll(".address").text();
-		var detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
+		let address = $(button).prevAll(".address").text();
+		let detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
 
 		if($(button).parent().hasClass("new-address")){
 			if(detailAddress == ""){
@@ -71,9 +71,9 @@
 		$('#address').text(address + (detailAddress ? detailAddress : ""));
 	}
 	function deleteBtnClick(button, addressNo){
-		var address = $(button).prevAll(".address").text();
-		var detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
-		var totalAddress = address + detailAddress;
+		let address = $(button).prevAll(".address").text();
+		let detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
+		let totalAddress = address + detailAddress;
 		console.log(totalAddress);
 		console.log($("#address").text())
 		
@@ -85,9 +85,9 @@
 		 if(addressNo == null){
 			 return;
 		 }
-		 var xhr = new XMLHttpRequest();
-		 var url = '<%=request.getContextPath()%>/cstm/removeAddressAction.jsp';
-		 var params = 'addressNo=' + encodeURIComponent(addressNo);
+		 let xhr = new XMLHttpRequest();
+		 let url = '<%=request.getContextPath()%>/cstm/removeAddressAction.jsp';
+		 let params = 'addressNo=' + encodeURIComponent(addressNo);
 		 
 		 xhr.open('POST', url, true);
 		    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
