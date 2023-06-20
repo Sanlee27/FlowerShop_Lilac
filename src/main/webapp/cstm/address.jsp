@@ -15,14 +15,18 @@
 <div class="modal-container" id="addressModal">
 	<div class="modal">
 		<h2>최근배송지</h2>
+		<button type="button" onclick='addressModalClose()' class="closeBtn">
+				<img src="<%=request.getContextPath() %>/images/close.png">
+		</button>
 		<div id="addressList">
 			<%
 				for(Address a : addressList){
 			%>
 				<div class="flex-wrapper">
-					<div><%=a.getAddress() %></div>
+					<div class="address"><%=a.getAddress() %></div>
 					<div><%=a.getAddressLastdate() %></div>
-					<button type="button">선택</button>
+					<button type="button" class="selectBtn" onclick="selectBtnClick(this)">선택</button>
+					<button type="button" class="deleteBtn" onclick="deleteBtnClick(this, <%=a.getAddressNo()%>)">삭제</button>
 				</div>
 			<%
 				}
@@ -33,20 +37,76 @@
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	var initialValue = "";
+	$(document).ready(function(){
+		initialValue = $("#address").text();
+	})
 	function addAddressBtnClick() {
 		new daum.Postcode({
 			oncomplete: function(data) {
 				console.log(data.address);
 			    $("#addressList").append(
-			    		'<div class="flex-wrapper">' +
-			            '<div>' +
-			                data.address +
+		    		'<div class="flex-wrapper new-address">' +
+			            '<div class="address">' +
+			                '<span>' + data.address + '</span>' + 
 			                ' <input type="text" placeholder="상세주소" id="detailAddress">' +
 			            '</div>' +
 			            '<div>-</div>' +
-			            '<button type="button">선택</button>' +
-			        '</div>');
+			            '<button type="button" class="selectBtn" onclick="selectBtnClick(this)">선택</button>' +
+			        	'<button type="button" class="deleteBtn" onclick="deleteBtnClick(this, null)">삭제</button>' +
+			         '</div>');
 			}
 		}).open();
+	}
+	function selectBtnClick(button){
+		var address = $(button).prevAll(".address").text();
+		var detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
+
+		if($(button).parent().hasClass("new-address")){
+			if(detailAddress == ""){
+				swal("경고", "상세주소를 입력하세요", "warning");
+				return;
+			}
+		}
+		$('#address').text(address + (detailAddress ? detailAddress : ""));
+	}
+	function deleteBtnClick(button, addressNo){
+		var address = $(button).prevAll(".address").text();
+		var detailAddress = $(button).closest(".flex-wrapper").find("#detailAddress").val();
+		var totalAddress = address + detailAddress;
+		console.log(totalAddress);
+		console.log($("#address").text())
+		
+		if(totalAddress == $("#address").text()){
+			$("#address").text(initialValue);
+		}
+		$(button).closest(".flex-wrapper").remove();
+		 
+		 if(addressNo == null){
+			 return;
+		 }
+		 var xhr = new XMLHttpRequest();
+		 var url = '<%=request.getContextPath()%>/cstm/removeAddressAction.jsp';
+		 var params = 'addressNo=' + encodeURIComponent(addressNo);
+		 
+		 xhr.open('POST', url, true);
+		    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		
+		    xhr.onreadystatechange = function() {
+		        if (xhr.readyState === 4) {
+		            if (xhr.status === 200) {
+		            	console.error('주소 삭제 성공');
+
+		            } else {
+		                // 요청이 실패한 경우
+		                console.error('주소 삭제 실패');
+		            }
+		        }
+		    };
+		
+		    xhr.send(params);
+	}
+	function addressModalClose(){
+		$('#addressModal').hide();
 	}
 </script>

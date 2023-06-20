@@ -50,9 +50,20 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		function addressModalOpen(){
 			$('#addressModal').show();
+		}
+		function pointInputChange(input){
+			if(parseInt($(input).val()) > <%=customer.getCstmPoint() %>){
+				swal("경고", "사용 가능 포인트는 <%=customer.getCstmPoint()%>입니다.", "warning");
+				$(input).val(<%=customer.getCstmPoint()%>)
+			}
+		}
+		function payBtnClick(){
+			
 		}
 	</script>
 </head>
@@ -71,8 +82,8 @@
 			<div>이메일 : <%=customer.getCstmEmail() %></div>
 			<div>전화번호 : <%=customer.getCstmPhone() %></div>
 			<div>
-				기본배송지 : <%=customer.getCstmAddress() %>
-				<button type="button" onclick='addressModalOpen()'>배송지 선택</button>
+				배송지 : <span id="address"><%=customer.getCstmAddress() %></span>
+				<button type="button" onclick='addressModalOpen()'>배송지변경</button>
 			</div>
 			<hr>
 			
@@ -110,14 +121,14 @@
 			
 			<h2>결제정보</h2>
 			<div>보유 포인트 : <%=customer.getCstmPoint() %></div>
-			<div>사용할 포인트 : <input type="number"></div>
+			<div>사용할 포인트 : <input type="number" onchange="pointInputChange(this)"></div>
 			<div>
 				결제수단 : 
-				<input type="radio" value="카드결제">카드결제
-				<input type="radio" value="무통장입금">무통장입금
-				<input type="radio" value="간편결제">간편결제
+				<input type="radio" value="카드결제" name="pay">카드결제
+				<input type="radio" value="무통장입금" name="pay">무통장입금
+				<input type="radio" value="간편결제" name="pay">간편결제
 			<div>
-			<button>결제하기</button>
+			<button type="button" onclick="payBtnClick()">결제하기</button>
 		</div>
 	</div>
 </body>

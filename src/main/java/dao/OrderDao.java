@@ -233,8 +233,8 @@ public class OrderDao {
 	
 	// 주문 정보를 입력하는 메서드
 	public int insertOrder(Order order) throws Exception {
-		// 결과를 저장해줄 int타입 변수 선언
-		int row = 0;
+		// orderNo를 저장해줄 변수 선언
+		int orderNo = 0;
 		
 		// Connection 가져오기
 		DBUtil dbUtil = new DBUtil();
@@ -242,7 +242,7 @@ public class OrderDao {
 		
 		// 주문 정보 데이터를 추가하는 쿼리
 		String sql = "INSERT INTO orders(product_no, id, order_status, order_cnt, order_price, createdate, updatedate) VALUES(?, ?, '결제완료', ?, ?, NOW(), NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		
 		// ?값 세팅
 		stmt.setInt(1, order.getProductNo());
@@ -250,8 +250,12 @@ public class OrderDao {
 		stmt.setInt(3, order.getOrderCnt());
 		stmt.setInt(4, order.getOrderPrice());
 		
-		// 쿼리 실행 후 영향받은 행 저장
-		row = stmt.executeUpdate();
+		// 쿼리 실행 후 orderNo받아오기
+		stmt.executeUpdate();
+		ResultSet keyRs = stmt.getGeneratedKeys();
+		if(keyRs.next()) {
+			orderNo = keyRs.getInt(1);
+		}
 		
 		// 주문한 제품의 판매수량을 더해주는 쿼리
 		String productSql = "update product set product_sale_cnt = product_sale_cnt + ?, updatedate = now(), product_stock = product_stock - ? where product_no = ?";
@@ -260,11 +264,11 @@ public class OrderDao {
 		// ?값 세팅
 		productStmt.setInt(1, order.getOrderCnt());
 		productStmt.setInt(2, order.getProductNo());
-		productStmt.setInt(1, order.getOrderCnt());
+		productStmt.setInt(3, order.getOrderCnt());
 		
-		// 쿼리 실행 후 영향받은 행 저장
-		row += productStmt.executeUpdate();
+		// 쿼리 실행후 결과 출력
+		System.out.println(productStmt.executeUpdate());
 		
-		return row;
+		return orderNo;
 	}
 }
