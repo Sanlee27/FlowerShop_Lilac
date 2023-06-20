@@ -60,8 +60,28 @@
 			// last_login 날짜 로그인한 시점으로 변경
 			int addLastLogin = dao.updLastLogin(id);
 			session.setAttribute("loginId", id);
-			response.sendRedirect(request.getContextPath()+"/home.jsp");
-			return;
+
+			// 이예은 작성
+			if(session.getAttribute("cart") != null){
+				HashMap<String, Object> sCart = (HashMap<String, Object>)session.getAttribute("cart");
+				int productNo = (int) sCart.get("productNo");
+				int cartCnt = (int) sCart.get("cartCnt");
+				
+				Cart cart = new Cart();
+				cart.setId(id);
+				cart.setProductNo(productNo);
+				cart.setCartCnt(cartCnt);
+	
+				// CartDao 객체 생성
+				CartDao cartDao = new CartDao();
+				int row = cartDao.insertCart(cart);
+				
+				response.sendRedirect(request.getContextPath()+"/home.jsp");
+				return;
+			} else {
+				response.sendRedirect(request.getContextPath()+"/home.jsp");
+				return;
+			}
 		// 활성화 여부가 N = 휴면계정이면
 		} else {
 			msg = URLEncoder.encode("휴면계정입니다. 다시 로그인해주세요.","UTF-8");

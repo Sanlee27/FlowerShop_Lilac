@@ -8,6 +8,27 @@ import vo.*;
 
 public class QuestionDao {
 	
+	//product 상세 페이징을 위한 메서드 만들기
+		public int selectProductNoCnt(int productNo) throws Exception {
+			int row = 0;
+			
+			//db 접속
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+		
+			//총 행을 구하는 sql문
+			String pageSql = "SELECT COUNT(*) FROM question where product_no=?";
+			PreparedStatement stmt = conn.prepareStatement(pageSql);
+			stmt.setInt(1, productNo);
+			ResultSet pageRs = stmt.executeQuery();
+			if(pageRs.next()) {
+				row = pageRs.getInt(1);
+			}
+			return row;
+		}
+	
+	
+	
 	//페이징을 위한 메서드 만들기
 	public int selectQuestionCnt() throws Exception {
 		int row = 0;
@@ -145,7 +166,7 @@ public class QuestionDao {
 			
 				m.setqNo(custRs.getInt("qNo"));
 				m.setProductNo(custRs.getInt("productNo"));
-				m.setId(custRs.getString("id"));
+				//m.setId(custRs.getString("id"));
 				m.setqCategory(custRs.getString("qCategory"));
 				m.setqAnswer(custRs.getString("qAnswer"));
 				m.setqTitle(custRs.getString("qTitle"));

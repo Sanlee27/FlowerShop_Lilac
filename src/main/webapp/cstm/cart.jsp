@@ -57,10 +57,10 @@
 	DecimalFormat dc = new DecimalFormat("###,###,###,###");
 	
 %>
-<div class="modal-container">
+<div class="modal-container" id="cartModal">
 	<div class="modal">
 		<h2>장바구니</h2>
-		<button type="button" onclick='modalClose()' class="closeBtn">
+		<button type="button" onclick='cartModalClose()' class="closeBtn">
 				<img src="<%=request.getContextPath() %>/images/close.png">
 		</button>
 		<%
@@ -171,7 +171,7 @@
 	
 	    xhr.send(params);
 	}
-	function modalClose(){
-		$('.modal-container').hide();
+	function cartModalClose(){
+		$('#cartModal').hide();
 	}
 </script>
