@@ -128,7 +128,7 @@
 			<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
 				<h1><a href="<%=request.getContextPath()%>/cstm/productList.jsp">상품 리스트</a></h1>
 				<!-- ==============검색버튼============== -->
-				<form>
+				<form method="post">
 					<div>
 						<select name="searchCategory">
 							<option value="">카테고리</option>
@@ -148,7 +148,7 @@
 							<option value="가격낮은순">가격낮은순</option>
 							<option value="할인율높은순">할인율높은순</option>
 						</select>
-						<button type="submit" id="reset">초기화</button>
+						<button type="submit" id="reset">정렬초기화</button>
 					</div>
 					<div class="products">
 					<%
@@ -178,18 +178,19 @@
 											if(discountRate == 0){
 									%>
 												<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=product.getProductNo()%>">
-													<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="#,###"/>
+													<fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="###,###,###"/>
 												</a>
 									<%
 											} else {
 									%>
-												<del><fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="#,###"/></del>
+												<del><fmt:formatNumber value="<%=product.getProductPrice()%>" pattern="###,###,###"/></del>
 												<br>
-												<span class="price">
 													<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=product.getProductNo()%>">
-														<%=discountPrice%>
+														<span class="price">
+															<fmt:formatNumber value="<%=discountPrice%>" pattern="###,###,###"/>
+														</span>
 													</a>
-												</span>
+												
 									<%
 											}
 										}
