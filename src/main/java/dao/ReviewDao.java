@@ -11,6 +11,32 @@ import vo.*;
 
 public class ReviewDao {
 	
+	//product 상세 페이징을 위한 메서드 만들기
+	public int selectReviewProductNoCnt(int productNo) throws Exception {
+		int row = 0;
+		
+		//db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+	
+		//총 행을 구하는 sql문
+		String pageSql = "SELECT * FROM review r \r\n"
+				+ "INNER JOIN orders o \r\n"
+				+ "ON r.order_no = o.order_no \r\n"
+				+ "WHERE o.product_no = ? \r\n"
+				+ "ORDER BY o.order_no \r\n";
+
+		PreparedStatement stmt = conn.prepareStatement(pageSql);
+		stmt.setInt(1, productNo);
+		ResultSet pageRs = stmt.executeQuery();
+		if(pageRs.next()) {
+			row = pageRs.getInt(1);
+		}
+		return row;
+	}
+	
+	
+	
 	
 	//페이징을 위한 메서드 만들기
 	public int selectReviewCnt() throws Exception {
@@ -30,23 +56,28 @@ public class ReviewDao {
 		}
 
 
-	//상품 상세페이지 후기 출력 ->product.jsp //where 절에 order no가져옴
+	//상품 상세페이지 후기 출력 ->product.jsp 
 	//보이는 이미지 없음
-	// 정렬 날짜 최신순으로
+	//정렬 날짜 최신순으로
+	//id 추가되게
 
-	public ArrayList<Review> reviewProduct (int productNo, int reBeginRow, int reRowPerPage) throws Exception{
+	public ArrayList<HashMap<String, Object>> reviewProductList (int productNo, int reBeginRow, int reRowPerPage) throws Exception{
 
-		
-		
 		//반환할 리스트
-		ArrayList<Review> list = new ArrayList<>();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
 		//db접속
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
 		//sql 전송, 결과셋 반환해 리스트에 저장
-		String sql = "SELECT * FROM review r INNER JOIN orders o ON r.order_no = o.order_no WHERE o.product_no = ? ORDER BY o.order_no DESC LIMIT ?, ?";
+		String sql = "SELECT R.order_no orderNo, R.review_title reviewTitle,O.product_no productNo, O.id id, R.createdate, R.updatedate\r\n"
+				+ "FROM review R\r\n"
+				+ "LEFT OUTER JOIN orders O\r\n"
+				+ "ON R.order_no = O.order_no\r\n"
+				+ "WHERE O.product_no = ?\r\n"
+				+ "ORDER BY R.order_no DESC\r\n"
+				+ "limit ?, ?";
 		PreparedStatement reviewStmt = conn.prepareStatement(sql);
 		
 		reviewStmt.setInt(1, productNo);
@@ -55,16 +86,21 @@ public class ReviewDao {
 		ResultSet reviewRs = reviewStmt.executeQuery();
 		
 		while(reviewRs.next()) {
-			Review m = new Review();
+			HashMap<String, Object> map = new HashMap<>();
+			Review review = new Review();
 			
-				m.setOrderNo(reviewRs.getInt("o.order_no"));
-				m.setReviewTitle(reviewRs.getString("r.review_title"));
-				m.setReviewContent(reviewRs.getString("r.review_content"));
-				m.setCreatedate(reviewRs.getString("r.createdate").substring(0,10));
-				m.setUpdatedate(reviewRs.getString("r.updatedate").substring(0,10));
-				list.add(m);
+			review.setOrderNo(reviewRs.getInt("orderNo"));
+			review.setReviewTitle(reviewRs.getString("reviewTitle"));
+			review.setUpdatedate(reviewRs.getString("updatedate"));
+			review.setCreatedate(reviewRs.getString("createdate"));
+
+			map.put("review", review);
+			map.put("id", reviewRs.getString("id"));
+			map.put("productNo", reviewRs.getInt("productNo"));
+			
+		    list.add(map);
+			
 		}
-		
 		return list;
 	}
 
@@ -126,9 +162,6 @@ public class ReviewDao {
 			}
 			return list;
 	
-			
-
-				
 			
 		}
 	
