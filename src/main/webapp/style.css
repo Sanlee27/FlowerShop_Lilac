@@ -35,6 +35,9 @@ del{
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
+.marginTop300{
+	margin-top: 300px;
+}
 .marginTop100{
 	margin-top: 100px;
 }
@@ -75,6 +78,9 @@ del{
 }
 .list-wrapper6 .list-item{
 	grid-template-columns: 10% 10% 20% 40% 10% 10%;
+}
+.list-wrapper6-2 .list-item{
+	grid-template-columns: 10% 10% 40% 20% 10% 10%;
 }
 .list-wrapper9 .list-item{
 	grid-template-columns: 10% 20% 15% 10% 10% 10% 15% 5% 5%;
@@ -415,4 +421,99 @@ del{
 	width: 200px;
 	height: 30px;
 	text-align: center;
+}
+
+/*상품상세 페이지*/
+.productOrder {
+	position: relative;
+	height : calc(100vh - 100px);
+}
+.productInfo {
+	position: relative;
+	height : 1700px;
+}
+.productReview {
+	position: relative;
+	height : 700px;
+}
+.productQna {
+	position: relative;
+	height : 900px;
+}
+.productNavbar {
+	width: 1280px;
+	height: 80px;
+	display: flex;
+	margin: 0 auto;
+}
+.productNavbar button{
+	width: 426px;
+	height: 80px;
+	padding: 2px;
+	background: #f9f6f2;
+	border: none;
+	font-size: 18px;
+  	padding: 10px 20px;
+}
+.productNavbar button:hover {
+	background: #f7e5e5;
+}
+.marginTop300 h1{
+	font-size: 70px;
+	text-align: center;
+	margin-bottom: 20px;
+	color: #f1c3c7;
+}
+.marginTop300 h2{
+	font-size: 35px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+.detailName h1{
+	font-size: 70px;
+	text-align: center;
+	margin-bottom: 20px;
+	color: #f1c3c7;
+}
+.font-line{
+	display: block;
+	width: 8%;
+	height: 5px;
+	background-color: #d5d5d5;
+	margin-bottom: 10px;
+}
+.productImg {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.navbar-wrapper {
+	width: 100%;
+	background: #f9f6f2;
+	position: fixed;
+	z-index: 1;
+	top : 82px;
+	display: none;
+	left:0;
+	position: static;
+}	
+.navbar-wrapper.fixed {
+  position: fixed;
+  top: 100px;
+  display: block;
+}
+.navbar-wrapper:not(.fixed) {
+  position: static;
+  display: block;
+}
+#toDetail.active {
+  background: #f7e5e5;
+}
+
+#toReview.active {
+  background: #f7e5e5;
+}
+
+#toQna.active {
+  background: #f7e5e5;
 }
