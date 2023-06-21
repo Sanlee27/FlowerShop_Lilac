@@ -71,15 +71,16 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
 	<script>
-		$(document).ready(function() {
-			$('.list-item').click(function() {
-				let orderNo = $(this).find('.orderNo').text();
-				window.location.href ="<%=request.getContextPath()%>/cstm/review.jsp?orderNo=" + orderNo;
-			});
-		});
+		function listItemClick(listItem) {
+			let orderNo = $(listItem).find('.orderNo').text();
+			window.location.href = "<%=request.getContextPath()%>/cstm/review.jsp?orderNo=" + orderNo;
+		}
 	</script>
+	
 </head>
 <body>
 <div>
@@ -104,7 +105,7 @@
 				String productName = (String)map.get("productName");
 
 		%>
-			<div class="list-item hovered">
+			<div class="list-item hovered" onclick="listItemClick(this)">
 				<input type="hidden" name="orderNo" value="<%=review.getOrderNo()%>">
 				
 				<div class="orderNo"><%=review.getOrderNo() %></div>
@@ -160,5 +161,8 @@
 			</div>	
 		</div>
 	</div>
+	
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

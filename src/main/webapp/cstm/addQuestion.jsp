@@ -12,11 +12,13 @@
 	//유효성 검사
 
 	//요청값 변수에 저장
+	//제품에 대한 문의인데 q_no? productNo도 받아야?
 	
 	//int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int qNo = 2;
+	//int productNo = Integer.parseInt(request.getParameter("productNo"));
+	int qNo = 10;
 	int productNo = 5;
-	String id = "user3";
+	String id = "user5";
 	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
@@ -25,6 +27,8 @@
 	Question one = questionDao.questionOne(qNo);
 
 	System.out.println(one);
+		
+	
 %>
 
 
@@ -33,11 +37,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Lilac</title>
 	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<div>
@@ -50,11 +56,11 @@
 			<form action="<%=request.getContextPath()%>/cstm/addQuestionAction.jsp" method="get">
 				<table>
 					<tr>
-						<td>qNo</td>
+						<td>문의 번호</td>
 						<td><%=one.getqNo() %></td>
 					</tr>
 					<tr>
-						<td>productNo</td>
+						<td>제품 번호</td>
 						<td><%=one.getProductNo() %></td>
 					</tr>
 					<tr>
@@ -62,7 +68,7 @@
 						<td><%=one.getId() %></td>
 					</tr>
 					<tr>
-						<td>qCategory</td>
+						<td>카테고리</td>
 						<td><select name= "qCategory">
 								<option value="상품">상품</option>
 								<option value="결제">결제</option>
@@ -73,23 +79,23 @@
 					</tr>
 			
 					<tr>
-						<td>qTitle</td>
+						<td>제목</td>
 						<td>
 							<input type="text" name="qTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
 						</td>
 					</tr>
 					<tr>
-						<td>qContent</td>
+						<td>내용</td>
 						<td>
 							<input type="text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
 						</td>
 					</tr>
 					<tr>
-						<td>updatedate</td>
+						<td>수정일</td>
 						<td><%=one.getUpdatedate() %></td>
 					</tr>
 					<tr>
-						<td>createdate</td>
+						<td>작성일</td>
 						<td><%=one.getCreatedate() %></td>
 					</tr>
 				
@@ -99,7 +105,8 @@
 					</button>
 				</form>	
 		</div>	
-
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 
 
 

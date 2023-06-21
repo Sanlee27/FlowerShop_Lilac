@@ -42,6 +42,8 @@
 	
 	//현재 페이지에 표시 할 리스트 생성
 	ArrayList<Question> list = questionDao.questionList(beginRow, rowPerPage);
+
+
 		
 %>
 
@@ -64,8 +66,8 @@
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
-		function listItemClick() {
-			let qNo = $(this).find('.qNo').text();
+		function listItemClick(listItem) {
+			let qNo = $(listItem).find('.qNo').text();
 			window.location.href ="<%=request.getContextPath()%>/cstm/question.jsp?qNo=" + qNo;
 		};
 
@@ -94,8 +96,7 @@
 			<%
 				for(Question m : list){
 			%>
-					<input type="hidden" name="qNo" value="<%=m.getqNo()%>">
-					<div class="list-item hovered " onclick="listItemClick()">
+					<div class="list-item hovered " onclick="listItemClick(this)">
 						<div class="qNo"><%=m.getqNo() %></div>
 						<div><%=m.getqCategory() %></div>
 						<div><%=m.getqTitle() %></div>

@@ -29,8 +29,9 @@
 	Question one = questionDao.questionOne(qNo);
 
 	System.out.println(one);
+	
+	
 %>
-
 
 <!DOCTYPE html>
 <html>
@@ -45,6 +46,8 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
 	<script>
 	    $(document).ready(function(){
@@ -72,7 +75,7 @@
 	
 	<div class="container">
 		<div class="list-wrapperql marginTop50">
-			<form action="<%=request.getContextPath()%>/cstm/modifyQuestionAction.jsp" method="get">
+			<form action="<%=request.getContextPath()%>/cstm/modifyQuestionAction.jsp?msg=success" method="post">
 				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 				<h2>문의 수정</h2>
 				
@@ -84,7 +87,7 @@
 					<input type="text" name="id" value="<%=one.getId()%>" readonly = "readonly" >
 				</div>
 				
-				<div>qCategory
+				<div>카테고리
 					<select name= "qCategory">
 								<option value="상품">상품</option>
 								<option value="결제">결제</option>
@@ -97,21 +100,21 @@
 					<input type="text" name="qAnswer" value="<%=one.getqAnswer()%>" readonly = "readonly" >
 				</div>
 				
-				<div>qTitle
+				<div>제목
 					<input type= "hidden" name ="id" value=<%=one.getId() %>>
 					<input type= "text" name="qTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요" required="required"> 
 				</div>
 				
-				<div>qContent
+				<div>내용
 					<input type= "hidden" name ="id" value=<%=one.getId() %>>
 					<input type= "text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" required="required"> 
 				</div>
 				
-				<div>updatedate
+				<div>수정일
 					<%=one.getUpdatedate() %>
 				</div>
 				
-				<div>createdate
+				<div>작성일
 					<%=one.getCreatedate() %>
 				</div>
 			
@@ -119,7 +122,12 @@
 					<button type="submit">수정</button>
 			</form>
 		</div>
-	</div>	
+	</div>
+	
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	
+		
 		
 </body>
 </html>

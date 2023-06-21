@@ -17,8 +17,8 @@
 	//유효성 검사 & 세션
 
 	//요청값 변수에 저장
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	int orderNo = 1;
+	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	//int orderNo = 1;
 	
 	//디버깅
 	System.out.println(orderNo+"<-modifyReview orderNo");
@@ -37,50 +37,64 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<!-- css파일 -->
+	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
+	<!-- 브라우저 탭에 보여줄 아이콘 -->
+	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<h1>후기 수정</h1>
-	<form action="<%=request.getContextPath()%>/cstm/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="orderNo" value=<%=orderNo%>>
-	<table>
+	<div>
+	<!-- 메인메뉴 -->
+		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+	</div>
 	
-		<!-- orderNo -->
-		
-			<tr>
-				<td>orderNo</td>
-				<td><%=orderNo%></td>
-			</tr>
-
-		<!-- reviewTitle -->
-			<tr>
-				<td>reviewTitle</td>
-				<td>
-					<input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
-					<input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
-				</td>
-			</tr>
-		<!-- reviewContent -->	
-			<tr>
-				<td>reviewContent</td>
-				<td>
-					<input type= "hidden" name ="reviewContent" value=<%=((Review)map.get("review")).getReviewContent()%>>
-					<input type= "text" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
-				</td>
-		<!-- boardFile -->		
-			<tr>
-				<td>reviewSaveFilename (현재파일 : <%=((ReviewImg)map.get("reviewImg")).getReviewSaveFilename()%>)</td>
-				<td>
+	<div class="container">
+		<h1>후기 수정</h1>
+			<form action="<%=request.getContextPath()%>/cstm/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="orderNo" value=<%=orderNo%>>
+			<table>
+			
+				<!-- orderNo -->
 				
-					<input type="file" name="modReviewImg" >
-				
-				</td>
-			</tr>	
-
+					<tr>
+						<td>주문번호</td>
+						<td><%=orderNo%></td>
+					</tr>
 		
-		</table>
-			<button type="submit">수정</button>
-
+				<!-- reviewTitle -->
+					<tr>
+						<td>후기 제목</td>
+						<td>
+							<input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
+							<input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
+						</td>
+					</tr>
+				<!-- reviewContent -->	
+					<tr>
+						<td>내용</td>
+						<td>
+							<input type= "hidden" name ="reviewContent" value=<%=((Review)map.get("review")).getReviewContent()%>>
+							<input type= "text" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
+						</td>
+				<!-- boardFile -->		
+					<tr>
+						<td>변경할 파일 (현재파일 : <%=((ReviewImg)map.get("reviewImg")).getReviewSaveFilename()%>)</td>
+						<td>
+						
+							<input type="file" name="modReviewImg" >
+						
+						</td>
+					</tr>	
+		
+				
+				</table>
+					<button type="submit">수정</button>
 	
-	</form>
+			</form>
+		</div>
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

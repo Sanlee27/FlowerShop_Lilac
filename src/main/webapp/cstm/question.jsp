@@ -6,6 +6,9 @@
 <%@ page import = "dao.*" %>
 
 <%
+	//인코딩 설정
+	request.setCharacterEncoding("UTF-8");
+
 	//세션 유효성 검사
 	if(session.getAttribute("loginId")==null){
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
@@ -38,12 +41,14 @@
 	Answer answer = answerdao.selectAnswer(qNo);
 
 	System.out.println(one + "<-one");
+	
+	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>question</title>
+<title>Lilac</title>
 	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
@@ -51,6 +56,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
     $(document).ready(function() {
         $('#modifyButton').click(function() {
@@ -58,6 +65,7 @@
             $('#answer textarea').prop('disabled', function(_, value) {
                 return !value;
             });
+   
             
             $('#answerForm').attr('action', '<%=request.getContextPath()%>/emp/modifyAnswerAction.jsp?comment=' + comment);
             $('#modifyEnd').show();
@@ -65,9 +73,7 @@
             $("#deletebtn").hide();
         });
         
-        if("<%=request.getParameter("msg")%>" == "답변을 입력해주세요."){
-        	swal("경고", "<%=request.getParameter("msg")%>", "warning");
-        } else if("<%=request.getParameter("msg")%>" != "null"){
+		if("<%=request.getParameter("msg")%>" != "null"){
 			swal("완료", "<%=request.getParameter("msg")%>", "success");
 		};
 	});
@@ -128,63 +134,62 @@
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-		 			<div class="flex-wrapper" style="width: 105px">
-						<button type= "submit" class="style-btn">수정</button>
-						<button type= "submit" formaction="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" class="style-btn">삭제</button>
-					</div>
+					<button type= "submit">
+					수정	
+					</button>
+				<%}} %>
+				</form>	
+				
+				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
+		         if(loginId != null) {
+		        		if(loginId.equals(one.getId())) {
+		 		%>
+				<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
+					<button type= "submit">
+					삭제
+					</button>
+				</form>
 				<%
 		        	 	} 
 		        	}
 				%>
-				</form>
 				<!-- 답변 -->
-						<div>
-							<form id="answerForm" action="<%=request.getContextPath()%>/emp/modifyAnswerAction.jsp">
-					<%
+				<%
+				if(isAdmin) {
 					if(answer != null && one.getqNo() == answer.getqNo()) {
 					%>
 						<!-- 답변리스트 -->
+						<div>
+							<form id="answerForm" action="<%=request.getContextPath()%>/emp/modifyAnswerAction.jsp">
 								<input type="hidden" name="answerNo" value="<%=answer.getAnswerNo()%>">
 								<input type="hidden" name="qNo" value="<%=answer.getqNo()%>">
 								<div>&#8627;</div>
 								<div id = "answer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea disabled name="comment"><%=answer.getAnswerContent()%></textarea></div>
 								<div>답변일 : <%=answer.getCreatedate()%> 수정일 : <%=answer.getUpdatedate()%></div>
-								<div>작성자 : <%=answer.getId()%></div>
+								<div>작성자 : <%=loginId%></div>
+								<div><button type="button" id="modifyButton" data-text="<%=loginId%>">수정</button></div>
+								<div><button type="submit" id="modifyEnd" style="display: none;">수정 완료</button></div>
+								<div><button type="submit" id="deletebtn" formaction="<%=request.getContextPath()%>/emp/removeAnswerAction.jsp">삭제</button></div>
+							</form>
+						</div>
 					<%
-					
-						if(isAdmin) {
-					%>
-								<div class="flex-wrapper" style="width: 160px">
-									<a href="<%=request.getContextPath()%>/cstm/questionList.jsp" class="style-btn">이전</a>
-									<div><button type="button" id="modifyButton"  class="style-btn" data-text="<%=loginId%>">수정</button></div>
-									<div><button type="submit" id="deletebtn" class="style-btn" formaction="<%=request.getContextPath()%>/emp/removeAnswerAction.jsp">삭제</button></div>
-									<div><button type="submit" id="modifyEnd" class="style-btn" style="display: none;">완료</button></div>
-								</div>
-							
-						
-					<%
-						}
-					}
-					%>
-								</form>
-							</div>
-					<%
-							if(isAdmin && answer == null){
-					%>
-							<br>
-								<h4>답변입력</h4>
-								<form action="<%=request.getContextPath()%>/emp/addAnswerAction.jsp">
-									<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
-									<input type="hidden" name="id" value="<%=one.getId()%>">
-									<textarea rows="3" cols="70" name="comment"></textarea>
-									<div class="flex-wrapper" style="width: 105px">
-										<a href="<%=request.getContextPath()%>/cstm/questionList.jsp" class="style-btn">이전</a>
-										<button type="submit" class="style-btn">등록</button>		
-									</div>	
-								</form>
-					<%
-							}
-					%>
+					} else {
+					%>	
+						<h4>답변입력</h4>
+						<form action="<%=request.getContextPath()%>/emp/addAnswerAction.jsp">
+							<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
+							<input type="hidden" name="id" value="<%=one.getId()%>">
+							<textarea rows="3" cols="70" name="comment"></textarea>
+							<button type="submit">등록</button>
+						</form>
+				<%
+					} 
+				}
+				%>
 	</div>
+	
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	
 </body>
 </html>
