@@ -199,7 +199,18 @@
 		email2.blur(function(){
 			ckEmail();
 		});
+		
+		// 약관동의 ===================================
+		// 기본값 N / 약관동의 거부시 회원가입 비활성화
+		$('input[name="agree"]').change(function(){
+			let agreeValue = $('input[name="agree"]:checked').val();
+			if(agreeValue === 'Y'){
+				$('button[type="submit"]').prop('disabled', false);
+			} else {
+				$('button[type="submit"]').prop('disabled', true);
+			}	
 			
+		});
 		// ========================================
 		// 회원가입 버튼 활성화/비활성화 체크
 		   	// keyup = 키보드를 떼었을때 = 입력을 다했을때 감지
@@ -348,11 +359,11 @@
 				<tr>
 					<th>약관동의</th>
 					<td>
+						<!-- 약관내용 -->
 						가입시 사용했던 아이디는 탈퇴 후 재가입시에 사용 불가능합니다. 동의하십니까?
-						<input type = "radio" name = "agree" value = "Y" checked="checked" required="required">Y
-						<input type = "radio" name = "agree" value = "N" required="required">N
+						<input type = "radio" name = "agree" value = "Y" required="required">Y
+						<input type = "radio" name = "agree" value = "N" checked="checked" required="required">N
 					</td>
-					<!-- 약관내용 -->
 				</tr>
 			</table>
 			<button type="submit">회원가입</button>
