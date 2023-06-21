@@ -124,6 +124,13 @@
 					<td><%=order.getOrderStatus()%></td>
 				<tr>
 			</table>
+			<%
+				if(order.getOrderStatus().equals("배송완료")){
+			%>
+					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/addReview.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>'">리뷰 작성</button>
+			<%		
+				}
+			%>
 			<br>
 			<h3>배송지</h3>
 			<button type="submit">주문 취소</button>
