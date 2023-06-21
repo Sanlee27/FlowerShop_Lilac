@@ -130,7 +130,7 @@
 			<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
 				<h1><a href="<%=request.getContextPath()%>/cstm/productList.jsp">상품 리스트</a></h1>
 				<!-- ==============검색버튼============== -->
-				<form method="post">
+				<form method="get">
 					<div>
 						<select name="searchCategory">
 							<option value="">카테고리</option>

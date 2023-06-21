@@ -227,7 +227,7 @@
 			<h1>할인 변경</h1>
 			<h3>오늘 날짜 : <%=today%></h3>
 			<!-- ==============리스트============= -->
-			<form id="form" method="post">
+			<form id="form" method="get">
 				<div>
 					<select name="searchCategory">
 						<option value="">카테고리</option>
@@ -295,12 +295,12 @@
 		</div>
 		<!-- ===============페이지================ -->
 		<div class="pagination">
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?currentPage=1">처음으로</a>
+			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">처음으로</a>
 			<%
 				// 10p 단위 이전 버튼
 				if(minPage>1){
 			%>
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
+					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">이전</a>
 			<%
 				}
 			
@@ -311,18 +311,18 @@
 					<%	
 					} else {
 					%>
-						<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?currentPage=<%=i%>"><%=i%></a>
+						<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=i%>"><%=i%></a>
 					<%	
 					}
 				}
 				// 10p단위 다음버튼
 				if(maxPage != lastPage){
 			%>	
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>	
+					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">다음</a>	
 			<%
 				}
 			%>
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?currentPage=<%=lastPage%>">마지막으로</a>
+			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">마지막으로</a>
 		</div>
 	</div>
 </body>
