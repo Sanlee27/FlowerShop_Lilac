@@ -37,11 +37,14 @@
 			<a onclick='cartModalOpen()'>
 				<img src="<%=request.getContextPath() %>/images/cart.png">
 			</a>
-			<a href="<%=request.getContextPath()%>/cstm/login.jsp">
-				<img src="<%=request.getContextPath() %>/images/login.png">
-			</a>
 			<%
-				if(session.getAttribute("loginId") != null){
+				if(session.getAttribute("loginId") == null){
+			%>
+					<a href="<%=request.getContextPath()%>/cstm/login.jsp">
+						<img src="<%=request.getContextPath() %>/images/login.png">
+					</a>
+			<%
+				}else{
 			%>
 					<a href="<%=request.getContextPath()%>/cstm/logoutAction.jsp">
 						<img src="<%=request.getContextPath() %>/images/logout.png">
