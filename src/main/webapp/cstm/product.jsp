@@ -7,14 +7,18 @@
 	//인코딩
 	request.setCharacterEncoding("utf-8");
 
-	/*//유효성검사
+	//id 세션 유효성 검사
+	if(session.getAttribute("loginId")==null){
+		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+		return;
+	}
+	
+	//유효성검사
 	if(request.getParameter("productNo") == null
-		||request.getParameter("orderNo") == null
-		||request.getParameter("productNo").equals("")
-		||request.getParameter("orderNo").equals("")) {
+		||request.getParameter("productNo").equals("")) {
 		response.sendRedirect(request.getContextPath()+"/cstm/productList.jsp");
 		return;
-	}*/
+	}
 	
 	//DAO
 	ProductDao productdao = new ProductDao();
@@ -23,8 +27,8 @@
 	QuestionDao questiondao = new QuestionDao();
 	
 	//변수
-	int productNo = 2;
-	//int productNo = Integer.parseInt(request.getParameter("productNo"));
+	//int productNo = 2;
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	
 	//productdao
 	HashMap<String, Object> map = productdao.getProductDetail(productNo);
@@ -117,11 +121,11 @@
 	
 			});
 			$("#toReview").click(function(){
-				window.scrollTo({top:2690, behavior: "smooth"});
+				window.scrollTo({top:2300, behavior: "smooth"});
 	
 			});
 			$("#toQna").click(function(){
-				window.scrollTo({top:3700, behavior: "smooth"});
+				window.scrollTo({top:2900, behavior: "smooth"});
 	
 			});
 			
@@ -139,12 +143,12 @@
 				    toDetail.removeClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= threshold && scrollPosition < 2690) { //900~2690-상세
+				  } else if (scrollPosition >= threshold && scrollPosition < 2300) { //900~2300-상세
 				    navbar.addClass('fixed');
 				    toDetail.addClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= 2490 && scrollPosition < 3700) { //2490~3700-리뷰
+				  } else if (scrollPosition >= 2300 && scrollPosition < 2900) { //2490~2900-리뷰
 				    navbar.addClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.addClass('active');
@@ -180,13 +184,13 @@
 			const pNo = '<%=productNo%>';
 			const cCnt = $('#productCnt_input').val();
 			
-			location.href="<%=request.getContextPath()%>" + '/cstm/order.jsp?productNo=' + pNo + '&cartCnt=' + cCnt;		
+			location.href="<%=request.getContextPath()%>" + '/cstm/order.jsp?productNo=' + pNo + '&orderCnt=' + cCnt;		
 			}
 		function cartClick(){
 			const pNo = '<%=productNo%>';
 			const cCnt = $('#productCnt_input').val();
 			
-			location.href="<%=request.getContextPath()%>" + '/cstm/cart.jsp?productNo=' + pNo + '&cartCnt=' + cCnt;		
+			location.href="<%=request.getContextPath()%>" + '/cstm/addCartAction.jsp?productNo=' + pNo + '&cartCnt=' + cCnt;		
 			}
 	</script>
 </head>
@@ -233,7 +237,8 @@
 		<!-- <h1>상세설명</h1> -->
 		<div class="productImg"><img src="<%=path%>"></div>
 		<div class="detailName"><h1><%=product.getProductName()%></h1></div>
-		<div><%=product.getProductInfo()%></div>
+		<div class="detailFrist"><%=product.getProductInfo().substring(0,96)%></div>
+		<div><%=product.getProductInfo().substring(100)%></div>
 	</div>
 	
 	<div id="reviewPageBtn"></div>
