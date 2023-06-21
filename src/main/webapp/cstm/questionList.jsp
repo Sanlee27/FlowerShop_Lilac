@@ -42,8 +42,6 @@
 	
 	//현재 페이지에 표시 할 리스트 생성
 	ArrayList<Question> list = questionDao.questionList(beginRow, rowPerPage);
-
-		
 		
 %>
 
@@ -54,7 +52,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Lilac</title>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<!-- css파일 -->
@@ -63,14 +61,14 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+	<!-- ajax -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script>
-		$(document).ready(function() {
-			$('.list-item').click(function() {
-				let qNo = $(this).find('.qNo').text();
-				window.location.href ="<%=request.getContextPath()%>/cstm/question.jsp?qNo=" + qNo;
-			});
-		});
+		function listItemClick() {
+			let qNo = $(this).find('.qNo').text();
+			window.location.href ="<%=request.getContextPath()%>/cstm/question.jsp?qNo=" + qNo;
+		};
+
 	</script>
 
 </head>
@@ -97,7 +95,7 @@
 				for(Question m : list){
 			%>
 					<input type="hidden" name="qNo" value="<%=m.getqNo()%>">
-					<div class="list-item hovered ">
+					<div class="list-item hovered " onclick="listItemClick()">
 						<div class="qNo"><%=m.getqNo() %></div>
 						<div><%=m.getqCategory() %></div>
 						<div><%=m.getqTitle() %></div>
@@ -148,7 +146,8 @@
 					%>
 				</div>
 			</div>	
-	
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 
 </body>
 </html>
