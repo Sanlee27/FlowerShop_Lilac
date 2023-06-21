@@ -2,6 +2,21 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	// 요청값 유효성 검사
+	if(request.getParameter("productNo") == null
+	|| request.getParameter("id") == null
+	|| request.getParameter("orderCnt") == null
+	|| request.getParameter("address") == null
+	|| request.getParameter("toAddPoint") == null
+	|| request.getParameter("toSpendPoint") == null
+	|| request.getParameter("productNo").equals("")
+	|| request.getParameter("id").equals("")
+	|| request.getParameter("orderCnt").equals("")
+	|| request.getParameter("address").equals("")
+	|| request.getParameter("toAddPoint").equals("")
+	|| request.getParameter("toSpendPoint").equals("")){
+		return;
+	}
 	// 요청값 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	String id = request.getParameter("id");
@@ -65,6 +80,11 @@
 	
 	// db에서 id에 해당하는 cart데이터 가져옴
 	Cart cart = cartDao.selectCart(id);
+	
+	// cart가 없으면 return
+	if(cart == null){
+		return;
+	}
 	
 	// cart에 있는 productNo랑 넘어온 productNo가 같으면 장바구니 삭제
 	if(cart.getProductNo() == productNo){

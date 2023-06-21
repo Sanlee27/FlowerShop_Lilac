@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.*" %>
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
@@ -17,6 +18,7 @@
 	|| request.getParameter("productNo").equals("")
 	|| request.getParameter("orderCnt") == null
 	|| request.getParameter("orderCnt").equals("")){
+		response.sendRedirect(request.getHeader("referer"));
 		return;
 	}
 
@@ -44,6 +46,12 @@
 	
 	// 예상 적립금을 저장할 변수
 	int toAddPoint = (int)(discountPrice * orderCnt * cstmGradePoint);
+	
+	// 가격 표시해줄 포맷터
+	DecimalFormat dc = new DecimalFormat("###,###,###,###");
+	
+	// 포맷이 적용된 가시용 포인트
+	String userPoint = dc.format(customer.getCstmPoint());
 %>
 <!DOCTYPE html>
 <html>
@@ -64,7 +72,7 @@
 		}
 		function pointInputChange(input){
 			if(parseInt($(input).val()) > <%=customer.getCstmPoint() %>){
-				swal("경고", "사용 가능 포인트는 <%=customer.getCstmPoint()%>입니다.", "warning");
+				swal("경고", "사용 가능 포인트는 <%=userPoint%>입니다.", "warning");
 				$(input).val(<%=customer.getCstmPoint()%>)
 			}
 		}
@@ -99,7 +107,7 @@
 					swal("성공", "결제완료", "success");
 					setTimeout(function() {
 						window.location.href = '<%=request.getContextPath()%>' + '/cstm/orderList.jsp?id=' + '<%=loginId%>';
-					}, 5000);
+					}, 1000);
 				} else {
 			        // 요청이 실패한 경우
 			    	swal("결제실패", "주문정보나 결제수단을 확인하세요", "error");
@@ -139,32 +147,32 @@
 				<%
 					if(discountRate != 0.0){
 				%>
-						상품금액 : <del><%=product.getProductPrice() %></del>
-						<span class="price"><%=discountPrice %></span>
+						상품금액 : <del><%=dc.format(product.getProductPrice()) %></del>
+						<span class="price"><%=dc.format(discountPrice) %></span>
 				<%
 					}else{
 				%>
-						상품금액 : <%=product.getProductPrice() %>
+						상품금액 : <%=dc.format(product.getProductPrice()) %>
 				<%
 					}
 				%>
 				
 			</div>
 			<div>
-				주문금액 : <%=totalPrice %>원
+				주문금액 : <%=dc.format(totalPrice) %>원
 				<%
 					if(discountRate != 0.0){
 				%>
-						(<%=(product.getProductPrice() - discountPrice) * orderCnt %>원 할인)
+						(<%=dc.format((product.getProductPrice() - discountPrice) * orderCnt) %>원 할인)
 				<%
 					}
 				%>
 			</div>
-			<div>예상적립금 : <%= toAddPoint%>원</div>
+			<div>예상적립금 : <%=dc.format(toAddPoint)%>원</div>
 			<hr>
 			
 			<h2>결제정보</h2>
-			<div>보유 포인트 : <%=customer.getCstmPoint() %></div>
+			<div>보유 포인트 : <%=userPoint %></div>
 			<div>사용할 포인트 : <input type="number" inputmode="numeric" onchange="pointInputChange(this)" id="toSpendPoint" value=0></div>
 			<div>
 				결제수단 : 
