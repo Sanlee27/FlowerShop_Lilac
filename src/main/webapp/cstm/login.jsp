@@ -38,40 +38,33 @@
 	</script>
 </head> 
 <body>
-	<div>
-		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
-	</div>
 	<div class="container">
-		<form method="post" name = "form">
-		<h1>로그인</h1>
+		<form method="post" name = "form" class="login-form">
+		<a href="<%=request.getContextPath() %>/home.jsp">
+			<img src="<%=request.getContextPath() %>/images/logo.png">
+		</a>
 			<div>
 				<div>
-					<div>아이디</div>
-					<div>
-						<%
-							// 메세지가 없거나(=로그인 디폴트) 휴면계정 메세지 아닐때(비밀번호 틀림 표시 등일때)
-							if(msg == null || !msg.equals("휴면계정입니다. 다시 로그인해주세요.") && !msg.equals("비밀번호를 확인하세요.")){
-						%>
-								<input type = "text" name = "id" required="required">
-						<%	
-							// 휴면계정 일 경우 재로그인 요구
-							} else if(msg != null && msg.equals("휴면계정입니다. 다시 로그인해주세요.")){
-						%>
-								<input type = "text" name = "id" value=<%=id%> readonly="readonly">
-						<%
-							} else if (msg != null && msg.equals("비밀번호를 확인하세요.")) {
-						%>
-						    	<input type="text" name="id" value="<%=id%>" readonly="readonly">
-						<%
-							}
-						%>
-					</div>
+					<%
+						// 메세지가 없거나(=로그인 디폴트) 휴면계정 메세지 아닐때(비밀번호 틀림 표시 등일때)
+						if(msg == null || !msg.equals("휴면계정입니다. 다시 로그인해주세요.") && !msg.equals("비밀번호를 확인하세요.")){
+					%>
+							<input type = "text" name = "id" required="required" placeholder="아이디">
+					<%	
+						// 휴면계정 일 경우 재로그인 요구
+						} else if(msg != null && msg.equals("휴면계정입니다. 다시 로그인해주세요.")){
+					%>
+							<input type = "text" name = "id" value=<%=id%> readonly="readonly">
+					<%
+						} else if (msg != null && msg.equals("비밀번호를 확인하세요.")) {
+					%>
+					    	<input type="text" name="id" value="<%=id%>" readonly="readonly">
+					<%
+						}
+					%>
 				</div>
 				<div>
-					<div>비밀번호</div>
-					<div>
-						<input type = "password" name = "pw" required="required">
-					</div>
+					<input type = "password" name = "pw" required="required" placeholder="비밀번호">
 				</div>
 			</div>
 			<%
@@ -85,7 +78,7 @@
 			<%
 				if(msg == null || (msg != null && !msg.equals("휴면계정입니다. 다시 로그인해주세요.") && !msg.equals("비밀번호를 확인하세요."))){
 			%>
-					<button type = "submit" onclick = "javascript: form.action='<%=request.getContextPath()%>/cstm/loginAction.jsp';">로그인</button>
+					<button type = "submit" onclick = "javascript: form.action='<%=request.getContextPath()%>/cstm/loginAction.jsp';" class="style-btn">로그인</button>
 			<%
 				} else if(msg != null && (msg.equals("휴면계정입니다. 다시 로그인해주세요.") || msg.equals("비밀번호를 확인하세요."))){
 			%>
@@ -93,7 +86,7 @@
 			<%	
 				}
 			%>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/join.jsp'">회원가입</button>
+			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/join.jsp'" class="style-btn">회원가입</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

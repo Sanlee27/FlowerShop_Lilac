@@ -195,6 +195,18 @@ del{
 	font-size: 18px;
 }
 
+/* form-list 부분 */
+.form-list{
+	width: 100%;
+	font-size: 18px;
+}
+.form-list > div{
+	display: grid;
+	grid-template-columns: 20% 80%;
+	padding: 10px 0;
+	border-bottom: 1px solid #d5d5d5;
+}
+
 /* 상품 리스트 부분 */
 .product-list{
 	width: 1150px;
@@ -555,4 +567,35 @@ del{
 }
 .order-info .order-form + .order-form{
 	padding: 20px 0;
+}
+
+/* 마이페이지 */
+.my-page > div:nth-child(1){
+	width: 75%;
+}
+.my-page .rankImg{
+	display: grid;
+	place-items: center;
+}
+.my-page .rankImg img{
+	width: 270px;
+}
+
+/* 로그인 */
+.login-form{
+	width: 400px;
+	margin: 0 auto;
+	text-align: center;
+}
+.login-form input{
+	width: 90%;
+	margin: 10px 0;
+	padding: 10px;
+	font-size: 18px;
+}
+.login-form .style-btn{
+	width: 100%;
+	margin: 10px 0;
+	padding: 10px;
+	font-weight: bold;
 }
