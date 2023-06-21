@@ -136,7 +136,7 @@
 	            if (xhr.status === 200) {
 	                // 성공시 장바구니 비우기
 	                $('.modal').html("<h2>장바구니</h2>"
-	                	+ "<button type='button' onclick='modalClose()' class='closeBtn'><img src='<%=request.getContextPath() %>/images/close.png'></button>"
+	                	+ "<button type='button' onclick='cartModalClose()' class='closeBtn'><img src='<%=request.getContextPath() %>/images/close.png'></button>"
 	            		+ "<div class='empty'>장바구니가 비었습니다.</div>");
 	            } else {
 	                // 요청이 실패한 경우

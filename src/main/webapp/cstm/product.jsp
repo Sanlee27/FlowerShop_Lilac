@@ -183,19 +183,40 @@
 			location.href="<%=request.getContextPath()%>" + '/cstm/order.jsp?productNo=' + pNo + '&cartCnt=' + cCnt;		
 			}
 		function cartClick(){
-			const pNo = '<%=productNo%>';
-			const cCnt = $('#productCnt_input').val();
-			
-			location.href="<%=request.getContextPath()%>" + '/cstm/cart.jsp?productNo=' + pNo + '&cartCnt=' + cCnt;		
-			}
+			let xhr = new XMLHttpRequest();
+			let url = '<%=request.getContextPath()%>/cstm/addCartAction.jsp';
+			let cartCnt = $('#productCnt_input').val()
+			let params = {
+					productNo : '<%=productNo%>',
+					cartCnt : cartCnt
+			};
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.onreadystatechange = function() {
+			    if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					swal("성공", "장바구니 추가 성공", "success")
+			          .then(function() {
+			            location.reload();
+			          });
+				} else {
+			        // 요청이 실패한 경우
+			    	swal("실패", "장바구니 추가 실패", "error");
+			      }
+			    }
+			  };
+
+			  xhr.send($.param(params));	
+		}
 	</script>
 </head>
 <body>
-<!-- 메인메뉴 -->
-<div>
-<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
-</div>
-
+	<!-- 메인메뉴 -->
+	<div>
+		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+	</div>
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 <div class="container">
 	<!-- 상품 주문 -->
 	<div class="productOrder">
@@ -204,7 +225,7 @@
 		</div>
 		
 		<div class="productRight">
-			<div class="productName">상품명 : <%=product.getProductName()%></div>
+			<div class="productName"><%=product.getProductName()%></div>
 			<div class="productPrice">가격 : <%=dc.format(product.getProductPrice())%>원</div>
 			<div class="productDc">할인율 : <%=Math.round(discountrate * 100)%>%</div>
 			<div class="productDp">할인된 가격 : <%=dc.format(discountprice)%>원</div>
