@@ -5,6 +5,8 @@
 <%@ page import="java.net.*" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
+	request.setCharacterEncoding("UTF-8");
+
 	//클래스 객체 생성
 	ProductDao dao = new ProductDao();
 	CategoryDao cDao = new CategoryDao();
