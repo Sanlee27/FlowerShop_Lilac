@@ -117,38 +117,38 @@
 		$(document).ready(function(){
 			//nav 이동
 			$("#toDetail").click(function(){
-				window.scrollTo({top:900, behavior: "smooth"});
+				window.scrollTo({top:600, behavior: "smooth"});
 	
 			});
 			$("#toReview").click(function(){
-				window.scrollTo({top:2300, behavior: "smooth"});
+				window.scrollTo({top:2000, behavior: "smooth"});
 	
 			});
 			$("#toQna").click(function(){
-				window.scrollTo({top:2900, behavior: "smooth"});
+				window.scrollTo({top:2650, behavior: "smooth"});
 	
 			});
 			
 			//스크롤 위치에 따른 네비바 색 변환
 			$(window).scroll(function() {
 				  var scrollPosition = $(this).scrollTop();
-				  var threshold = 900;
+				  var threshold = 600;
 				  var navbar = $('.navbar-wrapper');
 				  var toDetail = $('#toDetail');
 				  var toReview = $('#toReview');
 				  var toQna = $('#toQna');
 					
-				  if (scrollPosition < threshold) {//0~900
+				  if (scrollPosition < threshold) {//0~600
 				    navbar.removeClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= threshold && scrollPosition < 2300) { //900~2300-상세
+				  } else if (scrollPosition >= threshold && scrollPosition < 2000) { //600~2000-상세
 				    navbar.addClass('fixed');
 				    toDetail.addClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= 2300 && scrollPosition < 2900) { //2490~2900-리뷰
+				  } else if (scrollPosition >= 2000 && scrollPosition < 2650) { //2000~2650-리뷰
 				    navbar.addClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.addClass('active');
@@ -160,32 +160,51 @@
 				    toQna.addClass('active');
 				  }
 			});
-			//상품 수량 변경 버튼
+			
+			// 총 주문 가격 계산 함수
+			function calculateTotalPrice() {
+			  var productDp = <%=discountprice%>; // 할인된 가격
+			  var productCnt = parseInt($("#productCnt_input").val()); // 수량
+			
+			  var totalPrice = productDp * productCnt;
+			
+			  $("#totalPrice").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"); // 총 주문 가격을 표시할 요소에 값 할당
+			}
+			// 수량이 변경될 때마다 총 주문 가격 계산
+			$("#productCnt_input").on("input", calculateTotalPrice);
+
+			
+			//상품 수량 변경 
 			let productCnt = $("#productCnt_input").val();
 			$("#plus").click(function(){
 				$("#productCnt_input").val(++productCnt);
+				calculateTotalPrice();
 			});
 			
 			$("#minus").click(function(){
 				if(productCnt > 1) {
 					$("#productCnt_input").val(--productCnt);
+					calculateTotalPrice();
 				} else {
 					swal("경고", "상품을 한 개이상 구매해주세요", "warning");
 				}
+				
 			});
-			
+		
 			if("<%=request.getParameter("msg")%>" == "상품을 모두 삭제 후 카테고리를 삭제해주세요.") {
 				swal("경고", "<%=request.getParameter("msg")%>", "warning");
 			}else if("<%=request.getParameter("msg")%>" != "null") {
 				swal("완료", "<%=request.getParameter("msg")%>", "success");
 			}
 		});
+		//주문버튼
 		function orderClick(){
 			const pNo = '<%=productNo%>';
 			const cCnt = $('#productCnt_input').val();
 			
 			location.href="<%=request.getContextPath()%>" + '/cstm/order.jsp?productNo=' + pNo + '&orderCnt=' + cCnt;		
 			}
+		//카트버튼
 		function cartClick(){
 			let xhr = new XMLHttpRequest();
 			let url = '<%=request.getContextPath()%>/cstm/addCartAction.jsp';
@@ -230,30 +249,52 @@
 		
 		<div class="productRight">
 			<div class="productName"><%=product.getProductName()%></div>
-			<div class="productPrice">가격 : <%=dc.format(product.getProductPrice())%>원</div>
-			<div class="productDc">할인율 : <%=Math.round(discountrate * 100)%>%</div>
-			<div class="productDp">할인된 가격 : <%=dc.format(discountprice)%>원</div>
-		
+			<div class="productDc">
+				<%
+					if(discountrate == 0.0){
+				%>
+						<%=dc.format(product.getProductPrice())%>원
+				<%
+					}else{
+				%>
+						<span class="priceDc">&#x2B07;<%=Math.round(discountrate * 100)%>% 할인</span>	
+						<del><%=dc.format(product.getProductPrice())%>원</del>
+						<span class="price"><%=dc.format(discountprice) %>원</span>		
+				<%
+					}
+				%>
+			
+			</div>
 			<div id="productCnt">
-				<div>수량 : <input type="number" id="productCnt_input" value="1"></div>
-				<span>
-						<button id="plus">+</button>
-						<button id="minus">-</button>
-				</span>
+				<div class="btn-wrapper">
+					<div class="marginRigth50">구매수량</div>
+						<button id="plus" class="pmBtn"><img src="<%=request.getContextPath() %>/images/plus.png"></button>
+						<div><input type="number" id="productCnt_input" value="1" min="1"></div>
+						<button id="minus" class="pmBtn"><img src="<%=request.getContextPath() %>/images/minus.png"></button>
+				</div>
 			</div>
 			
-			<div><a onclick="orderClick()">주문하기</a></div>
-			<div id="cart"><a onclick="cartClick()">장바구니</a></div>
+			<div class="totalPrice-wrapper">
+				<div>상품금액 합계</div>
+				<div id="totalPrice"><%=dc.format(discountprice)%>원</div>
+			</div>
+			<div class="divide-line1"></div>
+			
+			<div class="orderCart-wrapper">
+				<div class="orderCart"><a onclick="orderClick()">주문하기</a></div>
+				<div class="orderCart" id="cart"><a onclick="cartClick()">장바구니</a></div>
+			</div>
 		</div>
 	</div>
 	
 	<div class="navbar-wrapper">
 		<div id="navbar" class="marginTop20 productNavbar">
-			<div><button id="toDetail" class="" >상세설명</button></div>
+			<div><button id="toDetail" >상세설명</button></div>
 			<div><button id="toReview" >리뷰</button></div>
 			<div><button id="toQna" >문의</button></div>
 		</div>	
 	</div>
+	
 	<div class="productInfo marginTop100">
 		<!-- <h1>상세설명</h1> -->
 		<div class="productImg"><img src="<%=path%>"></div>
@@ -263,8 +304,8 @@
 	</div>
 	
 	<div id="reviewPageBtn"></div>
-	<div class="list-wrapper3 marginTop300 productReview">
-		<h2 class="">리뷰</h2>
+	<div class="list-wrapper3 marginTop180 productReview">
+		<h2 class="detailCate">리뷰</h2>
 		<span class="font-line"></span>
 		<div class="list-item">
 			<div>제목</div>
@@ -331,8 +372,8 @@
 	</div>
 	
 	<div id="qnaPageBtn"></div>
-	<div class="list-wrapper6-2 marginTop300 productQna" id="qna">
-	<h2>문의</h2>
+	<div class="list-wrapper6-2 marginTop180 productQna" id="qna">
+	<h2 class="detailCate">문의</h2>
 	<span class="font-line"></span>
 		<div class="list-item">
 			<div>카테고리</div>
