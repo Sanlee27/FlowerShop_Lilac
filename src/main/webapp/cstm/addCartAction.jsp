@@ -28,14 +28,26 @@
 	   	session.setAttribute("cart", cart);
 	   return;
 	}else{ // 로그인 상태일때
+		
+		// CartDao객체 생성
+		CartDao cartDao = new CartDao();
+	
+		// id에 해당하는 cart 가져오기
+		Cart originCart = cartDao.selectCart(loginId);
+		
+		// 기존에 cart데이터가 있으면 삭제
+		if(originCart != null){
+			int row = cartDao.deleteCart(originCart.getCartNo());
+			System.out.println("기존 장바구니 삭제");
+		}
+		
 		// CartDao에 넘겨줄 Cart객체 생성
 		Cart cart = new Cart();
 		cart.setId(loginId);
 		cart.setProductNo(productNo);
 		cart.setCartCnt(cartCnt);
 		
-		// CartDao객체 생성
-		CartDao cartDao = new CartDao();
+		// cart추가
 		int row = cartDao.insertCart(cart);
 		
 		// 디버깅

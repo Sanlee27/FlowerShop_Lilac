@@ -88,6 +88,7 @@
 			}
 			
 			let toSpendPoint = $("#toSpendPoint").val() == "" ? 0 : parseInt($("#toSpendPoint").val()); 
+			let isDefaultAddr = $('#address').text() == initialValue ? true : false;
 			let xhr = new XMLHttpRequest();
 			let url = '<%=request.getContextPath()%>/cstm/orderAction.jsp';
 			let params = {
@@ -96,8 +97,9 @@
 				orderCnt : <%=orderCnt%>,
 				totalPrice : <%=totalPrice%>,
 				address : $("#address").text(),
+				isDefaultAddr: isDefaultAddr,
 				toAddPoint : <%=toAddPoint%>,
-				toSpendPoint : toSpendPoint
+				toSpendPoint : toSpendPoint,
 			};
 			xhr.open('POST', url, true);
 			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -129,59 +131,96 @@
 		<jsp:include page="/cstm/address.jsp"></jsp:include>
 		
 		<div class="container">
-			<h2>구매자 정보</h2>
-			<div>이름 : <%=customer.getCstmName() %></div>
-			<div>이메일 : <%=customer.getCstmEmail() %></div>
-			<div>전화번호 : <%=customer.getCstmPhone() %></div>
-			<div>
-				배송지 : <span id="address"><%=customer.getCstmAddress() %></span>
-				<button type="button" onclick='addressModalOpen()'>배송지변경</button>
-			</div>
-			<hr>
-			
+		
+		<div class="order-info">
 			<h2>구매정보</h2>
-			<div><img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename()%>"></div>
-			<div><%=product.getProductName() %></div>
-			<div>수량 : <%=orderCnt %>개</div>
-			<div>
-				<%
-					if(discountRate != 0.0){
-				%>
-						상품금액 : <del><%=dc.format(product.getProductPrice()) %></del>
-						<span class="price"><%=dc.format(discountPrice) %></span>
-				<%
-					}else{
-				%>
-						상품금액 : <%=dc.format(product.getProductPrice()) %>
-				<%
-					}
-				%>
-				
-			</div>
-			<div>
-				주문금액 : <%=dc.format(totalPrice) %>원
-				<%
-					if(discountRate != 0.0){
-				%>
-						(<%=dc.format((product.getProductPrice() - discountPrice) * orderCnt) %>원 할인)
-				<%
-					}
-				%>
-			</div>
-			<div>예상적립금 : <%=dc.format(toAddPoint)%>원</div>
-			<hr>
+			<div class="font-line"></div>
 			
-			<h2>결제정보</h2>
-			<div>보유 포인트 : <%=userPoint %></div>
-			<div>사용할 포인트 : <input type="number" inputmode="numeric" onchange="pointInputChange(this)" id="toSpendPoint" value=0></div>
-			<div>
-				결제수단 : 
-				<input type="radio" value="카드결제" name="pay">카드결제
-				<input type="radio" value="무통장입금" name="pay">무통장입금
-				<input type="radio" value="간편결제" name="pay">간편결제
-			<div>
-			<button type="button" onclick="payBtnClick()">결제하기</button>
+			<div class="flex-wrapper">
+				<div><img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename()%>"></div>
+				<div>
+					<div class="order-form">
+						<div>상품명</div>
+						<div>수량</div>
+						<div>상품금액</div>
+						<div>주문금액</div>
+						<div>예상적립금</div>
+					</div>
+					<div class="order-form">
+						<div><%=product.getProductName() %></div>
+						<div><%=orderCnt %>개</div>
+						<div>
+							<%
+								if(discountRate != 0.0){
+							%>
+									<del><%=dc.format(product.getProductPrice()) %>원</del>
+									<br>
+									<span class="price"><%=dc.format(discountPrice) %>원</span>
+							<%
+								}else{
+							%>
+									<%=dc.format(product.getProductPrice()) %>원
+							<%
+								}
+							%>
+							
+						</div>
+						<div>
+							<%=dc.format(totalPrice) %>원
+							<%
+								if(discountRate != 0.0){
+							%>
+									<br>
+									(<%=dc.format((product.getProductPrice() - discountPrice) * orderCnt) %>원 할인)
+							<%
+								}
+							%>
+						</div>
+						<div><%=dc.format(toAddPoint)%>원</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="divide-line"></div>
+				
+			<div class="flex-wrapper">
+				<div class="order-info" style="width: 45%">
+					<h2>구매자정보</h2>
+					<div class="font-line"></div>
+					<div>이름 : <%=customer.getCstmName() %></div>
+					<div>이메일 : <%=customer.getCstmEmail() %></div>
+					<div>전화번호 : <%=customer.getCstmPhone() %></div>
+					<div>
+						배송지 : <span id="address"><%=customer.getCstmAddress() %></span>
+					</div>
+					<div>배송 요청사항 : <input type="text"></div>
+					<button type="button" onclick='addressModalOpen()' class="style-btn">배송지변경</button>
+					
+				</div>
+				
+				<div class="order-info" style="width: 45%">
+					<h2>결제정보</h2>
+					<div class="font-line"></div>
+					<div>할인쿠폰 : 0원 <span class="price">적용 가능한 할인쿠폰이 없습니다.</span></div>
+					<div>보유 포인트 : <%=userPoint %></div>
+					<div>사용할 포인트 : <input type="number" inputmode="numeric" onchange="pointInputChange(this)" id="toSpendPoint" value=0></div>
+					<div>
+						결제수단 : 
+						<input type="radio" value="카드결제" name="pay" id="card">
+						<label for="card">카드결제</label>
+						<input type="radio" value="무통장입금" name="pay" id="toss">
+						<label for="toss">무통장입금</label>
+						<input type="radio" value="간편결제" name="pay" id="simple">
+						<label for="simple">간편결제</label>
+				<div>
+			</div>
+			</div>
+			
+			
+			<button type="button" onclick="payBtnClick()" class="style-btn">결제하기</button>
 		</div>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

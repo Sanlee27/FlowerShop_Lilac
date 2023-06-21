@@ -148,6 +148,9 @@
 	    xhr.send(params);
 	}
 	function changeCartCnt(cartNo, cartCnt) {
+		if(cartCnt < 1){
+			return;
+		}
 	    let xhr = new XMLHttpRequest();
 	    let url = '<%=request.getContextPath()%>/cstm/modifyCartAction.jsp';
 	    let params = 'cartNo=' + encodeURIComponent(cartNo) + '&cartCnt=' + encodeURIComponent(cartCnt);

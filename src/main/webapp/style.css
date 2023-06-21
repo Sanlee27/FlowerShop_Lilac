@@ -26,6 +26,11 @@ del{
 	height: 2px;
 	background-color: pink;
 }
+.divide-line{
+	width: 100%;
+	height: 2px;
+	background-color: pink;
+}
 .container{
 	width: 1280px;
 	margin: 120px auto 0;
@@ -51,8 +56,6 @@ del{
 	margin-top: 30px;
 }
 .style-btn{
-	display: grid;
-	place-items: center;
 	padding: 5px 10px;
 	border: none;
 	border-radius: 4px;
@@ -64,6 +67,13 @@ del{
 	cursor: pointer;
 	background-color: #888888;
 	color: pink;
+}
+.font-line{
+	display: block;
+	width: 8%;
+	height: 5px;
+	background-color: #d5d5d5;
+	margin-bottom: 10px;
 }
 
 /* 텍스트만 있는 리스트 */
@@ -353,6 +363,10 @@ del{
 	text-align: center;
 	box-shadow: 5px 10px 10px 1px rgba(0,0,0,0.3); 
 }
+.modal-container .modal #addressList{
+	overflow-y: auto;
+	height: 250px;
+}
 .modal-container .modal .closeBtn{
 	position: absolute;
 	top: 20px;
@@ -490,13 +504,6 @@ del{
 	margin-bottom: 20px;
 	color: #f1c3c7;
 }
-.font-line{
-	display: block;
-	width: 8%;
-	height: 5px;
-	background-color: #d5d5d5;
-	margin-bottom: 10px;
-}
 .productImg {
 	width: 700px;
 	margin-left: auto;
@@ -525,4 +532,27 @@ del{
 #toReview.active,
 #toQna.active {
   background: #f7e5e5;
+}
+
+/* order 파트별 */
+.order-info{
+	padding: 10px;
+}
+.order-info img{
+	width: 180px;
+}
+.order-info > div+div{
+	margin-top: 20px;
+}
+.order-info .order-form{
+	display: grid;
+	place-items: center;
+	grid-template-columns: 20% 20% 20% 20% 20% ;
+	width: 1050px;
+	padding: 7px 0;
+	border-top: 1px solid #d5d5d5;
+	text-align: center;
+}
+.order-info .order-form + .order-form{
+	padding: 20px 0;
 }

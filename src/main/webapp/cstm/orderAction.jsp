@@ -9,12 +9,14 @@
 	|| request.getParameter("address") == null
 	|| request.getParameter("toAddPoint") == null
 	|| request.getParameter("toSpendPoint") == null
+	|| request.getParameter("isDefaultAddr") == null
 	|| request.getParameter("productNo").equals("")
 	|| request.getParameter("id").equals("")
 	|| request.getParameter("orderCnt").equals("")
 	|| request.getParameter("address").equals("")
 	|| request.getParameter("toAddPoint").equals("")
-	|| request.getParameter("toSpendPoint").equals("")){
+	|| request.getParameter("toSpendPoint").equals("")
+	|| request.getParameter("isDefaultAddr").equals("")){
 		return;
 	}
 	// 요청값 저장
@@ -25,6 +27,7 @@
 	String address = request.getParameter("address");
 	int toAddPoint = Integer.parseInt(request.getParameter("toAddPoint"));
 	int toSpendPoint = Integer.parseInt(request.getParameter("toSpendPoint"));
+	boolean isDefaultAddr = Boolean.parseBoolean(request.getParameter("isDefaultAddr"));
 	
 	// Order객체에 order데이터 추가
 	Order order = new Order();
@@ -39,16 +42,19 @@
 	// order데이터 추가 후 orderNo받아오기
 	int orderNo = orderDao.insertOrder(order);
 	
-	// Address객체에 address데이터 추가
-	Address addr = new Address();
-	addr.setId(id);
-	addr.setAddress(address);
-	
-	// AddressDao 객체 선언
-	AddressDao addressDao = new AddressDao();
-	
-	// address정보 업데이트
-	int addressRow = addressDao.updateAddress(addr);
+	// 기본주소지가 아닐때만
+	if(!isDefaultAddr){
+		// Address객체에 address데이터 추가
+		Address addr = new Address();
+		addr.setId(id);
+		addr.setAddress(address);
+		
+		// AddressDao 객체 선언
+		AddressDao addressDao = new AddressDao();
+		
+		// address정보 업데이트
+		int addressRow = addressDao.updateAddress(addr);
+	}
 	
 	// PointDao객체 선언
 	PointDao pointDao = new PointDao();
@@ -88,7 +94,8 @@
 	
 	// cart에 있는 productNo랑 넘어온 productNo가 같으면 장바구니 삭제
 	if(cart.getProductNo() == productNo){
-		int deleteCartRow = cartDao.deleteCart(cart.getCartNo());                            
+		int deleteCartRow = cartDao.deleteCart(cart.getCartNo());
+		System.out.println("삭제완료");
 	}
 	return;
 %>
