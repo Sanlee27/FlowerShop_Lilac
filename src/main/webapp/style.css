@@ -50,6 +50,21 @@ del{
 .marginTop30{
 	margin-top: 30px;
 }
+.style-btn{
+	display: grid;
+	place-items: center;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	background-color: pink;
+	font-size: 16px;
+	transition: all linear 0.2s;
+}
+.style-btn:hover{
+	cursor: pointer;
+	background-color: #888888;
+	color: pink;
+}
 
 /* 텍스트만 있는 리스트 */
 [class*='list-wrapper']{
@@ -506,14 +521,8 @@ del{
   position: static;
   display: block;
 }
-#toDetail.active {
-  background: #f7e5e5;
-}
-
-#toReview.active {
-  background: #f7e5e5;
-}
-
+#toDetail.active,
+#toReview.active,
 #toQna.active {
   background: #f7e5e5;
 }
