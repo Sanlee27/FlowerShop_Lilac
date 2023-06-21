@@ -60,7 +60,7 @@
 			
 			// ===========================================	
 			// 성별 값 기본 설정
-			var genderValue = '<%=cstm.getCstmGender()%>';
+			let genderValue = '<%=cstm.getCstmGender()%>';
 			
 			$('input[name="gender"]').each(function() {
 			    if ($(this).val() === genderValue) {
@@ -167,7 +167,7 @@
 			
 			// ===========================================
 			// 약관동의 값 기본 설정
-			var agreeValue = '<%=cstm.getCstmAgree()%>';
+			let agreeValue = '<%=cstm.getCstmAgree()%>';
 			
 			$('input[name="agree"]').each(function() {
 			    if ($(this).val() === agreeValue) {
@@ -235,44 +235,44 @@
 	<div class="container">
 		<form action="<%=request.getContextPath()%>/cstm/modifyCstmInfoAction.jsp" method="post">
 			<h1>내 정보 수정</h1>
-			<table>
-				<tr>
-					<th>아이디</th>
-					<td>
+			<div>
+				<div>
+					<div>아이디</div>
+					<div>
 						<%=cstm.getId()%>
 						<input type="hidden" name="id" value="<%=cstm.getId()%>">
-					</td>
-				</tr>
-				<tr>
-					<th>이름</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>이름</div>
+					<div>
 						<input type="text" name="names" value="<%=cstm.getCstmName()%>" required="required">
-					</td>
-				</tr>
-				<tr>
-					<th>성별</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>성별</div>
+					<div>
 						<input type="radio" name="gender" value="남">남
 						<input type="radio" name="gender" value="여">여
-					</td>
-				</tr>
-				<tr>
-					<th>생년월일</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>생년월일</div>
+					<div>
 						<input type="date" name="birth" value="<%=cstm.getCstmBirth().substring(0, 10)%>" required="required">
-					</td>
-				</tr>
-				<tr>
-					<th>연락처</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>연락처</div>
+					<div>
 						<input type="number" name="phone1" value="<%=cstm.getCstmPhone().substring(0, 3)%>" maxlength="3"> -
 						<input type="number" name="phone2" value="<%=cstm.getCstmPhone().substring(3, 7)%>" maxlength="4"> - 
 						<input type="number" name="phone3" value="<%=cstm.getCstmPhone().substring(7, 11)%>" maxlength="4">
-					</td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>이메일</div>
+					<div>
 						<input type = "text" name = "email1" value="<%=email1%>" required="required"> @
 						<input type = "text" id="domainInput" name = "email2" value="<%=email2%>" readonly="readonly" required="required"> 
 						<select id="domain">
@@ -280,52 +280,53 @@
 							<option value="daum.net">daum.net</option>
 							<option value="gmail.com">gmail.com</option>
 						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>주소</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>주소</div>
+					<div>
 						<textarea style="resize: none;" rows="1" cols="40" id="address" name="address1" readonly="readonly" required="required"><%=cstm.getCstmAddress()%></textarea>
 						<button type="button" id="address_kakao">주소 검색</button>
-					</td>
-				</tr>
-				<tr>
-					<th>상세주소</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>상세주소</div>
+					<div>
 						<textarea style="resize: none;" rows="2" cols="40" name="address2"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<th>약관 동의</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>약관 동의</div>
+					<div>
 						<input type="radio" name="agree" value="Y">Y
 						<input type="radio" name="agree" value="N">N
-					</td>
-				</tr>
-				<tr>
-					<th>보유 포인트</th>
-					<td><%=cstm.getCstmPoint()%></td>
-				</tr>
-				<tr>
-					<th>현재 등급</th>
-					<td><%=cstm.getCstmRank()%></td>
-				</tr>
-				<tr>
-					<th>가입 일자</th>
-					<td><%=cstm.getCreatedate().substring(0, 10)%></td>
-				</tr>
-				<tr>
-					<th>현재 비밀번호</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>보유 포인트</div>
+					<div><%=cstm.getCstmPoint()%></div>
+				</div>
+				<div>
+					<div>현재 등급</div>
+					<div><%=cstm.getCstmRank()%></div>
+				</div>
+				<div>
+					<div>가입 일자</div>
+					<div><%=cstm.getCreatedate().substring(0, 10)%></div>
+				</div>
+				<div>
+					<div>현재 비밀번호</div>
+					<div>
 						<input type = "password" name = "pw" required="required">
 						<input type="button" name="ckPw" value="비밀번호 확인" >
 						<span id="pwMsg" style="color: red;"></span>
-					</td>
-				</tr>
-			</table>
+					</div>
+				</div>
+			</div>
 			<button type="submit">저장</button>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
 		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

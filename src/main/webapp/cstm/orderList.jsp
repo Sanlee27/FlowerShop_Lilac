@@ -40,6 +40,11 @@
 		 	}
 		});
 	</script>
+	<style>
+		.list-wrapper6 .list-item{
+			grid-template-columns: 15% 20% 10% 20% 20% 15%;
+		}
+	</style>
 </head>
 <body>
 	<div>
@@ -47,15 +52,15 @@
 	</div>
 	<div class="container">
 		<h1>내 주문내역</h1>
-		<table>
-			<tr>
-				<th>상품 정보</th>
-				<th>주문 일자</th>
-				<th>주문 번호</th>
-				<th>주문 금액(수량)</th>
-				<th>주문 상태</th>
-				<th>&nbsp;</th>
-			</tr>
+		<div class="list-wrapper6">
+			<div class="list-item">
+				<div>상품 정보</div>
+				<div>주문 일자</div>
+				<div>주문 번호</div>
+				<div>주문 금액(수량)</div>
+				<div>주문 상태</div>
+				<div>&nbsp;</div>
+			</div>
 			<%
 				for(HashMap<String, Object> o : list){
 					Order order = (Order)o.get("order");
@@ -63,25 +68,25 @@
 					ProductImg pi = (ProductImg)o.get("productImg");
 					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
 			%>
-					<tr>
-						<td>
+					<div class="list-item">
+						<div>
 							<img src="<%=path%>" width="100px">
-							<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=order.getProductNo()%>"><%=productName%></a>
-						</td>
-						<td><%=order.getCreatedate().substring(0, 10)%></td>
-						<td><%=order.getOrderNo()%></td>
-						<td><%=order.getOrderPrice()%>(<%=order.getOrderCnt()%>)</td>
-						<td><%=order.getOrderStatus()%></td>
-						<td>
-							<input type="button" value="상세보기" onClick="location.href='<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>'"> 
-						</td>
-					</tr>
+							<input type="button" value="<%=productName%>" onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=order.getProductNo()%>'"> 
+						</div>
+						<div><%=order.getCreatedate().substring(0, 10)%></div>
+						<div><%=order.getOrderNo()%></div>
+						<div><%=order.getOrderPrice()%>(<%=order.getOrderCnt()%>)</div>
+						<div><%=order.getOrderStatus()%></div>
+						<div>
+							<a href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>">상세보기</a> 
+						</div>
+					</div>
 			<%		
 				}
 			%>
-		</table>
+		</div>
 		<br>
-		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">마이페이지로</button>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

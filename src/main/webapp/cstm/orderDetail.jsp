@@ -34,8 +34,8 @@
 	double discountRate = (double)pInfo.get("discountRate");
 	int discountPrice = (int)pInfo.get("discountPrice");
 	
-		// 이미지 주소
-		String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename();
+	// 이미지 주소
+	String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename();
 	
 	// 고객 등급확인
 	CustomerDao cDao = new CustomerDao();
@@ -66,6 +66,11 @@
 		
 	});
 	</script>
+	<style>
+		.list-wrapper5 .list-item{
+			grid-template-columns: 20% 20% 20% 20% 20%;
+		}
+	</style>
 </head>
 <body>
 	<div>
@@ -75,55 +80,55 @@
 		<h1>주문내역 상세</h1>
 		<br>
 		<div>
-		주문번호 : <%=order.getOrderNo()%> 주문일자 : <%=order.getCreatedate().substring(0, 10)%>
+		주문번호 : <%=order.getOrderNo()%> 주문일자 : <%=order.getCreatedate()%>
 		</div>
 		<br>
 		<form action="<%=request.getContextPath()%>/cstm/removeOrderAction.jsp" method="post">
-			<table>
-				<tr>
-					<th>상품 정보</th>
-					<th>할인 금액</th>
-					<th>포인트 적립</th>
-					<th>주문 금액(수량)</th>
-					<th>주문 상태</th>
-				</tr>
-				<tr>
-					<td>
+			<div class="list-wrapper5">
+				<div class="list-item">
+					<div>상품 정보</div>
+					<div>할인 금액</div>
+					<div>포인트 적립</div>
+					<div>주문 금액(수량)</div>
+					<div>주문 상태</div>
+				</div>
+				<div class="list-item">
+					<div>
 						<input type="hidden" name="id" value="<%=order.getId()%>">
 						<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
 						<img src="<%=path%>" width="100px">
 						<%=product.getProductName()%>
-					</td>
-					<td><%=discountPrice%></td>
+					</div>
+					<div><%=discountPrice%></div>
 					<%
 						if(cstm.getCstmRank().equals("씨앗")){
 					%>
-							<td>
+							<div>
 								<%=Math.round(order.getOrderPrice()*0.01)%>
-							</td>
+							</div>
 					<%
 						} else if(cstm.getCstmRank().equals("새싹")){
 							
 					%>
-							<td>
+							<div>
 								<%=Math.round(order.getOrderPrice()*0.03)%>
-							</td>
+							</div>
 					<%
 						} else {
 					%>
-							<td>
+							<div>
 								<%=Math.round(order.getOrderPrice()*0.05)%>
-							</td>
+							</div>
 					<%
 						}
 					%>
-					<td>
+					<div>
 						<input type="hidden" name="orderCnt" value="<%=order.getOrderCnt()%>">
 						<%=order.getOrderPrice()%>(<%=order.getOrderCnt()%>)
-					</td>
-					<td><%=order.getOrderStatus()%></td>
-				<tr>
-			</table>
+					</div>
+					<div><%=order.getOrderStatus()%></div>
+				</div>
+			</div>
 			<%
 				if(order.getOrderStatus().equals("배송완료")){
 			%>
@@ -137,5 +142,6 @@
 			<button type="button" onclick="history.back()">뒤로가기</button>
 		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

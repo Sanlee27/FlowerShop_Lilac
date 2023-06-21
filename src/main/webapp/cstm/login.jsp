@@ -28,18 +28,26 @@
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			if("<%=request.getParameter("msg")%>" != "null"){
+		 		swal("경고", "<%=request.getParameter("msg")%>", "warning");
+		 	}
+		});
+	</script>
 </head> 
 <body>
 	<div>
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>로그인</h1>
 		<form method="post" name = "form">
-			<table>
-				<tr>
-					<th>아이디</th>
-					<td>
+		<h1>로그인</h1>
+			<div>
+				<div>
+					<div>아이디</div>
+					<div>
 						<%
 							// 메세지가 없거나(=로그인 디폴트) 휴면계정 메세지 아닐때(비밀번호 틀림 표시 등일때)
 							if(msg == null || !msg.equals("휴면계정입니다. 다시 로그인해주세요.") && !msg.equals("비밀번호를 확인하세요.")){
@@ -57,19 +65,19 @@
 						<%
 							}
 						%>
-					</td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>비밀번호</div>
+					<div>
 						<input type = "password" name = "pw" required="required">
-					</td>
-				</tr>
-			</table>
+					</div>
+				</div>
+			</div>
 			<%
 				if(msg != null){
 			%>
-					<%=msg%>
+					<span style="color:red;"><%=msg%></span>
 			<%
 				}
 			%>
@@ -88,5 +96,6 @@
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/join.jsp'">회원가입</button>
 		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

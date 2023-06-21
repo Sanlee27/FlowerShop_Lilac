@@ -43,25 +43,26 @@
 	<div class="container">
 		<h1>회원 탈퇴</h1>
 		<form action="<%=request.getContextPath()%>/cstm/removeCstmInfoAction.jsp" method="post">
-			<table>
-				<tr>
-					<th>아이디</th>
-					<td><%=cstm.getId()%></td>
-					<td>
+			<div>
+				<div>
+					<div>아이디</div>
+					<div><%=cstm.getId()%></div>
+					<div>
 						<input type="hidden" name="id" value="<%=cstm.getId()%>" readonly="readonly">
-					</td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>비밀번호</div>
+					<div>
 						<input type="password" name="pw" required="required">
-					</td>
-				</tr>
-			</table>
-			<a>탈퇴 후 재가입시 현재 아이디는 사용이 불가합니다.</a><br>
+					</div>
+				</div>
+			</div>
+			<a style="color:red;">탈퇴 후 재가입시 현재 아이디는 사용이 불가합니다.</a><br>
 			<button type="submit">회원탈퇴</button>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
 		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

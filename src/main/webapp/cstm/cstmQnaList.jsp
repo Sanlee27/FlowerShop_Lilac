@@ -34,22 +34,28 @@
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<style>
+		.list-wrapper7 .list-item{
+			grid-template-columns: 20% 15% 20% 10% 10% 10% 15%;
+		}
+	</style>
+</head>
 <body>
 	<div>
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
 		<h1>나의 문의내역</h1>
-		<table>
-			<tr>
-				<th>상품 정보</th>
-				<th>문의 제목</th>
-				<th>문의 내용</th>
-				<th>문의 유형</th>
-				<th>작성일</th>
-				<th>처리 상태</th>
-				<th>&nbsp;</th>
-			</tr>
+		<div class="list-wrapper7">
+			<div class="list-item">
+				<div>상품 정보</div>
+				<div>문의 제목</div>
+				<div>문의 내용</div>
+				<div>문의 유형</div>
+				<div>작성일</div>
+				<div>처리 상태</div>
+				<div>&nbsp;</div>
+			</div>
 			<%
 				for(Question q : list){
 					int productNo = q.getProductNo();
@@ -59,36 +65,36 @@
 					ProductImg pi = (ProductImg)pInfo.get("productImg");
 					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
 			%>
-					<tr>
-						<td>
+					<div class="list-item">
+						<div>
 							<img src="<%=path%>" width="100px">
 							<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>"><%=p.getProductName()%></a>
-						</td>
-						<td><%=q.getqTitle()%></td>
-						<td><%=q.getqContent()%></td>
-						<td><%=q.getqCategory()%></td>
-						<td><%=q.getCreatedate().substring(0, 10)%></td>
+						</div>
+						<div><%=q.getqTitle()%></div>
+						<div><%=q.getqContent()%></div>
+						<div><%=q.getqCategory()%></div>
+						<div><%=q.getCreatedate().substring(0, 10)%></div>
 						<%
 							if(q.getqAnswer().equals("Y")){
 						%>
-								<td>답변완료</td>
+								<div>답변완료</div>
 						<%
 							} else {
 						%>
-								<td>답변 대기중</td>
+								<div>답변 대기중</div>
 						<%
 							}
 						%>
-						<td>
+						<div>
 							<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/question.jsp?id=<%=id%>&qNo=<%=q.getqNo()%>'">상세보기</button>
-						</td>
-					</tr>
+						</div>
+					</div>
 			<%
 				}
 			%>
-		</table>
+		</div>
 		<br>
-		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">마이페이지로</button>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

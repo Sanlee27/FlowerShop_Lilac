@@ -178,18 +178,18 @@
 			
 			// ============== 정렬버튼
 			//========= 정렬버튼 고정 ===========
-	 		var selectedCategory = '<%=searchCategory%>';
+	 		let selectedCategory = '<%=searchCategory%>';
 		    if (selectedCategory) {
 		      $('select[name="searchCategory"]').val(selectedCategory);
 		    }
 		    
-		    var selectedOrder = '<%=order%>';
+		    let selectedOrder = '<%=order%>';
 		    if (selectedOrder) {
 		      $('select[name="order"]').val(selectedOrder);
 		    }
 			
 		    // 입력한 검색어 고정
-		    var enteredSearchName = '<%=searchName%>';
+		    let enteredSearchName = '<%=searchName%>';
 		    if (enteredSearchName) {
 		      $('#searchName').val('<%=searchName%>');
 		    }
@@ -207,7 +207,7 @@
 		    
 		    function submitForm() {
 		        // 정렬된 데이터를 가지고 action 페이지로 이동하기
-		        var form = document.getElementById("form");
+		        let form = document.getElementById("form");
 		        form.action = "<%=request.getContextPath()%>/emp/modifyDiscountAction.jsp";
 		        form.submit();
 		      }
@@ -239,7 +239,7 @@
 							}
 						%>
 					</select>
-					<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+					
 					<select id="order" name="order">
 						<option value="">정렬</option>
 						<option value="이름순">이름순</option>
@@ -247,6 +247,9 @@
 						<option value="판매량낮은순">판매량낮은순</option>
 						<option value="재고많은순">재고많은순</option>
 					</select>
+					
+					<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+					
 					<button type="submit" id="reset">정렬초기화</button>
 				</div>
 				<div class="list-item">
@@ -295,12 +298,12 @@
 		</div>
 		<!-- ===============페이지================ -->
 		<div class="pagination">
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">처음으로</a>
+			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">◀◀</a>
 			<%
 				// 10p 단위 이전 버튼
 				if(minPage>1){
 			%>
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">이전</a>
+					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
 			<%
 				}
 			
@@ -318,12 +321,13 @@
 				// 10p단위 다음버튼
 				if(maxPage != lastPage){
 			%>	
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">다음</a>	
+					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
 			<%
 				}
 			%>
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">마지막으로</a>
+			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">▶▶</a>
 		</div>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

@@ -92,18 +92,18 @@
 		$(document).ready(function() {
 				
 				//========= 정렬버튼 고정 ===========
-		 		var selectedCategory = '<%=searchCategory%>';
+		 		let selectedCategory = '<%=searchCategory%>';
 			    if (selectedCategory) {
 			      $('select[name="searchCategory"]').val(selectedCategory);
 			    }
 			    
-			    var selectedOrder = '<%=order%>';
+			    let selectedOrder = '<%=order%>';
 			    if (selectedOrder) {
 			      $('select[name="order"]').val(selectedOrder);
 			    }
 				
 			    // 입력한 검색어 고정
-			    var enteredSearchName = '<%=searchName%>';
+			    let enteredSearchName = '<%=searchName%>';
 			    if (enteredSearchName) {
 			      $('#searchName').val('<%=searchName%>');
 			    }
@@ -142,7 +142,7 @@
 								}
 							%>
 						</select>
-						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+						
 						<select id="order" name="order">
 							<option value="">정렬</option>
 							<option value="판매량많은순">판매량많은순</option>
@@ -150,6 +150,9 @@
 							<option value="가격낮은순">가격낮은순</option>
 							<option value="할인율높은순">할인율높은순</option>
 						</select>
+						
+						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+						
 						<button type="submit" id="reset">정렬초기화</button>
 					</div>
 					<div class="products">
@@ -205,12 +208,12 @@
 					</div>
 					<br>
 					<!-- ================ 페이지 ================ -->
-					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">처음으로</a>
+					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">◀◀</a>
 					<%
 						// 10p 단위 이전 버튼
 						if(minPage>1){
 					%>
-							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">이전</a>
+							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
 					<%
 						}
 					
@@ -228,13 +231,14 @@
 						// 10p단위 다음버튼
 						if(maxPage != lastPage){
 					%>	
-							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">다음</a>	
+							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
 					<%
 						}
 					%>
-					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">마지막으로</a>
+					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">▶▶</a>
 				</form>
 			</div>
 		</div>
+		<jsp:include page="/cstm/cart.jsp"></jsp:include>
 	</body>
 </html>

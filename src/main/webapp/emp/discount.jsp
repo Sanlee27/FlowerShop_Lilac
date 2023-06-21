@@ -108,8 +108,8 @@
 			});
 			// 개별 선택 체크박스 전부 선택시 전체 선택 체크
 			$("input[name=ck]").click(function() {
-				var total = $("input[name=ck]").length;
-				var checked = $("input[name=ck]:checked").length;
+				let total = $("input[name=ck]").length;
+				let checked = $("input[name=ck]:checked").length;
 				
 				if(total != checked){
 					$("input[name=ckAll]").prop("checked", false);
@@ -120,14 +120,14 @@
 			
 			// 상품 삭제 함수
 			function removeDiscount() {
-		        var checkedDiscounts = [];
+				let checkedDiscounts = [];
 
 		        $("input[name=ck]:checked").each(function() {
 		        	checkedDiscounts.push($(this).closest(".list-item").find("input[name=productNo]").val());
 		        });
 
 		        if (checkedDiscounts.length > 0) {
-		            var confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
+		        	let confirmation = confirm("선택한 상품을 삭제하시겠습니까?");
 		            if (confirmation) {
 		            	// 선택된것들 action으로 넘김
 		            	location.href = "<%=request.getContextPath()%>/emp/removeDiscountAction.jsp?productNos=" + checkedDiscounts.join(",");
@@ -147,6 +147,11 @@
 		 	}
 		});
 	</script>
+	<style>
+		.list-wrapper10 .list-item{
+			grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+		}
+	</style>
 </head>
 <body>
 	<div>
@@ -205,13 +210,13 @@
 					}
 				%>
 			<!-- ================ 페이지 ================ -->
-			<div>
-				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=1">처음으로</a>
+			<div class="pagination">
+				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=1">◀◀</a>
 				<%
 					// 10p 단위 이전 버튼
 					if(minPage>1){
 				%>
-						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage-pagePerPage%>">이전</a>
+						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
 				<%
 					}
 				
@@ -229,13 +234,14 @@
 					// 10p단위 다음버튼
 					if(maxPage != lastPage){
 				%>	
-						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage+pagePerPage%>">다음</a>	
+						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
 				<%
 					}
 				%>
-				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">마지막으로</a>
+				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">▶▶</a>
 			</div>
 		</div>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

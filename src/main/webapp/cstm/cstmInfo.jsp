@@ -49,58 +49,58 @@
 	</div>
 	<div class="container">
 		<h1>마이페이지</h1>
-		<table>
-			<tr>
-				<th>아이디</th>
-				<td><%=cstm.getId() %></td>
-			</tr>
-			<tr>
-				<th>이름</th>
-				<td>
+		<div>
+			<div>
+				<div>아이디</div>
+				<div><%=cstm.getId() %></div>
+			</div>
+			<div>
+				<div>이름</div>
+				<div>
 					<%=cstm.getCstmName()%>
 					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/modifyCstmPwForm.jsp?id=<%=cstm.getId()%>'">비밀번호 변경</button>
-				</td>
-			</tr>
-			<tr>
-				<th>성별</th>
-				<td><%=cstm.getCstmGender()%></td>
-			</tr>
-			<tr>
-				<th>생년월일</th>
-				<td><%=cstm.getCstmBirth().substring(0, 10)%></td>
-			</tr>
-			<tr>
-				<th>연락처</th>
-				<td><%=cstm.getCstmPhone()%></td>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<td><%=cstm.getCstmEmail()%></td>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<td><%=cstm.getCstmAddress()%></td>
-			</tr>
-			<tr>
-				<th>약관 동의</th>
-				<td><%=cstm.getCstmAgree()%></td>
-			</tr>
-			<tr>
-				<th>보유 포인트</th>
-				<td>
+				</div>
+			</div>
+			<div>
+				<div>성별</div>
+				<div><%=cstm.getCstmGender()%></div>
+			</div>
+			<div>
+				<div>생년월일</div>
+				<div><%=cstm.getCstmBirth().substring(0, 10)%></div>
+			</div>
+			<div>
+				<div>연락처</div>
+				<div><%=cstm.getCstmPhone()%></div>
+			</div>
+			<div>
+				<div>이메일</div>
+				<div><%=cstm.getCstmEmail()%></div>
+			</div>
+			<div>
+				<div>주소</div>
+				<div><%=cstm.getCstmAddress()%></div>
+			</div>
+			<div>
+				<div>약관 동의</div>
+				<div><%=cstm.getCstmAgree()%></div>
+			</div>
+			<div>
+				<div>보유 포인트</div>
+				<div>
 					<%=cstm.getCstmPoint()%>
 					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/pointList.jsp?id=<%=cstm.getId()%>'">나의 포인트</button>
-				</td>
-			</tr>
-			<tr>
-				<th>현재 등급</th>
-				<td><%=cstm.getCstmRank()%></td>
-			</tr>
-			<tr>
-				<th>가입 일자</th>
-				<td><%=cstm.getCreatedate().substring(0, 10)%></td>
-			</tr>
-		</table>
+				</div>
+			</div>
+			<div>
+				<div>현재 등급</div>
+				<div><%=cstm.getCstmRank()%></div>
+			</div>
+			<div>
+				<div>가입 일자</div>
+				<div><%=cstm.getCreatedate().substring(0, 10)%></div>
+			</div>
+		</div>
 		<br>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/modifyCstmInfo.jsp?id=<%=cstm.getId()%>'">수정하기</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/removeCstmInfo.jsp?id=<%=cstm.getId()%>'">회원탈퇴</button>
@@ -109,5 +109,6 @@
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/orderList.jsp?id=<%=cstm.getId()%>'">나의 주문내역</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmQnaList.jsp?id=<%=cstm.getId()%>'">나의 문의내역</button>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

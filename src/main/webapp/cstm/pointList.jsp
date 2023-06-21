@@ -39,6 +39,11 @@
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<style>
+		.list-wrapper5 .list-item{
+			grid-template-columns: 15% 15% 25% 25% 20%;
+		}
+	</style>
 </head>
 <body>
 	<div>
@@ -47,49 +52,49 @@
 	<div class="container">
 		<h1>내 포인트</h1>
 		<h3>보유 포인트 : <%=curPoint.getCstmPoint()%></h3>
-		<table>
-			<tr>
-				<th>상태</th>
-				<th>적립금</th>
-				<th>적립 내용</th>
-				<th>주문 번호</th>
-				<th>적용 일시</th>
-			</tr>
+		<div class="list-wrapper5">
+			<div class="list-item">
+				<div>상태</div>
+				<div>적립금</div>
+				<div>적립 내용</div>
+				<div>적용 일시</div>
+				<div>&nbsp;</div>
+			</div>
 			<%
 				for(Point p : list){
 					String path = request.getContextPath() + "/product/" + p.getProductSaveFileName();
 			%>
-					<tr>
+					<div class="list-item">
 						<%
 							if(p.getPointPm().equals("+")){
 						%>
-								<td>적립</td>
+								<div>적립</div>
 						<%
 							} else {
 						%>
-								<td>사용/취소</td>
+								<div>사용/취소</div>
 						<%
 							}
 						%>
-						<td>
+						<div>
 							<%=p.getPointPm()+p.getPoint()%>
-						</td>
-						<td>
+						</div>
+						<div>
 							<img src="<%=path%>" width="100px">
 							<%=p.getProductName()%>
-						</td>
-						<td>
+						</div>
+						<div><%=p.getCreatedate().substring(0, 10)%></div>
+						<div>
 							<a href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=p.getOrderNo()%>">
-								<%=p.getOrderNo()%>
+								주문정보
 							</a>
-						</td>
-						<td><%=p.getCreatedate().substring(0, 10)%></td>
-					</tr>
+						</div>
+					</div>
 			<%
 				}
 			%>
-		</table>
-		<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">마이페이지로</button>
+		</div>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>

@@ -272,66 +272,67 @@
 	<div class="container">
 		<h1>회원가입</h1>
 		<form action="<%=request.getContextPath()%>/cstm/joinAction.jsp" method="post">
-			<table>
-				<tr>
-					<th>아이디</th>
-					<td>
+			<div>
+				<div>
+					<div>아이디</div>
+					<div>
 						<input type="text" name="id" placeholder="아이디를 입력하세요" required="required">
 						<input type="button" name="ckId" value="아이디 중복확인" > 
 						<span id="idMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>비밀번호</div>
+					<div>
 						<input type = "password" name = "pw" required="required">
 						<span id="pwMsg" style="color: red;"></span>
-					</td>
-				<tr>
-					<th>비밀번호 재입력</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>비밀번호 재입력</div>
+					<div>
 						<input type = "password" name = "rePw" required="required">
 						<span id="pwMsg2" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>이름</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>이름</div>
+					<div>
 						<input type = "text" name = "names" required="required">
 						<span id="nameMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>성별</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>성별</div>
+					<div>
 						<input type = "radio" name = "gender" value= "남" checked="checked" required="required">남
 						<input type = "radio" name = "gender" value= "여" required="required">여
-					</td> 
-				</tr>
-				<tr>
-					<th>생년월일</th>
-					<td>
+					</div> 
+				</div>
+				<div>
+					<div>생년월일</div>
+					<div>
 						<input type = "date" name = "birth" required="required">
 						<span id="birthMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>주소</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>주소</div>
+					<div>
 						<textarea rows="1" cols="40" id="address" name="address1" placeholder = "주소를 선택하세요" readonly="readonly" required="required"></textarea>
 						<button type="button" id="address_kakao">주소 검색</button>
-					</td>
-				</tr>
-				<tr>
-					<th>상세주소</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>상세주소</div>
+					<div>
 						<textarea rows="1" cols="40" name="address2" required="required"></textarea>
 						<span id="adrMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>연락처</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>연락처</div>
+					<div>
 						<select name = "phone1">
 							<option value="010" selected="selected">010</option>
 							<option value="011">011</option>
@@ -342,11 +343,11 @@
 						<input type = "text" name = phone2 maxlength="4" required="required"> - 
 						<input type = "text" name = phone3 maxlength="4" required="required"> 
 						<span id="phMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>이메일</div>
+					<div>
 						<input type = "text" name = "email1" required="required"> @
 						<select name = "email2">
 							<option value="naver.com" selected="selected">naver.com</option>
@@ -354,21 +355,22 @@
 							<option value="gmail.com">gamil.com</option>
 						</select>
 						<span id="emMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>약관동의</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>약관동의</div>
+					<div>
 						<!-- 약관내용 -->
 						가입시 사용했던 아이디는 탈퇴 후 재가입시에 사용 불가능합니다. 동의하십니까?
 						<input type = "radio" name = "agree" value = "Y" required="required">Y
 						<input type = "radio" name = "agree" value = "N" checked="checked" required="required">N
-					</td>
-				</tr>
-			</table>
+					</div>
+				</div>
+			</div>
 			<button type="submit">회원가입</button>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/login.jsp'">로그인으로</button>
 		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>
