@@ -128,7 +128,7 @@
 							<div><%=dc.format(order.getOrderPrice()) %></div>
 							<div><%=order.getCreatedate() %></div>
 							<div>
-								<a href="#" onclick="modifyOrder(<%= order.getOrderNo() %>, this.previousElementSibling)">수정</a>
+								<a href="#" onclick="modifyOrder(<%= order.getOrderNo() %>, this.previousElementSibling)" class="style-btn">수정</a>
 							</div>
 						</div>
 				<%
@@ -137,7 +137,10 @@
 			</div>
 			
 			<div class="pagination flex-wrapper">
-				<div>
+				<div class="flex-wrapper">
+					<a href="<%=request.getContextPath() %>/emp/orderList.jsp?currentPage=1"  class="pageBtn">
+						◀◀
+					</a>
 					<%
 						if(startPage != 1){
 					%>
@@ -160,7 +163,7 @@
 						}
 					%>
 				</div>
-				<div>
+				<div class="flex-wrapper">
 					<%
 						if(endPage != lastPage){
 					%>
@@ -170,6 +173,9 @@
 					<%
 						}
 					%>
+					<a href="<%=request.getContextPath() %>/emp/orderList.jsp?currentPage=<%=lastPage%>"  class="pageBtn">
+						▶▶
+					</a>
 				</div>
 			</div>
 		</div>
