@@ -90,53 +90,54 @@
 		<h1>문의 상세</h1>
 			<form action="<%=request.getContextPath()%>/cstm/modifyQuestion.jsp" method="get">
 				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
-				<table>
-					
-					<tr>
-						<td>문의번호</td>
-						<td><%=one.getqNo() %></td>
-					</tr>
-					<tr>
-						<td>상품번호</td>
-						<td><%=one.getProductNo() %></td>
-					</tr>
-					<tr>
-						<td>id</td>
-						<td><%=one.getId() %></td>
-					</tr>
-					<tr>
-						<td>카테고리</td>
-						<td><%=one.getqCategory() %></td>
-					</tr>
-					<tr>
-						<td>답변여부</td>
-						<td><%=one.getqAnswer() %></td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td><%=one.getqTitle() %></td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td><%=one.getqContent() %></td>
-					</tr>
-					<tr>
-						<td>수정일</td>
-						<td><%=one.getUpdatedate() %></td>
-					</tr>
-					<tr>
-						<td>작성일</td>
-						<td><%=one.getCreatedate() %></td>
-					</tr>
-				</table>
+				<div class="form-list">
+					<div>
+						<div>문의번호</div>
+						<div><%=one.getqNo() %></div>
+					</div>
+					<div>
+						<div>상품번호</div>
+						<div><%=one.getProductNo() %></div>
+					</div>
+					<div>
+						<div>id</div> 
+						<div><%=one.getId() %></div>
+					</div>
+					<div>
+						<div>카테고리</div>
+						<div><%=one.getqCategory() %></div>
+					</div>
+					<div>
+						<div>답변여부</div>
+						<div><%=one.getqAnswer() %></div>
+					</div>
+					<div>
+						<div>제목</div> 
+						<div><%=one.getqTitle() %></div>
+					</div>
+					<div>
+						<div>내용</div>
+						<div><%=one.getqContent() %></div>
+					</div>
+					<div>
+						<div>수정일</div>
+						<div><%=one.getUpdatedate() %></div>
+					</div>
+					<div>
+						<div>작성일</div>
+						<div><%=one.getCreatedate() %></div>
+					</div>
+				</div>
 				
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-					<button type= "submit">
-					수정	
-					</button>
+			 		<div class="flex-wrapper marginTop20">
+						<button type= "submit" class="style-btn">
+						수정	
+						</button>
+					</div>
 				<%}} %>
 				</form>	
 				
@@ -144,11 +145,14 @@
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-				<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
-					<button type= "submit">
-					삭제
-					</button>
-				</form>
+		 		<div class="flex-wrapper marginTop20">
+					<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
+						
+						<button type= "submit" class="style-btn">
+						삭제
+						</button>
+					</form>
+				</div>
 				<%
 		        	 	} 
 		        	}
@@ -187,7 +191,7 @@
 				}
 				%>
 	</div>
-	
+
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 	

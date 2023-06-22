@@ -123,14 +123,21 @@
 			location.href = "<%=request.getContextPath()%>" + "/cstm/product.jsp?productNo=" + productNo;
 		}
 	</script>
+	<!-- data-aos 라이브러리(fade up구현해주는 - 스크롤이벤트) -->
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+		
 </head>
 	<body>
+		<script>
+			AOS.init();
+		</script>
 		<div>
 			<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 		</div>
 		<!-- =========== 리스트 ============ -->
 		<div class="container">
-			<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
+			<div class="product-list">
 				<h1><a href="<%=request.getContextPath()%>/cstm/productList.jsp">상품 리스트</a></h1>
 				<!-- ==============검색버튼============== -->
 				<form method="get">
@@ -167,7 +174,7 @@
 							int discountPrice = (int)o.get("discountPrice"); 
 							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
 					%>		
-								<div onclick="productClick(<%=product.getProductNo()%>)">
+								<div onclick="productClick(<%=product.getProductNo()%>)" data-aos="fade-up" data-aos-duration="2000">
 									<img src="<%=path%>">
 									<div class="divide-line"></div>
 									<div class="content">

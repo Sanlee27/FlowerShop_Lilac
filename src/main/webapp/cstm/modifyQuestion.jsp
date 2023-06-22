@@ -74,55 +74,66 @@
 	</div>
 	
 	<div class="container">
-		<div class="list-wrapperql marginTop50">
+		<h2>문의 수정</h2>
 			<form action="<%=request.getContextPath()%>/cstm/modifyQuestionAction.jsp?msg=success" method="post">
-				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
-				<h2>문의 수정</h2>
-				
-				<div>qNo
-					<%=one.getqNo() %>
+			<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
+				<div class="form-list">
+					<div>
+						<div>qNo</div>
+						<div><%=one.getqNo() %></div>
+					</div>
+					<div>
+						<div>id</div>
+						<div><input type="text" name="id" value="<%=one.getId()%>" readonly = "readonly" ></div>
+					</div>
+					<div>	
+						<div>카테고리</div>
+						<div>
+							<select name= "qCategory">
+										<option value="상품">상품</option>
+										<option value="결제">결제</option>
+										<option value="배송">배송</option>
+										<option value="기타">기타</option>
+							</select>
+						</div>
+					</div>
+					<div>	
+						<div>qAnswer</div>
+						<div><input type="text" name="qAnswer" value="<%=one.getqAnswer()%>" readonly = "readonly" ></div>
+					</div>
+					<div>
+						<div>제목</div>
+						<div>
+							<input type= "hidden" name ="id" value=<%=one.getId() %>>
+							<input type= "text" name="qTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요" required="required"> 
+						</div>
+					</div>
+					<div>
+						<div>내용</div>
+						<div>
+							<input type= "hidden" name ="id" value=<%=one.getId() %>>
+							<input type= "text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" required="required"> 
+						</div>
+					</div>
+					<div>
+						<div>수정일</div>
+						<div>
+							<%=one.getUpdatedate() %>
+						</div>
+					</div>
+					<div>
+						<div>작성일</div>
+						<div><%=one.getCreatedate() %>
+						</div>
+					</div>
 				</div>
-				
-				<div>id
-					<input type="text" name="id" value="<%=one.getId()%>" readonly = "readonly" >
-				</div>
-				
-				<div>카테고리
-					<select name= "qCategory">
-								<option value="상품">상품</option>
-								<option value="결제">결제</option>
-								<option value="배송">배송</option>
-								<option value="기타">기타</option>
-					</select>
-				</div>
-				
-				<div>qAnswer
-					<input type="text" name="qAnswer" value="<%=one.getqAnswer()%>" readonly = "readonly" >
-				</div>
-				
-				<div>제목
-					<input type= "hidden" name ="id" value=<%=one.getId() %>>
-					<input type= "text" name="qTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요" required="required"> 
-				</div>
-				
-				<div>내용
-					<input type= "hidden" name ="id" value=<%=one.getId() %>>
-					<input type= "text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" required="required"> 
-				</div>
-				
-				<div>수정일
-					<%=one.getUpdatedate() %>
-				</div>
-				
-				<div>작성일
-					<%=one.getCreatedate() %>
-				</div>
-			
-				
-					<button type="submit">수정</button>
+					<div class="flex-wrapper marginTop20">	
+						<button type="submit" class="style-btn">수정 완료</button>
+					</div>
+
 			</form>
 		</div>
-	</div>
+
 	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

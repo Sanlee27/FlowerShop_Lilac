@@ -17,8 +17,8 @@
 	//유효성 검사 & 세션
 
 	//요청값 변수에 저장
-	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	//int orderNo = 1;
+	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	int orderNo = 1;
 	
 	//디버깅
 	System.out.println(orderNo+"<-modifyReview orderNo");
@@ -53,46 +53,40 @@
 	<div class="container">
 		<h1>후기 수정</h1>
 			<form action="<%=request.getContextPath()%>/cstm/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="orderNo" value=<%=orderNo%>>
-			<table>
-			
-				<!-- orderNo -->
-				
-					<tr>
-						<td>주문번호</td>
-						<td><%=orderNo%></td>
-					</tr>
-		
-				<!-- reviewTitle -->
-					<tr>
-						<td>후기 제목</td>
-						<td>
-							<input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
-							<input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
-						</td>
-					</tr>
-				<!-- reviewContent -->	
-					<tr>
-						<td>내용</td>
-						<td>
-							<input type= "hidden" name ="reviewContent" value=<%=((Review)map.get("review")).getReviewContent()%>>
-							<input type= "text" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
-						</td>
-				<!-- boardFile -->		
-					<tr>
-						<td>변경할 파일 (현재파일 : <%=((ReviewImg)map.get("reviewImg")).getReviewSaveFilename()%>)</td>
-						<td>
-						
-							<input type="file" name="modReviewImg" >
-						
-						</td>
-					</tr>	
-		
-				
-				</table>
-					<button type="submit">수정</button>
-	
+			<input type="hidden" name="orderNo" value=<%=orderNo%>>
+				<div class="form-list">
+						<!-- orderNo -->
+						<div>
+							<div>주문번호</div> 
+							<div><%=orderNo%></div>
+						</div>
+						<!-- reviewTitle -->
+						<div>
+							<div>후기 제목</div>
+							<div><input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
+								 <input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
+							</div>
+						</div>	
+						<!-- reviewContent -->
+						<div>
+							<div>내용</div>
+							<div><input type= "hidden" name ="reviewContent" value=<%=((Review)map.get("review")).getReviewContent()%>>
+								<input type= "text" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
+							</div>
+						</div>
+						<!-- boardFile -->
+						<div>
+							<div>변경할 파일 (현재파일 : <%=((ReviewImg)map.get("reviewImg")).getReviewSaveFilename()%>)</div>
+							<div><input type="file" name="modReviewImg" >
+							</div>
+						</div>	
+				</div>
+				<div class="flex-wrapper marginTop20">
+					<button type="submit" class="style-btn">수정</button>
+				</div>	
 			</form>
+				
+						
 		</div>
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

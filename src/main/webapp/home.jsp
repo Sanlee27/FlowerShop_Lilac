@@ -1,4 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import = "java.sql.*" %>
+<%@ page import = "java.util.*" %>
+<%@ page import = "vo.*" %> 
+<%@ page import = "dao.*" %>
+
+
+<%
+	//인코딩 설정
+	request.setCharacterEncoding("UTF-8");
+
+	//dao 객체선언
+	ProductDao productDao = new ProductDao();
+	
+	//dao의 리스트 가져오기
+	ArrayList<HashMap<String, Object>> list = productDao.getNewProducts();
+	ArrayList<HashMap<String, Object>> elist = productDao.getDiscountProducts();
+	
+ %>	
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,33 +43,35 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 		
 		<!-- 이미지 슬라이드 부분 -->
+		
 		<div class="image-slide">
-			<ul class="images">
-				<li class="main1">
-					<img src="images/main1.jpg">
-					<div class="comment">
-						분위기 전환이 필요할때
-						<br>
-						<span>화사한 꽃병으로 거실을 더 환하게!</span>
-					</div>
-				</li>
-				<li class="main2">
-					<img src="images/main2.jpg">
-					<div class="comment">
-						선물이 필요할때
-						<br>
-						<span>화려한 꽃바구니로 마음을 전하세요!</span>
-					</div>
-				</li>
-				<li class="main3">
-					<img src="images/main3.jpg">
-					<div class="comment">
-						아주 특별한 날에도
-						<br>
-						<span>주문제작 부케로 특별하게!</span>
-					</div>
-				</li>
-			</ul>
+				<ul class="images">
+					<li class="main1">
+						<img src="images/main1.jpg">
+						<div class="comment">
+							분위기 전환이 필요할때
+							<br>
+							<span>화사한 꽃병으로 거실을 더 환하게!</span>
+						</div>
+					</li>
+					<li class="main2">
+						<img src="images/main2.jpg">
+						<div class="comment">
+							선물이 필요할때
+							<br>
+							<span>화려한 꽃바구니로 마음을 전하세요!</span>
+						</div>
+					</li>
+					<li class="main3">
+						<img src="images/main3.jpg">
+						<div class="comment">
+							아주 특별한 날에도
+							<br>
+							<span>주문제작 부케로 특별하게!</span>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
 		
 		<!-- deco -->
@@ -59,83 +83,96 @@
 		<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
 			<h2>신상품</h2>
 			<div class="products">
-				<div>
-					<img src="product/basket1.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						화려한 꽃 바구니
-						<br>
-						<del>29,900</del>
-						<br>
-						<span class="price">19,900</span>
+			<%
+				ArrayList<HashMap<String, Object>> newProducts = productDao.getNewProducts();
+			    for (HashMap<String, Object> map : newProducts) {
+			      Product p = (Product) map.get("product");
+			      ProductImg pi = (ProductImg) map.get("productImg");
+			      double discountRate = (double) map.get("discountRate");
+			      int discountPrice = (int) map.get("discountPrice");
+			%>
+				  
+					<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
+							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+							<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>" width="220px" height="170px">
+							</a>
+							<div class="divide-line"></div>
+							<div class="content">
+							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
+								<%= p.getProductName() %>
+							</a>
+								<br>
+								 <% if (discountRate > 0) { %>
+							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
+								<del><%= p.getProductPrice() %> 원</del>
+							</a>
+								<br>
+								<span class="price"><%= discountPrice %> 원</span>
+								<% } else { %>
+							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
+								<%= p.getProductPrice()%> 원
+							</a>
+								<% } %>
+							</div>
+						
 					</div>
-				</div>
-				<div>
-					<img src="product/bouquet1.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						꽃다발 선물용
-						<br>
-						39,900
-					</div>
-				</div>
-				<div>
-					<img src="product/pot1.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						달리아 화분
-						<br>
-						19,900
-					</div>
-				</div>
-				<div>
-					<img src="product/pot2.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						튤립 화분
-						<br>
-						19,900
-					</div>
-				</div>
-				<div>
-					<img src="product/pot3.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						화려한 화분 선물용
-						<br>
-						25,900
-					</div>
-				</div>
-				<div>
-					<img src="product/pot4.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						감성 화분 선물용
-						<br>
-						35,900
-					</div>
-				</div>
-				<div>
-					<img src="product/pot5.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						백합 화분
-						<br>
-						19,900
-					</div>
-				</div>
-				<div>
-					<img src="product/wedding1.jpg">
-					<div class="divide-line"></div>
-					<div class="content">
-						웨딩용 부케
-						<br>
-						59,900
-					</div>
-				</div>
+					
+
+				
+			<% 
+			} 
+			%>
 			</div>
-			
+		</div>
+		
+		<!-- 이벤트 상품 보여주는 부분 -->
+		<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
+			<h2>event</h2>
+			<div class="products">
+			<%
+				ArrayList<HashMap<String, Object>> eventProducts = productDao.getDiscountProducts();
+			    for (HashMap<String, Object> map : eventProducts) {
+			      Product p = (Product) map.get("product");
+			      ProductImg pi = (ProductImg) map.get("productImg");
+			      double discountRate = (double) map.get("discountRate");
+			      int discountPrice = (int) map.get("discountPrice");
+			%>
+				
+					<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
+						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+						<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>" width="220px" height="170px">
+						</a>
+						<div class="divide-line"></div>
+						<div class="content">
+						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+							<%= p.getProductName() %>
+						</a>
+							<br>
+							 <% if (discountRate > 0) { %>
+						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+							<del><%= p.getProductPrice()*10 %> 원</del>
+						</a>
+							<br>
+							<span class="price"><%= discountPrice *10 %>원</span>
+							<% } else { %>
+						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+							<%= p.getProductPrice()*10%> 원
+						</a>
+							<% } %>
+						</div>
+					</div>
+
+				
+			<% 
+			} 
+			%>
+		
 		</div>
 	</div>
+	<!-- 장바구니 모달 -->
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>	
+	
+	<!-- footer -->
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
