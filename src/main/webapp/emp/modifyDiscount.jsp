@@ -226,6 +226,7 @@
 		<div class="list-wrapper9">
 			<h1>할인 변경</h1>
 			<h3>오늘 날짜 : <%=today%></h3>
+			<br>
 			<!-- ==============리스트============= -->
 			<form id="form" method="get">
 				<div>
@@ -250,7 +251,7 @@
 					
 					<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
 					
-					<button type="submit" id="reset">정렬초기화</button>
+					<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 				</div>
 				<div class="list-item">
 					<div>상품 번호</div>
@@ -293,24 +294,31 @@
 				<%
 					}
 				%>
-				<button type="button" id="modify">수정하기</button>
+				<br>
+				<button type="button" id="modify" class="style-btn">수정하기</button>
 			</form>
 		</div>
 		<!-- ===============페이지================ -->
-		<div class="pagination">
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">◀◀</a>
+		<div class="pagination flex-wrapper">
+			<div class="flex-wrapper">
+				<a class="pageBtn" href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">
+					◀◀
+				</a>
+				<%
+					// 10p 단위 이전 버튼
+					if(minPage>1){
+				%>
+						<a class="pageBtn" href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
+				<%
+					}
+				%>
+			</div>
+			<div class="page">
 			<%
-				// 10p 단위 이전 버튼
-				if(minPage>1){
-			%>
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
-			<%
-				}
-			
 				for(int i=minPage; i<=maxPage; i=i+1){
 					if(i == currentPage){
 					%>
-						<span><%=i%></span>
+						<a class="selected"><%=i%></a>
 					<%	
 					} else {
 					%>
@@ -318,14 +326,21 @@
 					<%	
 					}
 				}
-				// 10p단위 다음버튼
-				if(maxPage != lastPage){
-			%>	
-					<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
-			<%
-				}
 			%>
-			<a href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">▶▶</a>
+			</div>
+			<div class="flex-wrapper">
+				<%
+					// 10p단위 다음버튼
+					if(maxPage != lastPage){
+				%>	
+						<a class="pageBtn" href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
+				<%
+					}
+				%>
+				<a class="pageBtn" href="<%=request.getContextPath()%>/emp/modifyDiscount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">
+					▶▶
+				</a>
+			</div>
 		</div>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

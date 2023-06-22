@@ -161,11 +161,7 @@
 		<div class="list-wrapper10">
 			<h1>할인 관리</h1>
 			<h3>오늘 날짜 : <%=today%></h3>
-			<div>
-				<button type="button" id="removeCk">개별삭제</button>
-				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 상품 일괄삭제</button>
-				<button type="button" onclick="location.href='<%=request.getContextPath()%>/emp/modifyDiscount.jsp'">할인 수정</button>
-			</div>
+			<br>
 				<div class="list-item">
 					<div>상품 번호</div>
 					<div>상품 이름</div>
@@ -177,7 +173,7 @@
 					<div>할인 종료</div>
 					<div>할인율</div>
 					<div>
-						삭제<input type="checkbox" name="ckAll">
+						삭제&nbsp;&nbsp;<input type="checkbox" name="ckAll">
 					</div>
 				</div>
 				<%
@@ -209,36 +205,56 @@
 				<%
 					}
 				%>
-			<!-- ================ 페이지 ================ -->
-			<div class="pagination">
-				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=1">◀◀</a>
+			<br>
+			<div>
+				<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/emp/removePassedDiscountAction.jsp'">할인 종료 상품 일괄삭제</button>
+				<button type="button" id="removeCk" class="style-btn">개별삭제</button>
+				<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/emp/modifyDiscount.jsp'">할인 수정</button>
+			</div>
+		</div>
+		<!-- ================ 페이지 ================ -->
+		<div class="pagination flex-wrapper">
+			<div class="flex-wrapper">
+				<a class="pageBtn" href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=1">
+					◀◀
+				</a>
 				<%
 					// 10p 단위 이전 버튼
 					if(minPage>1){
 				%>
-						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
-				<%
-					}
-				
-					for(int i=minPage; i<=maxPage; i=i+1){
-						if(i == currentPage){
-						%>
-							<span><%=i%></span>
-						<%	
-						} else {
-						%>
-							<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=i%>"><%=i%></a>
-						<%	
-						}
-					}
-					// 10p단위 다음버튼
-					if(maxPage != lastPage){
-				%>	
-						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
+						<a class="pageBtn" href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
 				<%
 					}
 				%>
-				<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">▶▶</a>
+				
+			</div>
+			<div class="page">
+			<%
+				for(int i=minPage; i<=maxPage; i=i+1){
+					if(i == currentPage){
+					%>
+						<a class="selected"><%=i%></a>
+					<%	
+					} else {
+					%>
+						<a href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=i%>"><%=i%></a>
+					<%	
+					}
+				}
+			%>
+			</div>
+			<div class="flex-wrapper">
+				<%
+					// 10p단위 다음버튼
+					if(maxPage != lastPage){
+				%>	
+						<a class="pageBtn" href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
+				<%
+					}
+				%>
+				<a class="pageBtn" href="<%=request.getContextPath()%>/emp/discount.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&currentPage=<%=lastPage%>">
+					▶▶
+				</a>
 			</div>
 		</div>
 	</div>
