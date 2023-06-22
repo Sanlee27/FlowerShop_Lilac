@@ -119,6 +119,9 @@
 			        $('form').submit();
 			      });
 			});
+		function productClick(productNo){
+			location.href = "<%=request.getContextPath()%>" + "/cstm/product.jsp?productNo=" + productNo;
+		}
 	</script>
 </head>
 	<body>
@@ -131,8 +134,8 @@
 				<h1><a href="<%=request.getContextPath()%>/cstm/productList.jsp">상품 리스트</a></h1>
 				<!-- ==============검색버튼============== -->
 				<form method="get">
-					<div>
-						<select style="height: 28px" name="searchCategory">
+					<div class="marginTop30">
+						<select name="searchCategory">
 							<option value="">카테고리</option>
 							<%
 								for(Category c : cateList){
@@ -143,7 +146,7 @@
 							%>
 						</select>
 						
-						<select id="order" name="order" style="height: 28px">
+						<select id="order" name="order">
 							<option value="">정렬</option>
 							<option value="판매량많은순">판매량많은순</option>
 							<option value="가격높은순">가격높은순</option>
@@ -151,7 +154,7 @@
 							<option value="할인율높은순">할인율높은순</option>
 						</select>
 						
-						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요" style="height: 26px">
+						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
 						
 						<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 					</div>
@@ -164,10 +167,8 @@
 							int discountPrice = (int)o.get("discountPrice"); 
 							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
 					%>		
-								<div>
-									<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=product.getProductNo()%>">
-										<img src="<%=path%>" width="100px">
-									</a>
+								<div onclick="productClick(<%=product.getProductNo()%>)">
+									<img src="<%=path%>">
 									<div class="divide-line"></div>
 									<div class="content">
 										<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=product.getProductNo()%>">

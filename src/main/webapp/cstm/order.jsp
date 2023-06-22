@@ -71,9 +71,16 @@
 			$('#addressModal').show();
 		}
 		function pointInputChange(input){
-			if(parseInt($(input).val()) > <%=customer.getCstmPoint() %>){
+			let nowValue = parseInt($(input).val());
+			if(nowValue < 0){
+				swal("경고", "0보다 큰 값을 입력하세요.", "warning");
+				$(input).val(0);
+				return;
+			}
+			if(nowValue > <%=customer.getCstmPoint() %>){
 				swal("경고", "사용 가능 포인트는 <%=userPoint%>입니다.", "warning");
-				$(input).val(<%=customer.getCstmPoint()%>)
+				$(input).val(<%=customer.getCstmPoint()%>);
+				return;
 			}
 		}
 		function payBtnClick(){
@@ -133,7 +140,7 @@
 		<div class="container">
 		
 		<div class="order-info">
-			<h2>구매정보</h2>
+			<h1>구매정보</h1>
 			<div class="font-line"></div>
 			
 			<div class="flex-wrapper">
@@ -181,11 +188,11 @@
 				</div>
 			</div>
 			</div>
-			<div class="divide-line"></div>
+			<div class="divide-line marginTop20"></div>
 				
-			<div class="flex-wrapper">
-				<div class="order-info" style="width: 45%">
-					<h2>구매자정보</h2>
+			<div class="flex-wrapper marginTop20">
+				<div class="order-info" style="width:45%">
+					<h1>구매자정보</h1>
 					<div class="font-line"></div>
 					<div>이름 : <%=customer.getCstmName() %></div>
 					<div>이메일 : <%=customer.getCstmEmail() %></div>
@@ -194,12 +201,12 @@
 						배송지 : <span id="address"><%=customer.getCstmAddress() %></span>
 					</div>
 					<div>배송 요청사항 : <input type="text"></div>
-					<button type="button" onclick='addressModalOpen()' class="style-btn">배송지변경</button>
+					<button type="button" onclick='addressModalOpen()' class="style-btn marginTop20">배송지변경</button>
 					
 				</div>
 				
-				<div class="order-info" style="width: 45%">
-					<h2>결제정보</h2>
+				<div class="order-info" style="width:45%">
+					<h1>결제정보</h1>
 					<div class="font-line"></div>
 					<div>할인쿠폰 : 0원 <span class="price">적용 가능한 할인쿠폰이 없습니다.</span></div>
 					<div>보유 포인트 : <%=userPoint %></div>
@@ -217,7 +224,7 @@
 			</div>
 			
 			
-			<button type="button" onclick="payBtnClick()" class="style-btn">결제하기</button>
+			<button type="button" onclick="payBtnClick()" class="style-btn marginTop20">결제하기</button>
 		</div>
 	</div>
 	</div>

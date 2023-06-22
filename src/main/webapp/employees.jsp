@@ -23,7 +23,7 @@
 	if(totalRow % rowPerPage != 0){
 		endPage++;
 	}
-	int lastPage = startPage + pagePerPage;
+	int lastPage = startPage + pagePerPage - 1;
 	if(lastPage > endPage){
 		lastPage = endPage;
 	}
