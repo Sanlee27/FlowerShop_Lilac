@@ -116,7 +116,6 @@
 			//상품 정보 페이드인
 		  	    $('.container').fadeIn(1000);
 		  
-		
 			//nav 이동
 			$("#toDetail").click(function(){
 				window.scrollTo({top:700, behavior: "smooth"});
@@ -178,7 +177,17 @@
 				$("#productCnt_input").val(++productCnt);
 				calculateTotalPrice();
 			});
+			//리뷰 클릭시 리뷰 상세보기로
+			$('.list-item').click(function() {
+			    let orderNo = $(this).find('.orderNo').text(); // 특정 필드에서 값을 가져온다
+			    let url = "<%= request.getContextPath() %>/cstm/questionList.jsp?orderNo=" + orderNo;
+			    window.location.href = url; // 특정 페이지로 이동
+			  });
 			
+			//문의 클릭시 문의 상세보기로
+			
+			
+			//경고창
 			$("#minus").click(function(){
 				if(productCnt > 1) {
 					$("#productCnt_input").val(--productCnt);
@@ -195,6 +204,7 @@
 				swal("완료", "<%=request.getParameter("msg")%>", "success");
 			}
 		});
+		
 		//주문버튼
 		function orderClick(){
 			const pNo = '<%=productNo%>';
@@ -228,6 +238,8 @@
 			  };
 			  xhr.send($.param(params));	
 		}
+		
+		
 	</script>
 </head>
 <body>
@@ -263,9 +275,17 @@
 				%>
 			
 			</div>
+			<div class="product-addinfo">
+				<div class="title">배송정보</div>
+				<div class="info">일반배송	2,500원 ( 20,000 원 이상 무료배송 )<br>
+						오늘드림	2,500원 또는 5,000원><br>
+						픽업	배송비 조건 없음
+				</div>
+			</div>
+			<div class="divide-line"></div>
 			<div id="productCnt">
-				<div class="flex-wrapper">
-						<div>구매수량</div>
+				<div class="flex-wrapper marginTop30">
+					<div class="title">구매수량</div>
 					<div class="btn-wrapper">
 						<button id="plus" class="pmBtn"><img src="<%=request.getContextPath() %>/images/plus.png"></button>
 						<div><input type="number" id="productCnt_input" value="1" min="1"></div>
@@ -273,8 +293,8 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="totalPrice-wrapper">
+			<div class="divide-line marginTop30"></div>
+			<div class="totalPrice-wrapper title">
 				<div>상품금액 합계</div>
 				<div id="totalPrice"><%=dc.format(discountprice)%>원</div>
 			</div>
@@ -329,7 +349,8 @@
 				Review review = (Review)r.get("review");
 				
 		%>
-		<div class="list-item">
+		<div class="list-item hovered">
+			<input class="orderNo"type="hidden" value="<%=review.getOrderNo()%>">
 			<div><%=review.getReviewTitle()%></div>
 			<div><%=r.get("id")%></div>
 			<div><%=review.getCreatedate()%></div>
@@ -395,8 +416,10 @@
 	<div class="list-wrapper6-2 marginTop180 productQna">
 		<h2 class="detailCate">문의</h2>
 		<span class="font-line"></span>
-			<div class="marginTop30"><a class="style-btn" href="<%=request.getContextPath()%>/cstm/addQuestion.jsp?productNo=<%=productNo%>">문의하기</a></div>
-			<div class="list-item">
+			<span class="product-toQ">
+				<a class="style-btn" href="<%=request.getContextPath()%>/cstm/addQuestion.jsp?productNo=<%=productNo%>">문의하기</a>
+			</span>
+			<div class="list-item marginTop30">
 				<div>카테고리</div>
 				<div>제목</div>
 				<div>내용</div>

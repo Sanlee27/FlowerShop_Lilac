@@ -75,13 +75,13 @@ del{
 	background-color: #d5d5d5;
 	margin-bottom: 10px;
 }
-input, select{
+input, select, textarea{
 	padding: 5px;
 	border-radius: 4px;
 	border: 1px solid #d5d5d5;
 	transition: all linear 0.1s;
 }
-input:focus{
+input:focus, textarea:focus{
 	outline: none !important;
 	border-bottom: 2px solid pink;
 }
@@ -525,6 +525,10 @@ input:focus{
 	position: relative;
 	height : 800px;
 }
+.product-toQ{
+	display: block;
+	text-align: left;
+}
 .productNavbar {
 	width: 1280px;
 	height: 80px;
@@ -615,10 +619,14 @@ input:focus{
 	margin-right: 100px;
 }
 .productLeft img{
+	border: 3px solid #D2D3D3;
 	object-fit: contain;
+	width: 700px;
     height: 500px;
+    padding: 20px;
 }
 .productRight{
+	padding: 10px;
 	width: 480px;
 	display: flex;
 	flex-direction: column;
@@ -631,28 +639,45 @@ input:focus{
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+.productRight .flex-wrapper{
+	height: 30px;	
+}
+.productRight .divide-line{
+	background-color: #D2D3D3;
+}
 .totalPrice-wrapper {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-top: 30px;
+	height: 30px;
 }
 .totalPrice-wrapper div {
 	color: #EB4646;
 }
 .productName{
+	height: 100px;
 	font-weight: bold;
-	font-size: 70px;
+	font-size: 50px;
 	text-align: center;
-	margin-bottom: 10px;
 	padding: 0;
 	color: #000;
+}
+.product-addinfo{
+	height: 100px;
+}
+.info{
+	font-size: 15px;
+	margin-left: 40px;
+}
+.title{
+	font-weight: bold;
 }
 .productDc{
 	text-align: center;
 	font-size: 40px;
-	margin-bottom: 20px;
 	font-weight: bold;
+	height: 100px;
 }
 .priceDc{
 	font-size: 20px;

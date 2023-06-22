@@ -41,12 +41,12 @@
 		}
 			System.out.println(currentPage + "<-currentPage");
 			
-	int rowPerPage = 5; //페이지당 행
+	int rowPerPage = 10; //페이지당 행
 	int startRow = (currentPage - 1) * rowPerPage; // 시작행
 	
 	int totalRow = productdao.getProductCnt(searchCategory, searchName); // 전체행
 	
-	int pagePerNum = 2; // 페이지당 숫자
+	int pagePerNum = 10; // 페이지당 숫자
 	
 	int lastPage = totalRow / rowPerPage; //마지막페이지
 	if(totalRow % rowPerPage != 0) { //전체 행 / 페이지 당 행이 0 이 아니면 페이지 추가 
@@ -54,8 +54,8 @@
 	}
 	
 	int minPageNum = (currentPage - 1)/pagePerNum * pagePerNum + 1; // 페이지 숫자 최소
-	int maxPageNum = minPageNum * pagePerNum; // 페이지 숫자 최대
-	if(maxPageNum > lastPage) { // 마지막페이지가 페이지당 수보다 클 경우  페이지당 수로 변경
+	int maxPageNum = (minPageNum + pagePerNum - 1); // 페이지 숫자 최대
+	if(maxPageNum > lastPage) { // 마지막페이지가 페이지당 수보다 클 경우 페이지당 수로 변경
 		maxPageNum = lastPage;
 	}
 
@@ -88,6 +88,7 @@
 				
 				// 정렬 값 가져오기
 				  var selectedOrder = $('#order').val(); 
+				
 				// 카테고리 값 가져오기
 				  var selectedCategory = $('#searchCategory').val(); 
 				
@@ -108,8 +109,12 @@
 				  var currentUrl = new URL(window.location.href); // 현재페이지
 				  currentUrl.search = new URLSearchParams(params).toString(); // 문자열로 설정
 				  window.location.href = currentUrl.toString(); // 새로운 페이지에 할당
-		
 			});
+
+		    $('#reset').click(function () {//정렬초기화
+		        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
+		        $('select[name="order"] option:eq(0)').prop('selected', true);
+		    });
 	
 				if("<%=request.getParameter("msg")%>" == "상품을 모두 삭제 후 카테고리를 삭제해주세요.") {
 					swal("경고", "<%=request.getParameter("msg")%>", "warning");
@@ -131,14 +136,11 @@
 <div class="container">
 	<!-- 상품 리스트 -->
 	<div class="list-wrapper10">
-		<h2>상품 리스트</h2>
+		<h1>상품 리스트</h1>
 			<!-- 검색 -->
-			<form>
-				<input type="text" id ="searchName" name="searchName" value="<%=searchName%>" placeholder="상품명을 입력해주세요.">
-				<button type="submit">검색</button>
-				
+			<form class="marginTop30">
 				<select id="searchCategory" name="searchCategory">
-					<option value="">==카테고리 선택==</option>
+					<option value="">카테고리</option>
 					<%
 					for(Category c : categoryList) {
 					%>
@@ -146,19 +148,21 @@
 					<%
 						}
 					%>
-				</select>
-				
+				</select>				
 				<select id="order" name="order">
-					<option value="">===정렬===</option>
+					<option value="">정렬</option>
 					<option value="판매량많은순" <%if(order.equals("판매량많은순")){%>selected<%}%>>판매량많은순</option>
 					<option value="가격높은순" <%if(order.equals("가격높은순")){%>selected<%}%>>가격높은순</option>
 					<option value="가격낮은순" <%if(order.equals("가격낮은순")){%>selected<%}%>>가격낮은순</option>
 					<option value="할인율높은순" <%if(order.equals("할인율높은순")){%>selected<%}%>>할인율높은순</option>
 				</select>
+				<input type="text" id ="searchName" name="searchName" value="<%=searchName%>" placeholder="상품명을 입력해주세요.">
+				<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 			</form>
+			
 
-		<a href="<%=request.getContextPath()%>/emp/addProduct.jsp">✚</a>	
-		<div class="list-item">
+<%-- 		<a href="<%=request.getContextPath()%>/emp/addProduct.jsp"><img src="<%=request.getContextPath() %>/images/plus.png"></a>	
+ --%>		<div class="list-item marginTop30">
 			<div>상품번호</div>
 			<div>카테고리명</div>
 			<div>상품명</div>
@@ -183,7 +187,19 @@
 			<div><%=dc.format(product.getProductPrice())%></div>
 			<div><%=product.getProductStatus()%></div>
 			<div><%=product.getProductSaleCnt()%></div>
-			<div><%=discountRate%></div>
+			<div>
+			<%
+				if(discountRate == 0){
+			%>
+				<div> - </div>
+			<% 
+				}else{
+			%>
+				<div><%=Math.round(discountRate * 100)%>%</div>
+			<% 
+				}
+			%>
+			</div>
 			<div><%=dc.format(discountPrice)%></div>
 			<div>
 				<a href="<%=request.getContextPath()%>/emp/modifyProduct.jsp?productNo=<%=product.getProductNo()%>">수정</a>
@@ -199,19 +215,24 @@
 	
 <!-- 페이징 -->
 	<div class="pagination flex-wrapper">
-	<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
-		<div>
+		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
+		<div class="flex-wrapper">
 			<%
 				if(minPageNum != 1){
 			%>
-					<a href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=minPageNum - pagePerNum%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>" class="pageBtn">
-						◀
+					<!-- 제일 처음으로  -->
+					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">
+						◀◀
+					</a>
+					<!-- 10개 이전으로  -->
+					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=minPageNum - pagePerNum%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>" class="pageBtn">
+						◁
 					</a>
 			<%
 				}
 			%>
 		</div>
-		
+			
 		<!-- 페이지 번호 -->
 		<div class="page">
 			<%
@@ -225,14 +246,18 @@
 				}
 			%>
 		</div>
-		
 		<!-- 다음 -->
-		<div>
+		<div class="flex-wrapper">
 			<%
 				if(maxPageNum != lastPage){
 			%>
-					<a href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=maxPageNum + 1%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>" class="pageBtn">
-						▶
+					<!-- 10개 다음으로 -->
+					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=maxPageNum + 1%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>">
+					▷
+					</a>
+					<!-- 제일 마지막으로  -->
+					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">
+					▶▶
 					</a>
 			<%
 				}
