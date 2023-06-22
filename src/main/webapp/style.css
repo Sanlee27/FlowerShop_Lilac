@@ -133,7 +133,7 @@ input:focus{
 	grid-template-columns: 10% 15% 10% 10% 10% 10% 15% 15% 5%;
 }
 .list-wrapper10 .list-item{
-	grid-template-columns: 10% 10% 10% 15% 10% 10% 10% 15% 5% 5%;
+	grid-template-columns: 10% 10% 20% 15% 10% 7% 7% 10% 5% 5%;
 }
 
 .hovered:hover {
