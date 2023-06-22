@@ -36,6 +36,11 @@
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
+	<script>
+		function productClick(productNo){
+			location.href="<%= request.getContextPath() %>" + "/cstm/product.jsp?ProductNo=" + productNo;
+		}
+	</script>
 </head>
 <body>
 	<div>
@@ -92,33 +97,22 @@
 			      int discountPrice = (int) map.get("discountPrice");
 			%>
 				  
-					<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
-							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
-							<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>" width="220px" height="170px">
-							</a>
+					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
+							<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>">
 							<div class="divide-line"></div>
 							<div class="content">
-							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
 								<%= p.getProductName() %>
-							</a>
 								<br>
 								 <% if (discountRate > 0) { %>
-							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
-								<del><%= p.getProductPrice() %> 원</del>
-							</a>
-								<br>
-								<span class="price"><%= discountPrice %> 원</span>
+									<del><%= p.getProductPrice() %> 원</del>
+									<br>
+									<span class="price"><%= discountPrice %> 원</span>
 								<% } else { %>
-							<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>" >
-								<%= p.getProductPrice()%> 원
-							</a>
+									<%= p.getProductPrice()%> 원
 								<% } %>
 							</div>
 						
 					</div>
-					
-
-				
 			<% 
 			} 
 			%>
@@ -138,27 +132,19 @@
 			      int discountPrice = (int) map.get("discountPrice");
 			%>
 				
-					<div class="new-product" data-aos="fade-up" data-aos-duration="3000">
-						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
-						<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>" width="220px" height="170px">
-						</a>
+					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
+						<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>">
 						<div class="divide-line"></div>
 						<div class="content">
-						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
-							<%= p.getProductName() %>
-						</a>
-							<br>
-							 <% if (discountRate > 0) { %>
-						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+						<%= p.getProductName() %>
+						<br>
+						<% if (discountRate > 0) { %>
 							<del><%= p.getProductPrice()*10 %> 원</del>
-						</a>
 							<br>
 							<span class="price"><%= discountPrice *10 %>원</span>
-							<% } else { %>
-						<a href="<%= request.getContextPath() %>/cstm/product.jsp?ProductNo=<%= p.getProductNo() %>">
+						<% } else { %>
 							<%= p.getProductPrice()*10%> 원
-						</a>
-							<% } %>
+						<% } %>
 						</div>
 					</div>
 

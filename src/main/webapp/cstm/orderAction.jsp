@@ -2,6 +2,9 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	// 인코딩 설정
+	request.setCharacterEncoding("utf-8");
+
 	// 요청값 유효성 검사
 	if(request.getParameter("productNo") == null
 	|| request.getParameter("id") == null

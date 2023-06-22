@@ -403,7 +403,15 @@ input:focus{
 }
 .modal-container .modal #addressList{
 	overflow-y: auto;
-	height: 250px;
+	height: 230px;
+	padding: 10px 0;
+}
+.modal-container .modal #addressList > div{
+	display: grid;
+	grid-template-columns: 50% 20% 12% 12%;
+	place-items: center;
+	padding: 5px 0;
+	border-bottom: 1px solid #d5d5d5;
 }
 .modal-container .modal .closeBtn{
 	position: absolute;

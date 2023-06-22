@@ -25,14 +25,14 @@
 				<div class="flex-wrapper">
 					<div class="address"><%=a.getAddress() %></div>
 					<div><%=a.getAddressLastdate() %></div>
-					<button type="button" class="selectBtn" onclick="selectBtnClick(this)">선택</button>
-					<button type="button" class="deleteBtn" onclick="deleteBtnClick(this, <%=a.getAddressNo()%>)">삭제</button>
+					<button type="button" class="selectBtn style-btn" onclick="selectBtnClick(this)">선택</button>
+					<button type="button" class="deleteBtn style-btn" onclick="deleteBtnClick(this, <%=a.getAddressNo()%>)">삭제</button>
 				</div>
 			<%
 				}
 			%>
 		</div>
-		<button type="button" onclick='addAddressBtnClick()'>배송지추가</button>
+		<button type="button" onclick='addAddressBtnClick()' class="style-btn">배송지추가</button>
 	</div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -52,8 +52,8 @@
 			                ' <input type="text" placeholder="상세주소" id="detailAddress">' +
 			            '</div>' +
 			            '<div>-</div>' +
-			            '<button type="button" class="selectBtn" onclick="selectBtnClick(this)">선택</button>' +
-			        	'<button type="button" class="deleteBtn" onclick="deleteBtnClick(this, null)">삭제</button>' +
+			            '<button type="button" class="selectBtn style-btn" onclick="selectBtnClick(this)">선택</button>' +
+			        	'<button type="button" class="deleteBtn style-btn" onclick="deleteBtnClick(this, null)">삭제</button>' +
 			         '</div>');
 			}
 		}).open();
