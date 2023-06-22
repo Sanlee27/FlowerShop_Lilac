@@ -82,10 +82,10 @@
 <div class="container">	
 	<!-- 카테고리 리스트 -->
 	<div class="list-wrapper5">
-		<h2>카테고리 리스트</h2>
-		<a href="<%=request.getContextPath()%>/emp/addCategory.jsp">✚</a>	
-	<br>
-		<div class="list-item">
+		<h1>카테고리 리스트</h1>
+<%-- 		<a href="<%=request.getContextPath()%>/emp/addCategory.jsp"><img src="<%=request.getContextPath() %>/images/plus.png"></a>	
+ --%>	<br>
+		<div class="list-item marginTop30">
 			<div>카테고리명</div>
 			<div>생성일</div>
 			<div>수정일</div>
@@ -112,12 +112,12 @@
 					</div>
 					
 					<div>
-						<button type="button" class="modifyButton" data-text="<%=loginId%>">수정</button>
-						<button type="submit" class="modifyEnd" style="display: none;">완료</button>
+						<button type="button" class="modifyButton style-btn" data-text="<%=loginId%>">수정</button>
+						<button type="submit" class="modifyEnd style-btn" style="display: none;">완료</button>
 					</div>
 					
 					<div>
-						<button type="submit" class="deletebtn" formaction="<%=request.getContextPath()%>/emp/removeCategoryAction.jsp?categoryName=<%=c.getCategoryName()%>">삭제</button>
+						<button type="submit" class="deletebtn style-btn" formaction="<%=request.getContextPath()%>/emp/removeCategoryAction.jsp?categoryName=<%=c.getCategoryName()%>">삭제</button>
 					</div>
 				</div>
 			</form>

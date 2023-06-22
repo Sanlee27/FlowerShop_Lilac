@@ -27,9 +27,18 @@
 
 <div class="container">
 	<!-- 카테고리 추가폼 -->
+	<h1>카테고리 추가</h1>
+	<div class="font-line"></div>
 	<form action="<%=request.getContextPath()%>/emp/addCategoryAction.jsp" method="post">
-		<div> 카테고리명 <input type="text" name="categoryName"></div>
-		<div><button type="submit">추가</button></div>
+		<div class="form-list">
+			<div>
+				<div> 카테고리명</div> 
+				<div><input type="text" name="categoryName"></div>
+			</div>
+			<br>
+				<button type="submit" class="style-btn">추가</button>
+				<button type="submit" class="style-btn" formaction="<%=request.getContextPath()%>/emp/category.jsp">이전</button>
+		</div>
 	</form>
 </div>
 </body>
