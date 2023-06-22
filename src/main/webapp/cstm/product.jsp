@@ -6,12 +6,6 @@
 <%
 	//인코딩
 	request.setCharacterEncoding("utf-8");
-
-	//id 세션 유효성 검사
-	if(session.getAttribute("loginId")==null){
-		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
-		return;
-	}
 	
 	//유효성검사
 	if(request.getParameter("productNo") == null
@@ -84,7 +78,7 @@
 	int pagePerNum = 2; // 페이지당 페이지 수
 	
 	int minPageNum = (currentPage - 1)/pagePerNum * pagePerNum + 1; // 페이지당 최소 페이지 번호 
-	int maxPageNum = minPageNum * pagePerNum; // 페이지당 최대 페이지 번호 
+	int maxPageNum = (minPageNum + pagePerNum - 1); // 페이지 숫자 최대 // 페이지당 최대 페이지 번호 
 	if(maxPageNum > lastPage) {
 		maxPageNum = lastPage;
 	}
@@ -111,44 +105,49 @@
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  	<script>
+  		
+  	</script>
 	<script>
 		$(document).ready(function(){
+			//상품 정보 페이드인
+		  	    $('.container').fadeIn(1000);
+		  
+		
 			//nav 이동
 			$("#toDetail").click(function(){
-				window.scrollTo({top:600, behavior: "smooth"});
-	
+				window.scrollTo({top:700, behavior: "smooth"});
 			});
 			$("#toReview").click(function(){
-				window.scrollTo({top:2000, behavior: "smooth"});
-	
+				window.scrollTo({top:2030, behavior: "smooth"});
 			});
 			$("#toQna").click(function(){
-				window.scrollTo({top:2650, behavior: "smooth"});
-	
+				window.scrollTo({top:2720, behavior: "smooth"});
 			});
 			
 			//스크롤 위치에 따른 네비바 색 변환
 			$(window).scroll(function() {
-				  var scrollPosition = $(this).scrollTop();
-				  var threshold = 600;
-				  var navbar = $('.navbar-wrapper');
-				  var toDetail = $('#toDetail');
-				  var toReview = $('#toReview');
-				  var toQna = $('#toQna');
-					
-				  if (scrollPosition < threshold) {//0~600
+				 var scrollPosition = $(this).scrollTop();
+				 var threshold = 700;
+				 var navbar = $('.navbar-wrapper');
+				 var toDetail = $('#toDetail');
+				 var toReview = $('#toReview');
+				 var toQna = $('#toQna');
+				  
+				  if (scrollPosition < threshold) {//0~700
 				    navbar.removeClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= threshold && scrollPosition < 2000) { //600~2000-상세
+				  } else if (scrollPosition >= threshold && scrollPosition < 2030) { //700~2150-상세
 				    navbar.addClass('fixed');
 				    toDetail.addClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= 2000 && scrollPosition < 2650) { //2000~2650-리뷰
+				  } else if (scrollPosition >= 2030 && scrollPosition < 2720) { //2150~2650-리뷰
 				    navbar.addClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.addClass('active');
@@ -173,7 +172,6 @@
 			// 수량이 변경될 때마다 총 주문 가격 계산
 			$("#productCnt_input").on("input", calculateTotalPrice);
 
-			
 			//상품 수량 변경 
 			let productCnt = $("#productCnt_input").val();
 			$("#plus").click(function(){
@@ -228,7 +226,6 @@
 			      }
 			    }
 			  };
-
 			  xhr.send($.param(params));	
 		}
 	</script>
@@ -240,9 +237,10 @@
 	</div>
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
-<div class="container">
-	<!-- 상품 주문 -->
-	<div class="productOrder">
+	
+<div class="container" id="product-container">
+     	<!-- 상품 주문 -->
+	<div class="productOrder" >
 		<div class="productLeft">
 			<img src="<%=path%>">
 		</div>
@@ -266,11 +264,13 @@
 			
 			</div>
 			<div id="productCnt">
-				<div class="btn-wrapper">
-					<div class="marginRigth50">구매수량</div>
+				<div class="flex-wrapper">
+						<div>구매수량</div>
+					<div class="btn-wrapper">
 						<button id="plus" class="pmBtn"><img src="<%=request.getContextPath() %>/images/plus.png"></button>
 						<div><input type="number" id="productCnt_input" value="1" min="1"></div>
 						<button id="minus" class="pmBtn"><img src="<%=request.getContextPath() %>/images/minus.png"></button>
+					</div>
 				</div>
 			</div>
 			
@@ -278,11 +278,11 @@
 				<div>상품금액 합계</div>
 				<div id="totalPrice"><%=dc.format(discountprice)%>원</div>
 			</div>
-			<div class="divide-line1"></div>
+			<div class="deco-line"></div>
 			
-			<div class="orderCart-wrapper">
-				<div class="orderCart"><a onclick="orderClick()">주문하기</a></div>
-				<div class="orderCart" id="cart"><a onclick="cartClick()">장바구니</a></div>
+			<div class="flex-wrapper">
+				<div class="orderCartBtn" onclick="orderClick()"><a>주문하기</a></div>
+				<div class="orderCartBtn" onclick="orderClick()" id="cart"><a>장바구니</a></div>
 			</div>
 		</div>
 	</div>
@@ -299,11 +299,22 @@
 		<!-- <h1>상세설명</h1> -->
 		<div class="productImg"><img src="<%=path%>"></div>
 		<div class="detailName"><h1><%=product.getProductName()%></h1></div>
-		<div class="detailFrist"><%=product.getProductInfo().substring(0,96)%></div>
-		<div><%=product.getProductInfo().substring(100)%></div>
+		<div >
+			<%
+				if(product.getProductInfo().length() < 50) {		
+			%>
+				<div><%=product.getProductInfo().substring(0,product.getProductInfo().length())%></div>
+			<%
+				}else {
+			%>
+					<div class="detailFrist"><%=product.getProductInfo().substring(0,30)%></div>
+					<div><%=product.getProductInfo().substring(30)%></div>
+			<%
+				}
+			%>
+		</div>
 	</div>
 	
-	<div id="reviewPageBtn"></div>
 	<div class="list-wrapper3 marginTop180 productReview">
 		<h2 class="detailCate">리뷰</h2>
 		<span class="font-line"></span>
@@ -329,13 +340,18 @@
 		
 		<!-- 페이징 -->
 		<div class="pagination flex-wrapper">
-		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
-			<div>
+			<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
+			<div class="flex-wrapper">
 				<%
 					if(reMinPageNum != 1){
 				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMinPageNum - rePagePerNum%>#reviewPageBtn">
-							◀
+						<!-- 제일 처음으로  -->
+						<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=1">
+							◀◀
+						</a>
+						<!-- 10개 이전으로  -->
+						<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMinPageNum - rePagePerNum%>">
+							◁
 						</a>
 				<%
 					}
@@ -348,7 +364,7 @@
 					for(int i = reMinPageNum; i <= reMaxPageNum; i++){
 						String selected = i == reCurrentPage ? "selected" : "";
 				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=i%>#reviewPageBtn" class="<%=selected%>">
+						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=i%>" class="<%=selected%>">
 							<%=i%>
 						</a>
 				<%
@@ -357,12 +373,17 @@
 			</div>
 			
 			<!-- 다음 -->
-			<div>
+			<div class="flex-wrapper">
 				<%
 					if(reMaxPageNum != reLastPage){
 				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMaxPageNum + 1%>#reviewPageBtn">
-							▶
+						<!-- 10개 다음으로 -->
+						<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reMaxPageNum + 1%>">
+							▷
+						</a>
+						<!-- 제일 마지막으로  -->
+						<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?productNo=<%=productNo%>&currentPage=<%=currentPage%>&reCurrentPage=<%=reLastPage%>">
+							▶▶
 						</a>
 				<%
 					}
@@ -371,76 +392,85 @@
 		</div>
 	</div>
 	
-	<div id="qnaPageBtn"></div>
-	<div class="list-wrapper6-2 marginTop180 productQna" id="qna">
-	<h2 class="detailCate">문의</h2>
-	<span class="font-line"></span>
-		<div class="list-item">
-			<div>카테고리</div>
-			<div>제목</div>
-			<div>내용</div>
-			<div>작성자</div>
-			<div>작성일</div>
-			<div>답변여부</div>
-		</div>
-		<%
-			for(Question q : qList) {
-		%>
-		<div class="list-item" id="review">
-			<div><%=q.getqCategory()%></div>
-			<div><%=q.getqTitle()%></div>
-			<div><%=q.getqContent()%></div>
-			<div><%=q.getId()%></div>
-			<div><%=q.getCreatedate()%></div>
-			<div><%=q.getqAnswer()%></div>
-		</div>
-		<%
-			}
-		%>
+	<div class="list-wrapper6-2 marginTop180 productQna">
+		<h2 class="detailCate">문의</h2>
+		<span class="font-line"></span>
+			<div class="marginTop30"><a class="style-btn" href="<%=request.getContextPath()%>/cstm/addQuestion.jsp?productNo=<%=productNo%>">문의하기</a></div>
+			<div class="list-item">
+				<div>카테고리</div>
+				<div>제목</div>
+				<div>내용</div>
+				<div>작성자</div>
+				<div>작성일</div>
+				<div>답변여부</div>
+			</div>
+			<%
+				for(Question q : qList) {
+			%>
+			<div class="list-item" id="review">
+				<div><%=q.getqCategory()%></div>
+				<div><%=q.getqTitle()%></div>
+				<div><%=q.getqContent()%></div>
+				<div><%=q.getId()%></div>
+				<div><%=q.getCreatedate()%></div>
+				<div><%=q.getqAnswer()%></div>
+			</div>
+			<%
+				}
+			%>
+			</div>
+			<!-- 문의 페이징 -->
+			<div class="pagination flex-wrapper" id="qna">
+				<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
+				<div class="flex-wrapper">
+					<%
+						if(minPageNum != 1){
+					%>
+							<!-- 제일 처음으로  -->
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=1">
+								◀◀
+							</a>
+							<!-- 10개 이전으로  -->
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=minPageNum - pagePerNum%>#qnaPageBtn" class="pagelink">
+								◁
+							</a>
+					<%
+						}
+					%>
+				</div>
+				
+				<!-- 페이지 번호 -->
+				<div class="page">
+					<%
+						for(int i = minPageNum; i <= maxPageNum; i++){
+							String selected = i == currentPage ? "selected" : "";
+					%>
+							<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=i%>#qnaPageBtn" class="<%=selected%>" class="pagelink">
+								<%=i%>
+							</a>
+					<%
+						}
+					%>
+				</div>
+				
+				<!-- 다음 -->
+				<div class="flex-wrapper">
+					<%
+						if(maxPageNum != lastPage){
+					%>
+							<!-- 10개 다음으로 -->
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=maxPageNum + 1%>#qnaPageBtn" class="pagelink">
+								▷
+							</a>
+							<!-- 제일 마지막으로  -->
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=lastPage%>">
+								▶▶
+							</a>
+					<%
+						}
+					%>
+				</div>
 		
-		<!-- 문의 페이징 -->
-		<div class="pagination flex-wrapper">
-		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
-			<div>
-				<%
-					if(minPageNum != 1){
-				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=minPageNum - pagePerNum%>#qnaPageBtn">
-							◀
-						</a>
-				<%
-					}
-				%>
-			</div>
-			
-			<!-- 페이지 번호 -->
-			<div class="page">
-				<%
-					for(int i = minPageNum; i <= maxPageNum; i++){
-						String selected = i == currentPage ? "selected" : "";
-				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=i%>#qnaPageBtn" class="<%=selected%>">
-							<%=i%>
-						</a>
-				<%
-					}
-				%>
-			</div>
-			
-			<!-- 다음 -->
-			<div>
-				<%
-					if(maxPageNum != lastPage){
-				%>
-						<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>&reCurrentPage=<%=reCurrentPage%>&currentPage=<%=maxPageNum + 1%>#qnaPageBtn" >
-							▶
-						</a>
-				<%
-					}
-				%>
-			</div>
-			
-		</div>
 	</div>
 </div>
 </body>
