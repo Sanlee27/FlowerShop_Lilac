@@ -38,42 +38,56 @@
 
 <div class="container">
 	<!-- 상품 추가폼 -->
+	<h1>상품 추가</h1>
+	<div class="font-line"></div>
 	<form action = "<%=request.getContextPath()%>/emp/addProductAction.jsp" method="post" encType="multipart/form-data">
-		<div> 상품 카테고리
-			<select name="categoryName">
-			<%
-				for(Category c : categoryList) {
-			%>
-				<option><%=c.getCategoryName()%></option>
-			<%
-				}
-			%>
-			</select>
-		</div>
-		<div>상품명 
-			<input type="text" name = "productName">
-		</div>
-		<div>상품 설명 
-			<textarea rows="3" cols="100" name = "productInfo"></textarea>
-		</div>
-		<div id="content">상품 가격 
-			<input type="number" name = "productPrice">
-		</div>
-		<div>상품 상태 
-			<select name="productStatus">
-				<option>판매중</option>
-				<option>품절</option>
-			</select>
-		</div>
-		<div>재고량 
-			<input type="number" name = "productStock">
-		</div>
-		<div>상품 이미지  
-			<input type="file" name = "productImg">
-		</div>
-		<div>
-			<button type="submit">등록</button>
-			<button type="submit" formaction="<%=request.getContextPath()%>/emp/productList.jsp">이전</button>
+		<div class="form-list">
+			<div> 
+				<div>상품 카테고리</div>
+				<div>
+					<select name="categoryName">
+					<%
+						for(Category c : categoryList) {
+					%>
+						<option><%=c.getCategoryName()%></option>
+					<%
+						}
+					%>
+					</select>
+				</div>
+			</div>
+			<div>
+				<div>상품명</div>
+				<div><input type="text" name = "productName"></div>
+			</div>
+			<div>
+				<div>상품 설명</div>
+				<div><textarea rows="3" cols="100" name = "productInfo"></textarea></div>
+			</div>
+			<div id="content">
+				<div>상품 가격</div>
+				<div><input type="number" name = "productPrice"></div>
+			</div>
+			<div>
+				<div>상품 상태</div> 
+				<div>
+					<select name="productStatus">
+						<option>판매중</option>
+						<option>품절</option>
+					</select>
+				</div>
+			</div>
+			<div>
+				<div>재고량</div>
+				<div><input type="number" name = "productStock"></div>
+			</div>
+			<div>
+				<div>상품 이미지</div>
+				<div><input type="file" name = "productImg"></div>
+			</div>
+			<br>
+				<button type="submit" class="style-btn">등록</button>
+				<button type="submit" class="style-btn" formaction="<%=request.getContextPath()%>/emp/productList.jsp">이전</button>
 		</div>
 	</form>
 </div>

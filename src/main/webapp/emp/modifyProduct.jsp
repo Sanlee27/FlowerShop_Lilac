@@ -81,59 +81,80 @@
 
 <div class="container">
 	<!-- 상품 수정폼 -->
-	<form action = "<%=request.getContextPath()%>/emp/modifyProductAction.jsp" method="post" encType="multipart/form-data">
-		<div> 상품 번호 <input type="number" name = "productNo" value = "<%=productNo%>"></div>
-		<div> 상품 카테고리
-			<select name="categoryName">
-			<%
-				for(Category c : categoryList) {
-					String categoryName = c.getCategoryName();
-					String selected = categoryName.equals(product.getCategoryName())  ? "selected" : "";
-			%>
-				<option <%=selected%>><%=categoryName%></option>
-			<%
-				}
-			%>
-			</select>
-		</div>
-		
-		<div>상품명 
-			<input type="text" name = "productName" value = "<%=product.getProductName()%>">
-		</div>
-		
-		<div>상품 설명 
-			<textarea rows="3" cols="100" name = "productInfo"><%=product.getProductInfo()%></textarea>
-		</div>
-		
-		<div>상품 가격 
-			<input type="number" name = "productPrice" value="<%=product.getProductPrice()%>">
-		</div>
-		
-		<div>상품 상태
-			<select name="productStatus">
-			<%
-					String productStatus = product.getProductStatus();
-			%>
-				<option <%if(productStatus.equals("판매중")){ %> selected <% } %>>판매중</option>
-				<option <%if(productStatus.equals("품절")){ %> selected <% } %>>품절</option>
-			</select>
-		</div>
-		
-		<div>재고량 
-			<input type="number" name = "productStock" value="<%=product.getProductStock()%>">
-		</div> 
-		
-		<div>상품 이미지  
-			<img src="<%=path%>" id="preview" width="300px">
-			<input type="hidden" name = "preProductImg" value="<%=productImg.getProductSaveFilename()%>">
-			<input type="file" name = "productImg" onchange="previewImage(event)">
-		</div> 
-		
-		<div>
-			<button type="submit">수정</button>
-			<button type="submit" formaction="<%=request.getContextPath()%>/emp/productList.jsp">이전</button>
-		</div>
-	</form>
+	<h1>상품 수정</h1>
+	<div class="font-line"></div>
+		<form action = "<%=request.getContextPath()%>/emp/modifyProductAction.jsp" method="post" encType="multipart/form-data">
+			<div class="form-list">
+				<div>
+					<div> 상품 번호 </div>
+					<div><input type="number" name = "productNo" value = "<%=productNo%>"></div>
+				</div>
+				<div>
+					<div> 상품 카테고리 </div>
+					<div>
+						<select name="categoryName">
+						<%
+							for(Category c : categoryList) {
+								String categoryName = c.getCategoryName();
+								String selected = categoryName.equals(product.getCategoryName())  ? "selected" : "";
+						%>
+							<option <%=selected%>><%=categoryName%></option>
+						<%
+							}
+						%>
+						</select>
+					</div>
+				</div>
+				<div>
+					<div>상품명</div>
+					<div>
+						<input type="text" name = "productName" value = "<%=product.getProductName()%>">
+					</div>
+				</div>
+				<div>
+					<div>상품 설명</div>
+					<div>
+						<textarea rows="3" cols="100" name = "productInfo"><%=product.getProductInfo()%></textarea>
+					</div>
+				</div>
+				<div>
+					<div>상품 가격</div>
+					<div>
+						<input type="number" name = "productPrice" value="<%=product.getProductPrice()%>">
+					</div>
+				</div>
+				<div>
+					<div>상품 상태</div>
+					<div>
+						<select name="productStatus">
+						<%
+								String productStatus = product.getProductStatus();
+						%>
+							<option <%if(productStatus.equals("판매중")){ %> selected <% } %>>판매중</option>
+							<option <%if(productStatus.equals("품절")){ %> selected <% } %>>품절</option>
+						</select>
+					</div>
+				</div>
+				<div>
+					<div>재고량</div>
+					<div>
+						<input type="number" name = "productStock" value="<%=product.getProductStock()%>">
+					</div>
+				</div> 
+				
+				<div>
+					<div>상품 이미지</div>
+					<div>
+						<img src="<%=path%>" id="preview" width="300px">
+						<input type="hidden" name = "preProductImg" value="<%=productImg.getProductSaveFilename()%>">
+						<input type="file" name = "productImg" onchange="previewImage(event)">
+					</div>
+				</div> 
+				<br>
+					<button type="submit" class="style-btn">수정</button>
+					<button type="submit" class="style-btn" formaction="<%=request.getContextPath()%>/emp/productList.jsp">이전</button>
+			</div>
+		</form>
 </div>
 </body>
 </html>
