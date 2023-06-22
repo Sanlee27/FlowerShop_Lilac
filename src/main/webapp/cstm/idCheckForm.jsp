@@ -12,6 +12,8 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <!-- css파일 -->
+	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
     <script type="text/javascript">
     	// 아이디 값이 이미 사용중이라면 join.jsp에서 입력된값을 지움
 	    function closeAndClear() {
@@ -49,7 +51,8 @@
 		<div style="text-align: center;">
 	        <br/><br/>
 	        <h4>이미 사용 중인 ID입니다.</h4>
-	        <button type="button" onclick="closeAndClear()">닫기</button>
+	        <br>
+	        <button type="button" class="style-btn" onclick="closeAndClear()">닫기</button>
 	    </div>
 	<% 
 		} else { 
@@ -57,7 +60,8 @@
 	    <div style="text-align: center;">
 	        <br/><br/>
 	        <h4>입력하신 <%=id%>는 사용 가능합니다.</h4>
-	        <button type="button" onclick="closeAndUse()">사용하기</button>
+	        <br>
+	        <button type="button" class="style-btn" onclick="closeAndUse()">사용하기</button>
 	    </div>
 	<% 
 		} 

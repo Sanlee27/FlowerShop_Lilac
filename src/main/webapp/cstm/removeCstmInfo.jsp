@@ -42,8 +42,9 @@
 	</div>
 	<div class="container">
 		<h1>회원 탈퇴</h1>
+		<div class="font-line"></div>
 		<form action="<%=request.getContextPath()%>/cstm/removeCstmInfoAction.jsp" method="post">
-			<div>
+			<div class="form-list">
 				<div>
 					<div>아이디</div>
 					<div><%=cstm.getId()%></div>
@@ -54,13 +55,15 @@
 				<div>
 					<div>비밀번호</div>
 					<div>
-						<input type="password" name="pw" required="required">
+						<input type="password" name="pw" required="required" placeholder="현재 비밀번호를 입력하세요.">
 					</div>
 				</div>
 			</div>
+			<br>
 			<a style="color:red;">탈퇴 후 재가입시 현재 아이디는 사용이 불가합니다.</a><br>
-			<button type="submit">회원탈퇴</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
+			<br>
+			<button type="submit" class="style-btn">회원탈퇴</button>
+			<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

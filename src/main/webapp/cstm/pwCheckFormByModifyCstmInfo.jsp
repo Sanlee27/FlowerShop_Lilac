@@ -7,8 +7,8 @@
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	
-	System.out.println(id);
-	System.out.println(pw);
+	//System.out.println(id);
+	//System.out.println(pw);
 
     CustomerDao dao = new CustomerDao();
 
@@ -24,6 +24,8 @@
 <head>
     <meta charset="UTF-8">
     <title>비밀번호 확인</title>
+    <!-- css파일 -->
+	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script type="text/javascript">
     	// 비밀번호를 확인해서 로그인된 아이디의 비밀번호가 틀리다면
@@ -62,7 +64,8 @@
 		<div style="text-align: center;">
 	        <br/><br/>
 	        <h4>비밀번호가 틀립니다.</h4>
-	        <button type="button" onclick="closeAndClear()">닫기</button>
+	        <br>
+	        <button type="button" class="style-btn" onclick="closeAndClear()">닫기</button>
 	    </div>
 	<% 
 		} else { 
@@ -70,7 +73,8 @@
 	    <div style="text-align: center;">
 	        <br/><br/>
 	        <h4>비밀번호가 일치합니다.</h4>
-	        <button type="button" onclick="closeAndUse()">닫기</button>
+	        <br>
+	        <button type="button" class="style-btn" onclick="closeAndUse()">닫기</button>
 	    </div>
 	<% 
 		} 

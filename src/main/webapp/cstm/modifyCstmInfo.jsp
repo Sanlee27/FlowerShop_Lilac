@@ -235,7 +235,8 @@
 	<div class="container">
 		<form action="<%=request.getContextPath()%>/cstm/modifyCstmInfoAction.jsp" method="post">
 			<h1>내 정보 수정</h1>
-			<div>
+			<div class="font-line"></div>
+			<div class="form-list">
 				<div>
 					<div>아이디</div>
 					<div>
@@ -286,13 +287,13 @@
 					<div>주소</div>
 					<div>
 						<textarea style="resize: none;" rows="1" cols="40" id="address" name="address1" readonly="readonly" required="required"><%=cstm.getCstmAddress()%></textarea>
-						<button type="button" id="address_kakao">주소 검색</button>
+						<button type="button" class="style-btn" id="address_kakao">주소 검색</button>
 					</div>
 				</div>
 				<div>
 					<div>상세주소</div>
 					<div>
-						<textarea style="resize: none;" rows="2" cols="40" name="address2"></textarea>
+						<textarea style="resize: none;" rows="2" cols="40" name="address2" placeholder="상세주소를 입력하세요"></textarea>
 					</div>
 				</div>
 				<div>
@@ -317,14 +318,15 @@
 				<div>
 					<div>현재 비밀번호</div>
 					<div>
-						<input type = "password" name = "pw" required="required">
-						<input type="button" name="ckPw" value="비밀번호 확인" >
+						<input type = "password" name = "pw" required="required" placeholder="현재 비밀번호를 입력하세요">
+						<input type="button" class="style-btn" name="ckPw" value="비밀번호 확인" >
 						<span id="pwMsg" style="color: red;"></span>
 					</div>
 				</div>
 			</div>
-			<button type="submit">저장</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
+			<br>
+			<button type="submit" class="style-btn">저장</button>
+			<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=cstm.getId()%>'">뒤로가기</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

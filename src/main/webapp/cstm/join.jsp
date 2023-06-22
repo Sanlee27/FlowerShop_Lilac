@@ -270,35 +270,36 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>회원가입</h1>
 		<form action="<%=request.getContextPath()%>/cstm/joinAction.jsp" method="post">
-			<div>
+			<h1>회원가입</h1>
+			<div class="font-line"></div>
+			<div class="form-list">
 				<div>
 					<div>아이디</div>
 					<div>
 						<input type="text" name="id" placeholder="아이디를 입력하세요" required="required">
-						<input type="button" name="ckId" value="아이디 중복확인" > 
+						<input type="button" name="ckId" value="아이디 중복확인" class="style-btn"> 
 						<span id="idMsg" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>비밀번호</div>
 					<div>
-						<input type = "password" name = "pw" required="required">
+						<input type = "password" name = "pw" required="required" placeholder="비밀번호를 입력하세요">
 						<span id="pwMsg" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>비밀번호 재입력</div>
 					<div>
-						<input type = "password" name = "rePw" required="required">
+						<input type = "password" name = "rePw" required="required" placeholder="한번 더 입력하세요">
 						<span id="pwMsg2" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>이름</div>
 					<div>
-						<input type = "text" name = "names" required="required">
+						<input type = "text" name = "names" required="required" placeholder="이름을 입력하세요">
 						<span id="nameMsg" style="color: red;"></span>
 					</div>
 				</div>
@@ -320,13 +321,13 @@
 					<div>주소</div>
 					<div>
 						<textarea rows="1" cols="40" id="address" name="address1" placeholder = "주소를 선택하세요" readonly="readonly" required="required"></textarea>
-						<button type="button" id="address_kakao">주소 검색</button>
+						<button type="button" class="style-btn" id="address_kakao">주소 검색</button>
 					</div>
 				</div>
 				<div>
 					<div>상세주소</div>
 					<div>
-						<textarea rows="1" cols="40" name="address2" required="required"></textarea>
+						<textarea rows="2" cols="40" name="address2" required="required" placeholder="상세주소를 입력하세요"></textarea>
 						<span id="adrMsg" style="color: red;"></span>
 					</div>
 				</div>
@@ -340,15 +341,15 @@
 							<option value="017">017</option>
 							<option value="019">019</option>
 						</select> - 
-						<input type = "text" name = phone2 maxlength="4" required="required"> - 
-						<input type = "text" name = phone3 maxlength="4" required="required"> 
+						<input type = "text" name = phone2 maxlength="4" style="width:80px" required="required" placeholder="중간 번호"> - 
+						<input type = "text" name = phone3 maxlength="4" style="width:80px" required="required" placeholder="끝 번호"> 
 						<span id="phMsg" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>이메일</div>
 					<div>
-						<input type = "text" name = "email1" required="required"> @
+						<input type = "text" name = "email1" required="required" placeholder="이메일을 입력하세요"> @
 						<select name = "email2">
 							<option value="naver.com" selected="selected">naver.com</option>
 							<option value="daum.net">daum.net</option>
@@ -367,8 +368,9 @@
 					</div>
 				</div>
 			</div>
-			<button type="submit">회원가입</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/login.jsp'">로그인으로</button>
+			<br>
+			<button type="submit" class="style-btn">회원가입</button>
+			<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/login.jsp'">로그인으로</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

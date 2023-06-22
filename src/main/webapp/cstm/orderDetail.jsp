@@ -3,6 +3,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -35,7 +36,7 @@
 	int discountPrice = (int)pInfo.get("discountPrice");
 	
 	// 이미지 주소
-	String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename();
+	String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename() + ".jpg";
 	
 	// 고객 등급확인
 	CustomerDao cDao = new CustomerDao();
@@ -66,80 +67,92 @@
 		
 	});
 	</script>
-	<style>
-		.list-wrapper5 .list-item{
-			grid-template-columns: 20% 20% 20% 20% 20%;
-		}
-	</style>
 </head>
 <body>
 	<div>
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>주문내역 상세</h1>
-		<br>
-		<div>
-		주문번호 : <%=order.getOrderNo()%> 주문일자 : <%=order.getCreatedate()%>
-		</div>
-		<br>
 		<form action="<%=request.getContextPath()%>/cstm/removeOrderAction.jsp" method="post">
-			<div class="list-wrapper5">
-				<div class="list-item">
-					<div>상품 정보</div>
-					<div>할인 금액</div>
-					<div>포인트 적립</div>
-					<div>주문 금액(수량)</div>
-					<div>주문 상태</div>
+			<h1>주문내역 상세</h1>
+			<div class="font-line"></div>
+			<br>
+			<div class="form-list">
+				<div>
+					<div>주문 번호</div>
+					<div><%=order.getOrderNo()%></div>
 				</div>
-				<div class="list-item">
+				<div>
+					<div>주문 일자</div>
+					<div><%=order.getCreatedate()%></div>
+				</div>
+				<div>
+					<div>상품 정보</div>
 					<div>
 						<input type="hidden" name="id" value="<%=order.getId()%>">
 						<input type="hidden" name="orderNo" value="<%=order.getOrderNo()%>">
-						<img src="<%=path%>" width="100px">
-						<%=product.getProductName()%>
+						<div class="product-info">
+							<img src="<%=path%>" width="200px">
+							<div onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=order.getProductNo()%>'"><%=product.getProductName()%></div>
+						</div>
 					</div>
-					<div><%=discountPrice%></div>
+				</div>
+				<div>
+					<div>할인 금액</div>
+					<div>
+						<fmt:formatNumber value="<%=discountPrice%>" pattern="###,###,###"/>
+					</div>
+				</div>
+				<div>
+					<div>포인트 적립</div>
 					<%
 						if(cstm.getCstmRank().equals("씨앗")){
 					%>
 							<div>
-								<%=Math.round(order.getOrderPrice()*0.01)%>
+								<fmt:formatNumber value="<%=Math.round(order.getOrderPrice()*0.01)%>" pattern="###,###,###"/>
 							</div>
 					<%
 						} else if(cstm.getCstmRank().equals("새싹")){
 							
 					%>
 							<div>
-								<%=Math.round(order.getOrderPrice()*0.03)%>
+								<fmt:formatNumber value="<%=Math.round(order.getOrderPrice()*0.03)%>" pattern="###,###,###"/>
 							</div>
 					<%
 						} else {
 					%>
 							<div>
-								<%=Math.round(order.getOrderPrice()*0.05)%>
+								<fmt:formatNumber value="<%=Math.round(order.getOrderPrice()*0.05)%>" pattern="###,###,###"/>
 							</div>
 					<%
 						}
 					%>
+				</div>
+				<div>
+					<div>주문 금액(수량)</div>
 					<div>
 						<input type="hidden" name="orderCnt" value="<%=order.getOrderCnt()%>">
-						<%=order.getOrderPrice()%>(<%=order.getOrderCnt()%>)
+						<fmt:formatNumber value="<%=order.getOrderPrice()%>" pattern="###,###,###"/>(<%=order.getOrderCnt()%>)
 					</div>
-					<div><%=order.getOrderStatus()%></div>
+				</div>
+				<div>
+					<div>주문 상태</div>
+					<div><%=order.getOrderStatus()%>
+						<%
+							if(order.getOrderStatus().equals("배송완료")){
+						%>
+								<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/addReview.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>'">리뷰 작성</button>
+						<%		
+							}
+						%>
+					</div>
 				</div>
 			</div>
-			<%
-				if(order.getOrderStatus().equals("배송완료")){
-			%>
-					<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/addReview.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>'">리뷰 작성</button>
-			<%		
-				}
-			%>
 			<br>
 			<h3>배송지</h3>
-			<button type="submit">주문 취소</button>
-			<button type="button" onclick="history.back()">뒤로가기</button>
+			<br>
+			<button type="submit" class="style-btn">주문 취소</button>
+			<button type="button" class="style-btn" onclick="history.back()">뒤로가기</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

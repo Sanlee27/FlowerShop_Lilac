@@ -132,32 +132,34 @@
 	</div>
 	<div class="container">
 		<h1>비밀번호 변경</h1>
-			<div>
+		<div class="font-line"></div>
+			<div class="form-list">
 				<div>
 					<div>현재 비밀번호</div>
 					<div>
 						<input type = "hidden" name = "id"  value="<%=id%>" readonly="readonly">
-						<input type = "password" name = "pw" required="required">
+						<input type = "password" name = "pw" required="required" placeholder="현재 비밀번호를 입력하세요.">
 						<span id="pwMsg0" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>새로운 비밀번호</div>
 					<div>
-						<input type = "password" name = "newPw" required="required">
+						<input type = "password" name = "newPw" required="required" placeholder="새로운 비밀번호를 입력하세요.">
 						<span id="pwMsg" style="color: red;"></span>
 					</div>
 				</div>
 				<div>
 					<div>비밀번호 재입력</div>
 					<div>
-						<input type = "password" name = "newPw2" disabled="disabled" required="required">
+						<input type = "password" name = "newPw2" disabled="disabled" required="required" placeholder="한번 더 입력하세요.">
 						<span id="pwMsg2" style="color: red;"></span>
 					</div>
 				</div>
 			</div>
-			<button type="button" id="modifyBtn"onclick="pwCkBtn()">저장</button>
-			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">뒤로가기</button>
+			<br>
+			<button type="button" class="style-btn" id="modifyBtn"onclick="pwCkBtn()">저장</button>
+			<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">뒤로가기</button>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>

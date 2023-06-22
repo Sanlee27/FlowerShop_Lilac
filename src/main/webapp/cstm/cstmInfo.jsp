@@ -3,6 +3,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -74,7 +75,9 @@
 				</div>
 				<div>
 					<div>연락처</div>
-					<div><%=cstm.getCstmPhone()%></div>
+					<div>
+						<%=cstm.getCstmPhone().substring(0, 3)%>-<%=cstm.getCstmPhone().substring(3, 7)%>-<%=cstm.getCstmPhone().substring(7, 11)%>
+					</div>
 				</div>
 				<div>
 					<div>이메일</div>
@@ -91,7 +94,7 @@
 				<div>
 					<div>보유 포인트</div>
 					<div>
-						<%=cstm.getCstmPoint()%>
+						<fmt:formatNumber value="<%=cstm.getCstmPoint()%>" pattern="###,###,###"/>
 					</div>
 				</div>
 				<div>

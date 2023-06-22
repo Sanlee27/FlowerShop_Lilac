@@ -46,6 +46,8 @@
 	</div>
 	<div class="container">
 		<h1>나의 문의내역</h1>
+		<div class="font-line"></div>
+		<br>
 		<div class="list-wrapper7">
 			<div class="list-item">
 				<div>상품 정보</div>
@@ -63,12 +65,12 @@
 					HashMap<String, Object> pInfo = pDao.getProductDetail(productNo);
 					Product p = (Product)pInfo.get("product");
 					ProductImg pi = (ProductImg)pInfo.get("productImg");
-					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
+					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + "." + pi.getProductFiletype();
 			%>
 					<div class="list-item">
-						<div>
-							<img src="<%=path%>" width="100px">
-							<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=productNo%>"><%=p.getProductName()%></a>
+						<div class="product-info">
+							<img src="<%=path%>">
+							<div onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=p.getProductNo()%>'"><%=p.getProductName()%></div>
 						</div>
 						<div><%=q.getqTitle()%></div>
 						<div><%=q.getqContent()%></div>
@@ -86,7 +88,7 @@
 							}
 						%>
 						<div>
-							<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/question.jsp?id=<%=id%>&qNo=<%=q.getqNo()%>'">상세보기</button>
+							<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/question.jsp?id=<%=id%>&qNo=<%=q.getqNo()%>'">상세보기</button>
 						</div>
 					</div>
 			<%

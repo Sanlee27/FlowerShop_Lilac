@@ -3,6 +3,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -52,6 +53,8 @@
 	</div>
 	<div class="container">
 		<h1>내 주문내역</h1>
+		<div class="font-line"></div>
+		<br>
 		<div class="list-wrapper6">
 			<div class="list-item">
 				<div>상품 정보</div>
@@ -66,19 +69,21 @@
 					Order order = (Order)o.get("order");
 					String productName = (String)o.get("productName");
 					ProductImg pi = (ProductImg)o.get("productImg");
-					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
+					String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + "." + pi.getProductFiletype();
 			%>
 					<div class="list-item">
-						<div>
-							<img src="<%=path%>" width="100px">
-							<input type="button" value="<%=productName%>" onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=order.getProductNo()%>'"> 
+						<div class="product-info">
+							<img src="<%=path%>">
+							<div onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=order.getProductNo()%>'"><%=productName%></div>
 						</div>
 						<div><%=order.getCreatedate().substring(0, 10)%></div>
 						<div><%=order.getOrderNo()%></div>
-						<div><%=order.getOrderPrice()%>(<%=order.getOrderCnt()%>)</div>
+						<div>
+							<fmt:formatNumber value="<%=order.getOrderPrice()%>" pattern="###,###,###"/>(<%=order.getOrderCnt()%>)
+						</div>
 						<div><%=order.getOrderStatus()%></div>
 						<div>
-							<a href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>">상세보기</a> 
+							<a class="style-btn" href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=order.getOrderNo()%>">상세보기</a> 
 						</div>
 					</div>
 			<%		

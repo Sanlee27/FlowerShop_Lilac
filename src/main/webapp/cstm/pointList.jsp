@@ -3,6 +3,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -51,7 +52,11 @@
 	</div>
 	<div class="container">
 		<h1>내 포인트</h1>
-		<h3>보유 포인트 : <%=curPoint.getCstmPoint()%></h3>
+		<div class="font-line"></div>
+		<h3>
+			보유 포인트 : <fmt:formatNumber value="<%=curPoint.getCstmPoint()%>" pattern="###,###,###"/>
+		</h3>
+		<br>
 		<div class="list-wrapper5">
 			<div class="list-item">
 				<div>상태</div>
@@ -62,7 +67,7 @@
 			</div>
 			<%
 				for(Point p : list){
-					String path = request.getContextPath() + "/product/" + p.getProductSaveFileName();
+					String path = request.getContextPath() + "/product/" + p.getProductSaveFileName() + ".jpg";
 			%>
 					<div class="list-item">
 						<%
@@ -79,13 +84,15 @@
 						<div>
 							<%=p.getPointPm()+p.getPoint()%>
 						</div>
-						<div>
-							<img src="<%=path%>" width="100px">
-							<%=p.getProductName()%>
+						<div class="product-info">
+							<img src="<%=path%>">
+							<div>
+								<div onClick="location.href='<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=p.getProductNo()%>'"><%=p.getProductName()%></div>
+							</div> 
 						</div>
 						<div><%=p.getCreatedate().substring(0, 10)%></div>
 						<div>
-							<a href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=p.getOrderNo()%>">
+							<a class="style-btn" href="<%=request.getContextPath()%>/cstm/orderDetail.jsp?id=<%=id%>&orderNo=<%=p.getOrderNo()%>">
 								주문정보
 							</a>
 						</div>

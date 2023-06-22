@@ -33,7 +33,7 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	// 페이지 당 행 개수
-	int rowPerPage  = 20;
+	int rowPerPage  = 12;
 	if(request.getParameter("rowPerPage") != null) {
 	      rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 	}
