@@ -38,7 +38,7 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<script>
 		function productClick(productNo){
-			location.href="<%= request.getContextPath() %>" + "/cstm/product.jsp?ProductNo=" + productNo;
+			location.href="<%= request.getContextPath() %>" + "/cstm/product.jsp?productNo=" + productNo;
 		}
 	</script>
 </head>
