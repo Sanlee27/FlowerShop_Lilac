@@ -17,6 +17,7 @@
 	//세션 유효성 검사
 	if(session.getAttribute("loginId")==null){
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+		System.out.println("loginId" + "<- loginId" );
 		return;
 	}
 
@@ -111,77 +112,84 @@
 		<h1>후기 상세</h1>
 			<form action="<%=request.getContextPath()%>/cstm/modifyReview.jsp" method="post">
 			<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
-				<table>
-			
-					<tr>
-						<td>주문 번호</td>
-						<td><%=((Review)map.get("review")).getOrderNo()%></td> 
-						<!-- 
-						reviwone 메서드의 해시맵 키"review"로부터 orderNo 값을 출력
-						 -->
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td><%=((Review)map.get("review")).getReviewTitle()%></td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td><%=((Review)map.get("review")).getReviewContent()%></td>
-					</tr>
+				<div class="form-list">
+					<div>
+						<div>주문 번호</div> 
+						<div><%=((Review)map.get("review")).getOrderNo()%></div>
+							<!-- 
+							reviwone 메서드의 해시맵 키"review"로부터 orderNo 값을 출력
+							 -->
+					</div>
+					<div>
+						<div>제목</div> 
+						<div><%=((Review)map.get("review")).getReviewTitle()%></div>
+					</div>
+					<div>
+						<div>내용</div> 
+						<div><%=((Review)map.get("review")).getReviewContent()%></div>
+					</div>
+					
 					<%
 					if (reviewImg != null) {
 					%>
-					<tr>
-						<td>상품사진</td>
-						<td>
-							<img src="<%=path%>" alt="ReviewSaveFilename" width="100">
-						</td>
-					</tr>
 					
-					<tr>
-						<td>파일타입</td>
-						<td>
-						<%=((ReviewImg)map.get("reviewImg")).getReviewFiletype()%></td>
-					</tr>
-					 <%
+					<div>
+						<div>상품사진</div>
+						<div><img src="<%=path%>" alt="ReviewSaveFilename" width="220px" height="170px"></div>
+					</div>
+					<div>
+						<div>파일타입</div>
+						<div><%=((ReviewImg)map.get("reviewImg")).getReviewFiletype()%></div>
+					</div>
+					
+					<%
 					}
 					%>
-					<tr>
-						<td>작성일</td>
-						<td><%=((Review)map.get("review")).getCreatedate().substring(0, 10)%></td>
-					</tr>
-					<tr>
-						<td>수정일</td>
-						<td><%=((Review)map.get("review")).getUpdatedate().substring(0, 10)%></td>
-					</tr>
 					
-				</table>
+					<div>
+						<div>작성일</div> 
+						<div><%=((Review)map.get("review")).getCreatedate().substring(0, 10)%></div>
+					</div>
+					<div>
+						<div>수정일</div> 
+						<div><%=((Review)map.get("review")).getUpdatedate().substring(0, 10)%></div>
+					</div>
+				</div>
+				
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         	if(loginId != null) {
 		        		if(loginId.equals(map.get("id"))) {
+		        			System.out.println(map.get("id")+ "");
 		 		%>
-					<button type= "submit">
-					수정	
-					</button>
-					
-				<%}} %>
-			</form>
-			
+		 		
+		 			<div class="flex-wrapper marginTop20">
+						<button type= "submit" class="style-btn">
+						수정	
+						</button>
+					</div>
+				
+				<%
+					}
+		        } 
+				%>
+			</form>	
 			
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 				if(loginId != null) {
 	        		if(loginId.equals(map.get("id"))) {
 	 			%>
-			<form action="<%=request.getContextPath()%>/cstm/removeReviewAction.jsp" method="get">
-			<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
-					<button type= "submit">
-					삭제
-					</button>
-			</form>
+	 			<div class="flex-wrapper marginTop20">
+					<form action="<%=request.getContextPath()%>/cstm/removeReviewAction.jsp" method="get">
+					<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
+							<button type= "submit" class="style-btn">
+							삭제
+							</button>
+					</form>
+				</div>
 			<%
 		        	 	} 
 		        	}
-				%>
+			%>
 		</div>	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

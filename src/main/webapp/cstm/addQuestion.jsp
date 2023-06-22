@@ -16,8 +16,8 @@
 	
 	//int qNo = Integer.parseInt(request.getParameter("qNo"));
 	//int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int qNo = 10;
-	int productNo = 5;
+	int qNo = 22;
+	int productNo = 10;
 	String id = "user5";
 	
 	//클래스 객체 생성
@@ -45,6 +45,11 @@
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+	<style>
+		.list-wrapper .list-item{
+			grid-template-columns: 50% 50%;
+		}
+	</style>
 <body>
 	<div>
 	<!-- 메인메뉴 -->
@@ -52,59 +57,59 @@
 	</div>
 	
 	<div class="container">
+
 		<h1>문의 입력</h1>
 			<form action="<%=request.getContextPath()%>/cstm/addQuestionAction.jsp" method="get">
-				<table>
-					<tr>
-						<td>문의 번호</td>
-						<td><%=one.getqNo() %></td>
-					</tr>
-					<tr>
-						<td>제품 번호</td>
-						<td><%=one.getProductNo() %></td>
-					</tr>
-					<tr>
-						<td>id</td>
-						<td><%=one.getId() %></td>
-					</tr>
-					<tr>
-						<td>카테고리</td>
-						<td><select name= "qCategory">
+				<div  class="form-list">
+					<div>
+						<div>문의 번호</div> 
+						<div><%=one.getqNo() %></div>
+					</div>
+					<div>
+						<div>제품 번호</div>
+						<div><%=one.getProductNo() %></div>
+					</div>
+					<div>
+						<div>id</div>
+						<div><%=one.getId() %></div>
+					</div>
+					<div>
+						<div>카테고리</div>
+						<div>
+						<select name= "qCategory">
 								<option value="상품">상품</option>
 								<option value="결제">결제</option>
 								<option value="배송">배송</option>
 								<option value="기타">기타</option>
-							</select>
-						</td>
-					</tr>
-			
-					<tr>
-						<td>제목</td>
-						<td>
-							<input type="text" name="qTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
-						</td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td>
-							<input type="text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
-						</td>
-					</tr>
-					<tr>
-						<td>수정일</td>
-						<td><%=one.getUpdatedate() %></td>
-					</tr>
-					<tr>
-						<td>작성일</td>
-						<td><%=one.getCreatedate() %></td>
-					</tr>
-				
-				</table>
-					<button type= "submit">
+						</select>
+						</div>
+					</div>
+					<div>
+						<div>제목</div>
+						<div><input type="text" name="qTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 --></div>
+					</div>
+					<div>
+						<div>내용</div>
+						<div><input type="text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > </div>
+					</div>
+					<div>
+						<div>수정일</div>
+						<div><%=one.getUpdatedate() %></div>
+					</div>
+					<div>
+						<div>작성일</div>
+						<div> <%=one.getCreatedate() %></div>
+					</div>
+				</div>
+				<div class="flex-wrapper marginTop20">
+					<button type= "submit" class="style-btn">
 					입력
 					</button>
-				</form>	
-		</div>	
+				</div>
+			</form>	
+				
+	</div>	
+
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 
