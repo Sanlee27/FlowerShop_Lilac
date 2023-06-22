@@ -45,14 +45,16 @@ public class PointDao {
 			point.setCreatedate(rs.getString("p.createdate"));
 			
 			// 상품이름, 이미지 출력 쿼리
-			String productSql = "SELECT p.product_name, pi.product_save_filename FROM point_history ph JOIN orders o ON ph.order_no = o.order_no JOIN product p ON o.product_no = p.product_no JOIN product_img pi ON p.product_no = pi.product_no WHERE ph.order_no = ?";
+			String productSql = "SELECT p.product_no, p.product_name, pi.product_save_filename FROM point_history ph JOIN orders o ON ph.order_no = o.order_no JOIN product p ON o.product_no = p.product_no JOIN product_img pi ON p.product_no = pi.product_no WHERE ph.order_no = ?";
 			PreparedStatement stmt2 = conn.prepareStatement(productSql);
 			stmt2.setInt(1, point.getOrderNo());
 			ResultSet rs2 = stmt2.executeQuery();
 			
 			if(rs2.next()) {
+				int productNo = rs2.getInt("product_no");
 				String productName = rs2.getString("product_name");
 				String productSaveFileName = rs2.getString("product_save_filename");
+				point.setProductNo(productNo);
 				point.setProductName(productName);
 				point.setProductSaveFileName(productSaveFileName);
 			}

@@ -8,7 +8,14 @@ public class Point {
 	private String createdate;
 	private String productName;
 	private String productSaveFileName;
+	private int productNo;
 	
+	public int getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
+	}
 	public int getPointNo() {
 		return pointNo;
 	}
