@@ -227,7 +227,12 @@ input:focus{
 	padding: 10px 0;
 	border-bottom: 1px solid #d5d5d5;
 }
-
+.form-list .product-info:hover{
+		cursor: pointer;
+}
+.form-list .product-info:hover > div{
+	text-decoration: underline;
+}
 /* 상품 리스트 부분 */
 .product-list{
 	width: 1150px;
