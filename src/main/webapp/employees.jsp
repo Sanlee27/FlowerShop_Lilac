@@ -116,7 +116,10 @@
 			</div>
 			
 			<div class="pagination flex-wrapper">
-				<div>
+				<div class="flex-wrapper">
+					<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=1"  class="pageBtn">
+						◀◀
+					</a>
 					<%
 						if(startPage != 1){
 					%>
@@ -139,7 +142,7 @@
 						}
 					%>
 				</div>
-				<div>
+				<div class="flex-wrapper">
 					<%
 						if(endPage != lastPage){
 					%>
@@ -149,6 +152,9 @@
 					<%
 						}
 					%>
+					<a href="<%=request.getContextPath() %>/employees.jsp?currentPage=<%=lastPage %>"  class="pageBtn">
+						▶▶
+					</a>
 				</div>
 			</div>
 		</div>
