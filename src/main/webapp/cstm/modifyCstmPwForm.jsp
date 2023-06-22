@@ -31,10 +31,21 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			let pw = $('input[name="pw"]');
 			let newPw = $('input[name="newPw"]');
 			let newPw2 = $('input[name="newPw2"]');
+			let pwMsg0 = $('#pwMsg0');
 			let pwMsg = $('#pwMsg');
 			let pwMsg2 = $('#pwMsg2');
+			
+			pw.blur(function(){
+				if(pw.val().length<4){
+					swal("경고", "비밀번호는 최소 4자를 충족해야합니다.", "warning");
+	    			pwMsg0.text('비밀번호는 최소 4자를 충족해야합니다.');
+				} else {
+					pwMsg0.text('');
+				}
+			});
 			
 			newPw.blur(function(){
 				if(newPw.val().length<4){
@@ -64,7 +75,7 @@
 				}
 			});
 			
-		    let submitButton = $('button[type="submit"]');
+		    let submitButton = $('#modifyBtn');
 		    
 		 	// 비밀번호 확인을 안하고 저장을 먼저 눌렀을때.
 	 	    submitButton.click(function(){
@@ -75,8 +86,44 @@
 	 	    		pwMsg2.text('');
 	 	    	}
 	 	    });
-		 	
 		});
+		 	
+		function pwCkBtn(){
+			
+			let xhr = new XMLHttpRequest();
+			let url = '<%=request.getContextPath()%>/cstm/modifyCstmPwAction.jsp';
+			let params = new URLSearchParams();
+			params.append('id', '<%=id%>');
+			params.append('pw', $('input[name="pw"]').val());
+			params.append('newPw', $('input[name="newPw"]').val());
+			params.append('newPw2', $('input[name="newPw2"]').val());
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-type', 'text/plain'); /* text-plain : 서버는 요청을 텍스트 형식으로 처리 */
+			xhr.onreadystatechange = function() {
+				  if (xhr.readyState === 4) {
+				    if (xhr.status === 200) {
+				      swal("성공", "비밀번호가 변경되었습니다.", "success");
+				      setTimeout(function() {
+				        window.location.href = '<%=request.getContextPath()%>' + '/cstm/cstmInfo.jsp?id=' + '<%=id%>';
+				      }, 1000);
+				    } else {
+				      let responseText = xhr.responseText.trim(); // 응답 텍스트 공백제거
+				      console.log(xhr.responseText);
+				      if (xhr.status === 400) {
+				        if (responseText === "curPwMismatch") {
+				          swal("실패", "현재 비밀번호가 일치하지 않습니다.", "error");
+				        } else if (responseText === "newPwSameAsHistory") {
+				          swal("실패", "새 비밀번호가 이전 비밀번호와 동일합니다.", "error");
+				        } else {
+				          swal("실패", "오류가 발생했습니다.", "error");
+				        }
+				      }
+				    }
+				  }
+				};
+
+				xhr.send(params);
+		}
 	</script>
 </head>
 <body>
@@ -85,33 +132,33 @@
 	</div>
 	<div class="container">
 		<h1>비밀번호 변경</h1>
-		<form action="<%=request.getContextPath()%>/cstm/modifyCstmPwAction.jsp" method="post">
-			<table>
-				<tr>
-					<th>현재 비밀번호</th>
-					<td>
+			<div>
+				<div>
+					<div>현재 비밀번호</div>
+					<div>
 						<input type = "hidden" name = "id"  value="<%=id%>" readonly="readonly">
 						<input type = "password" name = "pw" required="required">
-					</td>
-				</tr>
-				<tr>
-					<th>새로운 비밀번호</th>
-					<td>
+						<span id="pwMsg0" style="color: red;"></span>
+					</div>
+				</div>
+				<div>
+					<div>새로운 비밀번호</div>
+					<div>
 						<input type = "password" name = "newPw" required="required">
 						<span id="pwMsg" style="color: red;"></span>
-					</td>
-				</tr>
-				<tr>
-					<th>비밀번호 재입력</th>
-					<td>
+					</div>
+				</div>
+				<div>
+					<div>비밀번호 재입력</div>
+					<div>
 						<input type = "password" name = "newPw2" disabled="disabled" required="required">
 						<span id="pwMsg2" style="color: red;"></span>
-					</td>
-				</tr>
-			</table>
-			<button type="submit">저장</button>
+					</div>
+				</div>
+			</div>
+			<button type="button" id="modifyBtn"onclick="pwCkBtn()">저장</button>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">뒤로가기</button>
-		</form>
 	</div>
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 </body>
 </html>
