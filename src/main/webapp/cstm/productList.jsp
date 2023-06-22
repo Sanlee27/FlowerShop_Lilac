@@ -208,36 +208,45 @@
 					%>
 					</div>
 					<br>
-					<div class="pagination">
 					<!-- ================ 페이지 ================ -->
-					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">◀◀</a>
-					<%
-						// 10p 단위 이전 버튼
-						if(minPage>1){
-					%>
-							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
-					<%
-						}
-					
-						for(int i=minPage; i<=maxPage; i=i+1){
-							if(i == currentPage){
+					<div class="pagination flex-wrapper">
+						<div class="flex-wrapper">
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">◀◀</a>
+							<%
+								// 10p 단위 이전 버튼
+								if(minPage>1){
 							%>
-								<span><%=i%></span>
-							<%	
-							} else {
+									<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage-pagePerPage%>">◁</a>
+							<%
+								}
 							%>
-								<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=i%>"><%=i%></a>
-							<%	
-							}
-						}
-						// 10p단위 다음버튼
-						if(maxPage != lastPage){
-					%>	
-							<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
-					<%
-						}
-					%>
-					<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">▶▶</a>
+						</div>
+						<div class="page">
+							<%
+								for(int i=minPage; i<=maxPage; i=i+1){
+									if(i == currentPage){
+									%>
+										<a class="selected"><%=i%></a>
+									<%	
+									} else {
+									%>
+										<a href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=i%>"><%=i%></a>
+									<%	
+									}
+								}
+							%>
+						</div>
+						<div class="flex-wrapper">
+							<%
+								// 10p단위 다음버튼
+								if(maxPage != lastPage){
+							%>	
+									<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=minPage+pagePerPage%>">▷</a>	
+							<%
+								}
+							%>
+							<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">▶▶</a>
+						</div>
 					</div>
 				</form>
 			</div>
