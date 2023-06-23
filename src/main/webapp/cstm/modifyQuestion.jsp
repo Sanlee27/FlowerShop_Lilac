@@ -8,7 +8,12 @@
 <%
 	//인코딩 설정
 	request.setCharacterEncoding("utf-8");
-
+	
+	//세션 유효성 검사
+		if(session.getAttribute("loginId")==null){
+			response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+			return;
+		}
 
 	//요청값 유효성 검사
 	if(request.getParameter("qNo") == null

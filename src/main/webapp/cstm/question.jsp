@@ -88,6 +88,7 @@
 	<div class="container">
 
 		<h1>문의 상세</h1>
+		<div class="divide-line"></div>
 			<form action="<%=request.getContextPath()%>/cstm/modifyQuestion.jsp" method="get">
 				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 				<div class="form-list">
@@ -100,7 +101,7 @@
 						<div><%=one.getProductNo() %></div>
 					</div>
 					<div>
-						<div>id</div> 
+						<div>아이디</div> 
 						<div><%=one.getId() %></div>
 					</div>
 					<div>
@@ -109,7 +110,7 @@
 					</div>
 					<div>
 						<div>답변여부</div>
-						<div><%=one.getqAnswer() %></div>
+						<div><%=one.getqAnswer().equals("Y") ? "답변 완료" : "답변 대기" %></div>
 					</div>
 					<div>
 						<div>제목</div> 
@@ -128,31 +129,35 @@
 						<div><%=one.getCreatedate() %></div>
 					</div>
 				</div>
-				
+				<!-- 수정 삭제 버튼 -->
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-			 		<div class="flex-wrapper marginTop20">
-						<button type= "submit" class="style-btn">
+		 		<div class="flex-wrapper marginTop20">
+					<button type="submit" class="style-btn">
 						수정	
-						</button>
-					</div>
-				<%}} %>
+					</button>
+				</div>
+				<%
+						}
+		        }
+				%>
 				</form>	
 				
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-		 		<div class="flex-wrapper marginTop20">
-					<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
-						
-						<button type= "submit" class="style-btn">
-						삭제
-						</button>
-					</form>
-				</div>
+			 		<div class="flex-wrapper marginTop20">
+						<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
+							
+							<button type= "submit" class="style-btn">
+							삭제
+							</button>
+						</form>
+					</div>
+				
 				<%
 		        	 	} 
 		        	}

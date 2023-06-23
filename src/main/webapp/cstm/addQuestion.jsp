@@ -9,10 +9,14 @@
 	//인코딩 설정
 	request.setCharacterEncoding("utf-8");
 
-	//유효성 검사
+	//세션 유효성 검사
+	if(session.getAttribute("loginId")==null){
+		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+		return;
+	}
+	
 
 	//요청값 변수에 저장
-
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 
 
