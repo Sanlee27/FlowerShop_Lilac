@@ -25,23 +25,17 @@
 	ckIdPw.setLastPw(pw);
 	
 	int ckPw = dao.ckPw(ckIdPw);
+	
 	if(ckPw !=1){
-%>
-		<script>
-			function ckPwErr(){
-				alert("비밀번호가 일치하지 않습니다. \n"); // 경고창
-				history.back(); // 이전 페이지로 돌아가기
-			}
-		</script>
-		<body onload = "ckPwErr()">
-		</body>
-<%	
+		System.out.println(ckPw);
+		response.setStatus(400);
 		return;
 	}
 	
+	response.setStatus(200);
 	// customer테이블에서 정보 삭제
 	int deleteCstm = dao.deleteCustomer(ckIdPw);
 	
 	session.invalidate(); // 세션 초기화
-	response.sendRedirect(request.getContextPath()+"/home.jsp");
+	return;
 %>
