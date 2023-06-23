@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
 <%@ page import = "dao.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 <%
 
@@ -46,12 +47,18 @@
 	question.setqCategory(qCategory);
 	question.setqTitle(qTitle);
 	question.setqContent(qContent);
+	//메시지 변수
+	String msg = "";
+	
 	
 	//문의 입력 메서드 실행
 	int row = questionDao.addQuestion(question);
 	
 	if(row != 0){ //수정 성공
+		msg = URLEncoder.encode("문의 입력 성공!","utf-8");
 		System.out.println("문의글 입력 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp?msg="+ msg);
+		return;
 	}
 	
 	//액션 끝나고 돌아가기

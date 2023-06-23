@@ -84,8 +84,15 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
+
+	$(document).ready(function(){
+		if("<%=request.getParameter("msg")%>" != "null"){
+			swal("성공", "<%=request.getParameter("msg")%>", "success");
+		}
+	});
 		function listItemClick(orderNo) {
 			window.location.href = "<%=request.getContextPath()%>/cstm/review.jsp?orderNo=" + orderNo;
 		}

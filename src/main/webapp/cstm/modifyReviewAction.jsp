@@ -7,6 +7,7 @@
 <%@ page import="java.io.*" %>
 <%@ page import="com.oreilly.servlet.*" %>
 <%@ page import="com.oreilly.servlet.multipart.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 
 <%
@@ -16,6 +17,7 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//string 타입 변수 선언
+	String msg = "";
 	String dir = request.getServletContext().getRealPath("/review");
 
 	System.out.println(dir+ "<-modifyReviewAction dir");
@@ -108,7 +110,10 @@
 	int row = reviewDao.modReview(map);
 	
 	if(row == 0){ //수정 성공
-		System.out.println("문의글 수정 성공");
+		msg = URLEncoder.encode("후기 tnwjd 성공!","utf-8");
+		System.out.println("후기 수정 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/reviewList.jsp?msg="+ msg);
+		return;
 	}
 	
 	//액션 끝나고 돌아가기

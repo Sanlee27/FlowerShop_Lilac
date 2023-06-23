@@ -7,6 +7,7 @@
 <%@ page import="java.io.*" %>
 <%@ page import="com.oreilly.servlet.*" %>
 <%@ page import="com.oreilly.servlet.multipart.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 
 <%
@@ -101,7 +102,10 @@
 	int row = reviewDao.addReview(map);
 	
 	if(row != 0){ //입력 성공
+		msg = URLEncoder.encode("후기 입력 성공!","utf-8");
 		System.out.println("문의글 입력 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/reviewList.jsp?msg="+ msg);
+		return;
 	}
 	
 	//액션 끝나고 돌아가기

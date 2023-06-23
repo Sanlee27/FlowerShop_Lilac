@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
 <%@ page import = "dao.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 
 
@@ -17,7 +18,7 @@
 
 	//요청값 변수에 저장
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-
+	String msg = "";
 	//클래스 객체 생성
 	ReviewDao reviewDao = new ReviewDao();
 
@@ -25,7 +26,10 @@
 	int row = reviewDao.deleteReview(orderNo);
 	
 	if(row != 0){
+		msg = URLEncoder.encode("후기 삭제 성공!","utf-8");
 		System.out.println("후기 삭제 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/reviewList.jsp?msg="+ msg);
+		return;
 	}
 
 	//액션 후 페이지 이동
