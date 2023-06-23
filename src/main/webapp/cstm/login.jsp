@@ -14,6 +14,7 @@
 		msg = request.getParameter("msg");
 	}
 	
+	
 	String id = request.getParameter("id");
 %>
 <!DOCTYPE html>
@@ -33,6 +34,10 @@
 			
 			if("<%=request.getParameter("msg")%>" != "null"){
 		 		swal("경고", "<%=request.getParameter("msg")%>", "warning");
+		 	}
+			
+			if("<%=request.getParameter("welcome")%>" != "null"){
+		 		swal("완료", "<%=request.getParameter("welcome")%>", "success");
 		 	}
 		});
 	</script>

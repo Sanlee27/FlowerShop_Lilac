@@ -76,5 +76,6 @@
 	
 	// 제대로 다 입력되면 로그인 폼으로 다시 보냄
 	response.resetBuffer();
-	response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+	String welcome = URLEncoder.encode("회원가입을 축하합니다!!","UTF-8");
+	response.sendRedirect(request.getContextPath()+"/cstm/login.jsp?welcome="+welcome);
 %>
