@@ -104,7 +104,7 @@
 	<div class="container">
 
 		<div class="list-wrapperql marginTop50">
-			<h2>문의리스트</h2>
+			<h2>문의게시판</h2>
 			<div class="list-item marginTop20" id="test">
 				<div>상품명</div>
 				<div>카테고리</div>
