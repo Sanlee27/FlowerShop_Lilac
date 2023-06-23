@@ -112,10 +112,16 @@
 				      if (xhr.status === 400) {
 				        if (responseText === "curPwMismatch") {
 				          swal("실패", "현재 비밀번호가 일치하지 않습니다.", "error");
+				          $('input[name="pw"]').val('');
 				        } else if (responseText === "newPwSameAsHistory") {
-				          swal("실패", "새 비밀번호가 이전 비밀번호와 동일합니다.", "error");
+				          swal("실패", "새 비밀번호가 이전 3개 비밀번호와 동일합니다.", "error");
+				          $('input[name="newPw"]').val('');
+				          $('input[name="newPw2"]').val('');
 				        } else {
 				          swal("실패", "오류가 발생했습니다.", "error");
+				          $('input[name="pw"]').val('');
+				          $('input[name="newPw"]').val('');
+				          $('input[name="newPw2"]').val('');
 				        }
 				      }
 				    }

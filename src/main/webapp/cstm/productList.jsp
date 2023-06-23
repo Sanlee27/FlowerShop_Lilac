@@ -181,7 +181,9 @@
 							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + "." + pi.getProductFiletype();
 					%>		
 								<div onclick="productClick(<%=product.getProductNo()%>)" data-aos="fade-up" data-aos-duration="2000">
-									<img src="<%=path%>">
+									<div class="img-wrapper">
+										<img src="<%=path%>">
+									</div>
 									<div class="divide-line"></div>
 									<div class="content">
 										<a href="<%=request.getContextPath()%>/cstm/product.jsp?productNo=<%=product.getProductNo()%>">
