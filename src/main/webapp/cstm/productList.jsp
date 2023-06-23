@@ -108,7 +108,7 @@
 			      $('#searchName').val('<%=searchName%>');
 			    }
 			    
-			     // ========= 정렬 초기화 버튼 =============
+			    // ========= 정렬 초기화 버튼 =============
 			    $('#reset').click(function () {
 			        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
 			        $('select[name="order"] option:eq(0)').prop('selected', true);
@@ -118,6 +118,11 @@
 			    $('select[name="searchCategory"], select[name="order"]').change(function() {
 			        $('form').submit();
 			      });
+			    
+				// ========= 검색 초기화 버튼 =============
+				$('#resetSearch').click(function(){
+					$('#searchName').val('');
+				});
 			});
 		function productClick(productNo){
 			location.href = "<%=request.getContextPath()%>" + "/cstm/product.jsp?productNo=" + productNo;
@@ -163,6 +168,7 @@
 						
 						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
 						
+						<button type="submit" id="resetSearch" class="style-btn">검색초기화</button>
 						<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 					</div>
 					<div class="products">
@@ -172,7 +178,7 @@
 							ProductImg pi = (ProductImg)o.get("productImg");
 							double discountRate = (double)o.get("discountRate");
 							int discountPrice = (int)o.get("discountPrice"); 
-							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + ".jpg";
+							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + "." + pi.getProductFiletype();
 					%>		
 								<div onclick="productClick(<%=product.getProductNo()%>)" data-aos="fade-up" data-aos-duration="2000">
 									<img src="<%=path%>">
