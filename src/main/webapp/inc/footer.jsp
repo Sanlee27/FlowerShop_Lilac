@@ -57,6 +57,6 @@
         </div>
       </div>
     </div>
-
-	
 </footer>
+<script>
+</script>

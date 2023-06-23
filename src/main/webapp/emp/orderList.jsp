@@ -87,6 +87,9 @@
 	<div>
 		<!-- 메인메뉴 -->
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
+		<!-- 장바구니 모달 -->
+		<jsp:include page="/cstm/cart.jsp"></jsp:include>
+		
 		<div class="container">
 			<div class="list-wrapperod marginTop50">
 				<h2>주문리스트</h2>

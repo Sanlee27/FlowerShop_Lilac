@@ -9,6 +9,9 @@
 	color: #888888;	
 }
 body{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 	background: #F9F5F2;
 }
 a{
@@ -27,6 +30,7 @@ del{
 	background-color: pink;
 }
 .container{
+	flex: 1;
 	width: 1280px;
 	margin: 120px auto 0;
 }
@@ -797,20 +801,22 @@ input:focus, textarea:focus{
 
 
 /*  footer */
-footer{
-	position:relative;
-	z-index: 1;
+footer {
+  /* footer 스타일을 설정합니다 */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-size: 12px;
 }
+
+
 .border-t {
   border-top-width: 1px;
 }
 
-.border-gray-3 {
-  border-color: #888888;
-}
 
 .bg-white {
-  background-color: #ffffff;
+  background-color: mistyrose;
 }
 
 .p-5 {
@@ -870,9 +876,6 @@ ul.flex li {
   display: inline;
 }
 
-.text-body3 {
-  font-size: 0.875rem;
-}
 
 .text-gray-2 {
   color: #888888;
@@ -891,12 +894,11 @@ ul.flex li {
 }
 
 .text-body3.lg\:text-body2.text-navy {
-  font-size: 0.875rem;
   color: pink;
 }
 
 .text-h2.text-navy {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: pink;
 }
 
@@ -933,7 +935,7 @@ footer .container {
 .w-8 {
   width: 20px;
   height: 20px;
-  padding: 20px;
+  padding: 5px;
 }
 
 .h-5 {
