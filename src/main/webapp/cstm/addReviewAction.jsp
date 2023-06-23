@@ -16,14 +16,14 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//string 타입 변수 선언
+	String msg = "";
 	String dir = request.getServletContext().getRealPath("/review");
-
 	System.out.println(dir);
 	
 	int max = 100*1024*1024; //100M
 	
 	//request 객체 랩핑(for. MultipartRequest api 사용)
-		//DefaultFileRenamePolicy -> 파일 이름 중복 방지
+	//DefaultFileRenamePolicy -> 파일 이름 중복 방지
 		
 	//파일 업로드
 	MultipartRequest mReq = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
@@ -36,9 +36,8 @@
 		&& mReq.getContentType("reviewImg").equals("image/png") == false
 		&& mReq.getContentType("reviewImg").equals("image/jpeg") == false){
 		
-		//넘어온 파일 확장자가 jpg가 '아닌' 경우 파일 삭제
+	//넘어온 파일 확장자가 jpg가 '아닌' 경우 파일 삭제
 		System.out.println("jpg 파일이 아닙니다");
-		
 		String saveFilename = mReq.getFilesystemName("reviewImg");
 		File f = new File(dir +"/"+saveFilename); //지우는 파일의 풀네임
 			if(f.exists()){ //db에 저장되지 않은 정보 삭제
@@ -49,22 +48,20 @@
 		return;
 	}
 	
-
+	//클래스 객체 생성
+	ReviewDao reviewDao = new ReviewDao();
 	
 	//요청값 변수에 저장
-	//1) input type="text" 값 반환
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-
-	int orderNo = 1;
+	//1) input type 값 반환
+	int orderNo = Integer.parseInt(mReq.getParameter("orderNo"));
 	String reviewTitle = mReq.getParameter("reviewTitle");
 	String reviewContent = mReq.getParameter("reviewContent");
-	
+
 	//디버깅
 	System.out.println(orderNo);
 	System.out.println(reviewTitle);
 	System.out.println(reviewContent);
 
-	
 	//2) input type="file" 값 반환
 	String type = mReq.getContentType("reviewImg");
 	String originFilename = mReq.getOriginalFileName("reviewImg");
@@ -75,12 +72,7 @@
 	System.out.println(originFilename + "<--addReviewAction originFilename");
 	System.out.println(saveFilename+ "<--addReviewAction saveFilename");
 	
-	
 
-
-	//클래스 객체 생성
-	ReviewDao reviewDao = new ReviewDao();
-	
 	//객체 생성해 요청값 저장
 	
 	Review review = new Review();

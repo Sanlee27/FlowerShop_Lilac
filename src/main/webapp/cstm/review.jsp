@@ -110,6 +110,8 @@
 	<div class="container">
 	
 		<h1>후기 상세</h1>
+		<div class="font-line"></div>
+		<div class="flex-wrapper marginTop30"></div>
 			<form action="<%=request.getContextPath()%>/cstm/modifyReview.jsp" method="post">
 			<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
 				<div class="form-list">
@@ -155,41 +157,22 @@
 						<div><%=((Review)map.get("review")).getUpdatedate().substring(0, 10)%></div>
 					</div>
 				</div>
+				<br>
 				
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         	if(loginId != null) {
 		        		if(loginId.equals(map.get("id"))) {
 		        			System.out.println(map.get("id")+ "");
 		 		%>
-		 		
-		 			<div class="flex-wrapper marginTop20">
-						<button type= "submit" class="style-btn">
-						수정	
-						</button>
-					</div>
-				
+						<button type= "submit" id="rModifyButton" class="style-btn">수정</button>
+						<button type= "submit" id="rDeleteButton" class="style-btn" formaction="<%=request.getContextPath()%>/cstm/removeReviewAction.jsp">삭제</button>
+
 				<%
 					}
 		        } 
 				%>
 			</form>	
 			
-				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
-				if(loginId != null) {
-	        		if(loginId.equals(map.get("id"))) {
-	 			%>
-	 			<div class="flex-wrapper marginTop20">
-					<form action="<%=request.getContextPath()%>/cstm/removeReviewAction.jsp" method="get">
-					<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
-							<button type= "submit" class="style-btn">
-							삭제
-							</button>
-					</form>
-				</div>
-			<%
-		        	 	} 
-		        	}
-			%>
 		</div>	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

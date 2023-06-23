@@ -9,8 +9,15 @@
 
 <% 
 //포토후기 입력 페이지
+	//인코딩
+	request.setCharacterEncoding("utf-8");
+	
+	//세션 유효성 검사
+		if(session.getAttribute("loginId")==null){
+			response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+			return;
+		}
 
-	/*
 	//유효성 검사
 	if(request.getParameter("orderNo") == null  
 		|| request.getParameter("orderNo").equals("")) {
@@ -18,13 +25,24 @@
 		response.sendRedirect(request.getContextPath() + "./home.jsp");
 		return;
 	}
-	*/
+	
 
 	//요청값 변수에 저장
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	int orderNo = 11;
+	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	String id = request.getParameter("id");
+	String reviewTitle = request.getParameter("reviewTitle");
+	String reviewContent = request.getParameter("reviewContent");
 
 
+	System.out.println(orderNo+"<--orderNo");
+	System.out.println(reviewTitle+"<--reviewTitle");
+	System.out.println(reviewContent+"<--reviewContent");
+	System.out.println(id+"<--id");
+
+	
+
+	//클래스 객체 생성
+	ReviewDao reviewDao = new ReviewDao(); 
 %>
 
 
@@ -51,42 +69,45 @@
 	</div>
 	<div class="container">
 	
-			<h1>후기 작성</h1>
+			<h1>후기 입력</h1>
+			<div class="font-line"></div>
+			<div class="flex-wrapper marginTop30"></div>
 
 				<form action="<%=request.getContextPath()%>/cstm/addReviewAction.jsp" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="orderNo" value=<%=orderNo%>>
 					<div class="form-list">
+					<input type="hidden" name="orderNo" value=<%=orderNo%>>
+					<input type="hidden" name="id" value=<%=id%>>
+					<input type="hidden" name="reviewTitle" value=<%=reviewTitle%>>
+					<input type="hidden" name="reviewContent" value=<%=reviewContent%>>
+
+					
 						<!-- orderNo -->
 						<div>
-							<div>orderNo</div>
+							<div>주문번호</div>
 							<div><%=orderNo%></div> 
 							<!-- 
 							reviweone 메서드의 해시맵 키"review"로부터 orderNo 값을 출력
 							 -->
 						</div>	
 						<!-- 로그인 사용자 id -->
-						<%
-							//String memeberId = (String)session.getAttribute("loginMemberId");
-							String id = "user5";
-						%>
 						<div>
 							<div>id</div> 
-							<div><input type="text" name="memberId" value="<%= id %>" readonly="readonly"></div>
+							<div><input type="text" name="memberId"  value="<%=id %>" readonly="readonly"></div>
 						</div>
 						<!-- reviewTitle -->
 						<div>
 							<div>제목</div> 
-							<div><input type="text" name="reviewTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 --></div>
+							<div><input type="text" name="reviewTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" placeholder="타이틀을 입력하세요" required="required"> <!-- text를 클릭하면 value 값 지워짐 --></div>
 						</div>
 						<!-- reviewContent -->
 						<div>
 							<div>내용</div>
-							<div><textarea rows="3" cols="50" name="reviewContent" required="required" > </textarea></div>
+							<div><textarea rows="3" cols="50" name="reviewContent" placeholder="내용을 입력하세요" required="required" > </textarea></div>
 						</div>
 						<!-- fileUpload -->
 						<div>
 							<div>파일 업로드</div>
-							<div><input type="file" name="reviewImg"></div>
+							<div><input type="file" name="reviewImg" required="required"></div>
 						</div>
 					</div>	
 						<div class="flex-wrapper marginTop20">	

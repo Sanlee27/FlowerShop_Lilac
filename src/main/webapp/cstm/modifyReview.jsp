@@ -17,8 +17,8 @@
 	//유효성 검사 & 세션
 
 	//요청값 변수에 저장
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	int orderNo = 1;
+	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+
 	
 	//디버깅
 	System.out.println(orderNo+"<-modifyReview orderNo");
@@ -43,6 +43,22 @@
 	<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.png"/>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+	    $(document).ready(function(){
+	        const msg = "<%=request.getParameter("msg")%>";
+	
+	        if(msg == "null" || msg == ""){
+	            return;
+	        }
+	        if(msg === "success"){
+	            swal("성공", "수정에 성공하였습니다.", "success").then(() => {
+	                window.location.href = "<%=request.getContextPath()%>/cstm/reviewList.jsp";
+	            });
+	        }else{
+	            swal("실패", "수정에 실패하였습니다.", "error");
+	        }
+	    })
+	</script>
 </head>
 <body>
 	<div>
@@ -52,6 +68,8 @@
 	
 	<div class="container">
 		<h1>후기 수정</h1>
+		<div class="font-line"></div>
+		<div class="flex-wrapper marginTop30"></div>
 			<form action="<%=request.getContextPath()%>/cstm/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="orderNo" value=<%=orderNo%>>
 				<div class="form-list">
@@ -62,7 +80,7 @@
 						</div>
 						<!-- reviewTitle -->
 						<div>
-							<div>후기 제목</div>
+							<div>후기제목</div>
 							<div><input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
 								 <input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
 							</div>
@@ -77,7 +95,7 @@
 						<!-- boardFile -->
 						<div>
 							<div>변경할 파일 (현재파일 : <%=((ReviewImg)map.get("reviewImg")).getReviewSaveFilename()%>)</div>
-							<div><input type="file" name="modReviewImg" >
+							<div><input type="file" name="modReviewImg" required="required">
 							</div>
 						</div>	
 				</div>

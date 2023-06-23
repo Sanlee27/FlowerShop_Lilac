@@ -53,9 +53,8 @@
 	
 	//요청값 변수에 저장
 	//1) input type="text" 값 반환
-	//int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-
-	int orderNo = 1;
+	int orderNo = Integer.parseInt(mReq.getParameter("orderNo"));
+	
 	String reviewTitle = mReq.getParameter("mTitle");
 	String reviewContent = mReq.getParameter("mContent");
 	
