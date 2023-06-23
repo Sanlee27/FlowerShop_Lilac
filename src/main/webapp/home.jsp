@@ -156,6 +156,9 @@
 		</div>
 	</div>
 	<!-- 장바구니 모달 -->
-	<jsp:include page="/cstm/cart.jsp"></jsp:include>	
+	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
