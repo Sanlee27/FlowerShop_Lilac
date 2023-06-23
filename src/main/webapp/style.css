@@ -125,7 +125,7 @@ input:focus, textarea:focus{
 	place-items: center;
 	width: 100%;
 	padding : 10px 0;
-	border-bottom: 1px solid #999999;
+	border-bottom: 1px solid #9999;
 }
 .list-item img{
 	height: 50px;
@@ -823,8 +823,8 @@ footer{
 }
 
 .lg\:py-\[60px\] {
-  padding-top: 60px;
-  padding-bottom: 60px;
+  margin-top: 100px;
+  padding: 20px 0;
 }
 
 .mx-auto {
@@ -917,7 +917,7 @@ ul.flex li {
   height: 2rem;
 }
 
-.container {
+footer .container {
   margin-top: -10px;
   margin-bottom: -10px;
 }
