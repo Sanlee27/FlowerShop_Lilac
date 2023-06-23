@@ -7,6 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Lilac</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
@@ -14,7 +15,6 @@
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script>
 	$(document).ready(function() {
 		
@@ -46,21 +46,35 @@
         	}
 		});
 		
-	    // 버튼 클릭시 아이디 확인폼 출력
-	    function confirmId(){
-    		url = "idCheckForm.jsp?id=" + id.val();
- 	        open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
- 	    };
-	    
-		// 아이디 중복확인 버튼 클릭 이벤트
-		// 버튼 클릭시 아이디 중복체크 메세지 삭제
-			// 아이디 사용가능 시 해당 아이디 사용 > 중복체크 버튼 비활성화
-			// 아이디 사용불가시 '다시입력하세요' 메세지 출력, 중복체크 다시해야됨
-	    ckIdButton.click(function() {
-	    	confirmId();
-	    	idMsg.text('');
-		});
-	    
+		// 아이디 중복체크 비동기 처리 ====================
+	    function idCk(){
+ 	  		let xhr = new XMLHttpRequest();
+			let url = '<%=request.getContextPath()%>/cstm/idCheckForm.jsp';
+			let idValue = id.val();
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.onreadystatechange = function() {
+			    if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						swal("성공", "입력하신 ID는 사용 가능합니다.", "success");
+						ckIdButton.prop('disabled', true);
+						idMsg.text('');
+					} else {
+				        // 요청이 실패한 경우
+				    	swal("실패", "이미 사용 중인 ID입니다.", "error");
+				        id.val('');
+				        idMsg.text('이미 사용 중인 ID입니다.');
+				        ckIdButton.prop('disabled', true);
+					}
+			    }
+			};
+			 xhr.send('id=' + encodeURIComponent(idValue));
+		}
+ 	  	
+	    ckIdButton.click(function(){
+	    	idCk();
+ 	  	});
+		
 	    // 비밀번호=======================================
 	    pw = $('input[name="pw"]'); // 비밀번호값
     	let rePw = $('input[name="rePw"]'); // 비밀번호 재입력값
