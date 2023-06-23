@@ -36,18 +36,28 @@
 	//System.out.println(orderNoParam);
 	
 	// 페이징을 위한 변수 선언
+		//총 행의 수
 		int totalRow = reviewDao.selectReviewCnt();
-		int rowPerPage = 3;
+	
+		//페이지 당 행의 개수
+		int rowPerPage = 5;
 		int beginRow = (currentPage - 1) * rowPerPage;
-		int pagePerPage = 3;
-		int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
-		int endPage = totalRow / rowPerPage;
+		
+		//페이지에 들어가는 목록의 개수
+		int pagePerPage = 5;
+		
+		//페이지 선택 버튼 1/11/21
+		int minPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
+		
+		//마지막 페이지
+		int lastPage = totalRow / rowPerPage;
 		if(totalRow % rowPerPage != 0){
-			endPage++;
+			lastPage++;
 		}
-		int lastPage = startPage + pagePerPage;
-		if(lastPage > endPage){
-			lastPage = endPage;
+		//페이지 선택 버튼 10/20/30
+		int maxPage = minPage + (pagePerPage-1);
+		if(maxPage > lastPage){
+			maxPage = lastPage;
 		}
 
 	
@@ -83,84 +93,85 @@
 	
 </head>
 <body>
-<div>
 <!-- 메인메뉴 -->
+		<div>
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
-</div>
-<div class="container">
-
-	<div class="list-wrapperql marginTop50">
-		<h2>후기 리스트</h2>
-		<div class="list-item marginTop20">
-			<div>주문번호</div>
-			<div>상품명</div>
-			<div>제목</div>
-			<div>작성일</div>
-			<div>수정일</div>
 		</div>
+<!-- 리스트 폼 -->		
+		<div class="container">
 		
-		<%
-			for(HashMap<String, Object> map: list){
-				Review review = (Review)map.get("review");
-				String productName = (String)map.get("productName");
-
-		%>
-			<div class="list-item hovered" onclick="listItemClick(this)">
-				<input type="hidden" name="orderNo" value="<%=review.getOrderNo()%>">
+			<div class="list-wrapperql marginTop50">
+				<h2>후기게시판</h2>
+				<div class="list-item marginTop20">
+					<div>주문번호</div>
+					<div>상품명</div>
+					<div>제목</div>
+					<div>작성일</div>
+					<div>수정일</div>
+				</div>
 				
-				<div class="orderNo"><%=review.getOrderNo() %></div>
-				<div><%=productName %></div>
-				<div><%=review.getReviewTitle() %></div>
-				<div><%=review.getUpdatedate().substring(0,10) %></div>
-				<div><%=review.getCreatedate().substring(0,10) %></div>
-
-			</div>
-	
-	
-		<%
-			}
-		%>
+				<%
+					for(HashMap<String, Object> map: list){
+						Review review = (Review)map.get("review");
+						String productName = (String)map.get("productName");
 		
-
-		<!-- 페이지네이션 -->
-		<div class="pagination flex-wrapper">
-				<div>
-					<%
-						if(startPage != 1){
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
-								◀
-							</a>
-					<%
-						}
-					%>
+				%>
+					<div class="list-item hovered" onclick="listItemClick(this)">
+						<input type="hidden" name="orderNo" value="<%=review.getOrderNo()%>">
+						
+						<div class="orderNo"><%=review.getOrderNo() %></div>
+						<div><%=productName %></div>
+						<div><%=review.getReviewTitle() %></div>
+						<div><%=review.getUpdatedate().substring(0,10) %></div>
+						<div><%=review.getCreatedate().substring(0,10) %></div>
+		
+					</div>
+			
+			
+				<%
+					}
+				%>
+				
+		
+				<!-- 페이지네이션 -->
+				<div class="pagination flex-wrapper">
+					<div class="flex-wrapper">
+						<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=1">◀◀</a>
+						
+						<%
+							if(minPage != 1){
+						%>
+								<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=minPage - pagePerPage %>"  class="pageBtn">◁</a>
+						<%
+							}
+						%>
+					</div>
+					<div class="page">
+						<%
+							for(int i = minPage; i <= maxPage; i++){
+								String selected = i == currentPage ? "selected" : "";
+						%>
+								<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=i %>" class="<%=selected %>">
+									<%=i %>
+								</a>
+						<%
+							}
+						%>
+					</div>
+					<div class="flex-wrapper">
+						<%
+							if(maxPage != lastPage){
+						%>
+								<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=maxPage + 1 %>"  class="pageBtn">▷</a>
+						<%
+							}
+						%>
+						<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=<%=lastPage%>">▶▶</a>
+					</div>
+					
 				</div>
-				<div class="page">
-					<%
-						for(int i = startPage; i <= endPage; i++){
-							String selected = i == currentPage ? "selected" : "";
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=i %>" class="<%=selected %>">
-								<%=i %>
-							</a>
-					<%
-						}
-					%>
-				</div>
-				<div>
-					<%
-						if(endPage != lastPage){
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/reviewList.jsp?currentPage=<%=endPage + 1 %>"  class="pageBtn">
-								▶
-							</a>
-					<%
-						}
-					%>
-				</div>
-			</div>	
+			</div>
 		</div>
-	</div>
 	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>

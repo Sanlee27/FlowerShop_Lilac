@@ -135,7 +135,6 @@ public class ReviewDao {
 					+ "ON R.order_no = O.order_no\r\n"
 					+ "LEFT OUTER JOIN product P\r\n"
 					+ "ON P.product_no = O.product_no\r\n"
-					//+ "WHERE O.order_no = ?\r\n"
 					+ "ORDER BY R.order_no DESC\r\n"
 					+ "limit ?, ?";
 			
@@ -294,12 +293,6 @@ public class ReviewDao {
 		
 	}
 	
-	
-	
-	
-	//(후기 입력 폼(후기 상세페이지 출력과 동일) -> addReviewAction.jsp)
-
-	//(후기 수정 폼(후기 상세페이지 출력과 동일) ->modifyReview.jsp)
 	
 	
 	
