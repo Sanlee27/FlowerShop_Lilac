@@ -187,7 +187,7 @@ public class ReviewDao {
 				+ "FROM review R \r\n"
 				+ "LEFT OUTER JOIN orders O\r\n"
 				+ "ON R.order_no = O.order_no\r\n"
-				+ "WHERE R.order_no = 5\r\n"
+				+ "WHERE R.order_no = ? \r\n"
 				+ "ORDER BY R.order_no";
 		PreparedStatement oneStmt = conn.prepareStatement(sql);
 		oneStmt.setInt(1, orderNo);
@@ -200,7 +200,6 @@ public class ReviewDao {
 		if(oneRs.next()) {
 			review = new Review();
 			review.setOrderNo(oneRs.getInt("orderNo"));
-			
 			review.setReviewTitle(oneRs.getString("reviewTitle"));
 			review.setReviewContent(oneRs.getString("reviewContent"));
 			review.setCreatedate(oneRs.getString("createdate"));
