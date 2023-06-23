@@ -908,6 +908,19 @@ ul.flex li {
   height: 2rem;
 }
 
+.container {
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.row {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.text-xs text-gray-2 p {
+  margin-bottom: 10px;
+}
+
 .w-8 {
   width: 20px;
   height: 20px;
