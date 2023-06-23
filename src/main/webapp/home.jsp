@@ -99,7 +99,9 @@
 			%>
 				  
 					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
-							<img src="<%=path %>">
+							<div class="img-wrapper">
+								<img src="<%=path %>">
+							</div>
 							<div class="divide-line"></div>
 							<div class="content">
 								<%= p.getProductName() %>
@@ -135,7 +137,9 @@
 			%>
 				
 					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
-						<img src="<%=path %>">
+						<div class="img-wrapper">
+							<img src="<%=path %>">
+						</div>
 						<div class="divide-line"></div>
 						<div class="content">
 						<%= p.getProductName() %>

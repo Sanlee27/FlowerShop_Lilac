@@ -269,17 +269,26 @@ input:focus, textarea:focus{
 	border: 2px solid silver;
 	margin-top: 30px;
 	padding: 3px;
-	transition: all linear 0.2s;
 }
 .product-list .products > div:hover{
 	cursor: pointer;
 	border: 2px solid pink;
 }
-.product-list .products > div > img{
+.product-list .products > div .img-wrapper{
+	overflow: hidden;
 	position: relative;
+	display: flex;
+	justify-content: center;
+	margin: 10px;
 	width: 220px;
 	height: 170px;
-	margin: 10px;
+}
+.product-list .products > div .img-wrapper img{
+	height: 170px;
+	transition: all linear 0.4s;
+}
+.product-list .products > div:hover .img-wrapper img{
+	transform: scale(1.2);
 }
 .product-list .products > div > .content{
 	margin: 20px;
