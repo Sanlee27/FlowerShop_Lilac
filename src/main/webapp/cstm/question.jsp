@@ -31,14 +31,20 @@
 	boolean isAdmin = loginId.equals("admin1") || loginId.equals("admin2") ? true : false;
 	int beginRow = 0;
 	int rowPerPage = 10;
+	int productNo = Integer.parseInt(request.getParameter("qNo"));
 
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	AnswerDao answerdao = new AnswerDao();
+	ProductDao productDao = new ProductDao();
 	
 	//상세페이지 객체 생성
 	Question one = questionDao.questionOne(qNo);
 	Answer answer = answerdao.selectAnswer(qNo);
+	HashMap<String, Object> map = productDao.getProductDetail(one.getProductNo());
+	
+		Product product = (Product) map.get("product");
+	
 
 	System.out.println(one + "<-one");
 	
@@ -90,17 +96,20 @@
 	<div class="container">
 
 		<h1>문의 상세</h1>
-		<div class="divide-line"></div>
+		<div class="font-line"></div>
+		<div class="flex-wrapper marginTop30"></div>
+
 			<form action="<%=request.getContextPath()%>/cstm/modifyQuestion.jsp" method="get">
 				<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
+				<input type="hidden" name="productNo" value="<%=one.getProductNo()%>">
 				<div class="form-list">
 					<div>
 						<div>문의번호</div>
 						<div><%=one.getqNo() %></div>
 					</div>
 					<div>
-						<div>상품번호</div>
-						<div><%=one.getProductNo() %></div>
+						<div>상품명</div>
+						<div><%=product.getProductName() %></div>
 					</div>
 					<div>
 						<div>아이디</div> 
@@ -131,39 +140,24 @@
 						<div><%=one.getCreatedate() %></div>
 					</div>
 				</div>
+				<br>
 				<!-- 수정 삭제 버튼 -->
 				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
 		         if(loginId != null) {
 		        		if(loginId.equals(one.getId())) {
 		 		%>
-		 		<div class="flex-wrapper marginTop20">
 					<button type="submit" class="style-btn">
 						수정	
 					</button>
-				</div>
+					<button type= "submit" formaction="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" class="style-btn">
+							삭제
+					</button>
 				<%
 						}
 		        }
 				%>
 				</form>	
-				
-				<%//로그인 사용자 = 현재로그인 수정 삭제 가능
-		         if(loginId != null) {
-		        		if(loginId.equals(one.getId())) {
-		 		%>
-			 		<div class="flex-wrapper marginTop20">
-						<form action="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" method="get">
-							
-							<button type= "submit" class="style-btn">
-							삭제
-							</button>
-						</form>
-					</div>
-				
-				<%
-		        	 	} 
-		        	}
-				%>
+			</div>
 				<!-- 답변 -->
 				<%
 				if(isAdmin) {
@@ -209,6 +203,8 @@
 
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 	
 </body>
 </html>

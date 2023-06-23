@@ -53,24 +53,6 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	
-	<script>
-	    $(document).ready(function(){
-	        const msg = "<%=request.getParameter("msg")%>";
-	
-	        if(msg == "null" || msg == ""){
-	            return;
-	        }
-	        if(msg === "success"){
-	            swal("성공", "수정에 성공하였습니다.", "success").then(() => {
-	                window.location.href = "<%=request.getContextPath()%>/cstm/questionList.jsp";
-	            });
-	        }else{
-	            swal("실패", "수정에 실패하였습니다.", "error");
-	        }
-	    })
-	</script>
-	
 </head>
 <body>
 	<div>
@@ -80,15 +62,17 @@
 	
 	<div class="container">
 		<h2>문의 수정</h2>
+		<div class="font-line"></div>
+		<div class="flex-wrapper marginTop30"></div>
 			<form action="<%=request.getContextPath()%>/cstm/modifyQuestionAction.jsp?msg=success" method="post">
 			<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 				<div class="form-list">
 					<div>
-						<div>qNo</div>
+						<div>문의번호</div>
 						<div><%=one.getqNo() %></div>
 					</div>
 					<div>
-						<div>id</div>
+						<div>아이디</div>
 						<div><input type="text" name="id" value="<%=one.getId()%>" readonly = "readonly" ></div>
 					</div>
 					<div>	
@@ -103,21 +87,19 @@
 						</div>
 					</div>
 					<div>	
-						<div>qAnswer</div>
+						<div>답변여부</div>
 						<div><input type="text" name="qAnswer" value="<%=one.getqAnswer()%>" readonly = "readonly" ></div>
 					</div>
 					<div>
 						<div>제목</div>
-						<div>
-							<input type= "hidden" name ="id" value=<%=one.getId() %>>
-							<input type= "text" name="qTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요" required="required"> 
+						<div>							
+							<input type= "text" name="qTitle" value="<%=one.getqTitle()%>" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" placeholder="타이틀을 입력하세요" required="required"> 
 						</div>
 					</div>
 					<div>
 						<div>내용</div>
-						<div>
-							<input type= "hidden" name ="id" value=<%=one.getId() %>>
-							<input type= "text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" required="required"> 
+						<div>							
+							<textarea rows="3" cols="100" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" placeholder="내용을 입력하세요" required="required"><%=one.getqContent()%></textarea>
 						</div>
 					</div>
 					<div>
@@ -133,15 +115,18 @@
 					</div>
 				</div>
 					<div class="flex-wrapper marginTop20">	
-						<button type="submit" class="style-btn">수정 완료</button>
+						<button type="submit" id="modifyQ" class="style-btn">수정 완료</button>
 					</div>
-
+				
 			</form>
 		</div>
-
+	</div>
+	
 	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 	
 		
 		

@@ -4,6 +4,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
 <%@ page import = "dao.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 
 <%	
@@ -24,7 +25,9 @@
 	
 	//요청값 변수에 저장
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
-
+	//메시지 변수
+	String msg = "";
+	
 	//디버깅
 	System.out.println(qNo);
 
@@ -35,7 +38,10 @@
 	int row = questionDao.deleteQuestion(qNo);
 	
 	if(row != 0){
+		msg = URLEncoder.encode("문의 삭제 성공!","utf-8");
 		System.out.println("문의 삭제 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp?msg="+ msg);
+		return;
 	}
 
 	//액션 후 페이지 이동

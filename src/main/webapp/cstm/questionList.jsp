@@ -24,24 +24,35 @@
 	}
 
 	// 페이징을 위한 변수 선언
+	//총 행의 수
 	int totalRow = questionDao.selectQuestionCnt();
-	int rowPerPage = 3;
+	
+	//페이지 당 행의 개수
+	int rowPerPage = 5;
 	int beginRow = (currentPage - 1) * rowPerPage;
-	int pagePerPage = 3;
-	int startPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
-	int endPage = totalRow / rowPerPage;
+	
+	//페이지에 올라가는 목록의 개수
+	int pagePerPage = 5;
+	
+	//페이지 선택버튼
+	int  minPage = (currentPage - 1) / pagePerPage * pagePerPage + 1;
+	
+	//마지막 페이지
+	int maxPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0){
-		endPage++;
+		maxPage++;
 	}
-	int lastPage = startPage + pagePerPage;
-	if(lastPage > endPage){
-		lastPage = endPage;
+	
+	//페이지 선택 버튼
+	int lastPage = minPage + (pagePerPage-1);
+	if(lastPage > maxPage){
+		lastPage = maxPage;
 	}
 
 	
 	
 	//현재 페이지에 표시 할 리스트 생성
-	ArrayList<Question> list = questionDao.questionList(beginRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> list = questionDao.questionList(beginRow, rowPerPage);
 
 
 		
@@ -65,9 +76,18 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- alert창 디자인 라이브러리 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
-		function listItemClick(listItem) {
-			let qNo = $(listItem).find('.qNo').text();
+	$(document).ready(function(){
+		if("<%=request.getParameter("msg")%>" != "null"){
+			swal("성공", "<%=request.getParameter("msg")%>", "success");
+		}
+	});
+	
+	
+		function listItemClick(qNo) {
+	
 			window.location.href ="<%=request.getContextPath()%>/cstm/question.jsp?qNo=" + qNo;
 		};
 
@@ -82,73 +102,76 @@
 	</div>
 	
 	<div class="container">
-		
-		
+
 		<div class="list-wrapperql marginTop50">
 			<h2>문의리스트</h2>
 			<div class="list-item marginTop20" id="test">
-				<div>주문번호</div>
+				<div>상품명</div>
 				<div>카테고리</div>
 				<div>제목</div>
 				<div>업로드일자</div>
 				<div>답변여부</div>
 			</div>
 			<%
-				for(Question m : list){
+				for(HashMap<String, Object> map: list){
+					Question question = (Question)map.get("question");
+					String productName = (String)map.get("productName");
 			%>
-					<div class="list-item hovered " onclick="listItemClick(this)">
-						<div class="qNo"><%=m.getqNo() %></div>
-						<div><%=m.getqCategory() %></div>
-						<div><%=m.getqTitle() %></div>
-						<div><%=m.getCreatedate().substring(0, 10) %></div>
+					<div class="list-item hovered " onclick="listItemClick(<%=question.getqNo() %>)">
+						
+						<div><%=productName %></div>
+						<div><%=question.getqCategory() %></div>
+						<div><%=question.getqTitle() %></div>
+						<div><%=question.getCreatedate().substring(0, 10) %></div>
 						<!-- 리스트 출력 시 답변여부 상태를 Y: 답변완료, N:답변 대기로 표현 -->
-						<div><%=m.getqAnswer().equals("Y") ? "답변 완료" : "답변 대기" %></div>
+						<div><%=question.getqAnswer().equals("Y") ? "답변 완료" : "답변 대기" %></div>
 					</div>
 			<%
 				}
 			%>
 		</div>
-	</div>
 
 		<!-- 페이지네이션 -->
 		<div class="pagination flex-wrapper">
-				<div>
-					<%
-						if(startPage != 1){
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/questionList.jsp?currentPage=<%=startPage - pagePerPage %>"  class="pageBtn">
-								◀
-							</a>
-					<%
-						}
-					%>
-				</div>
-				<div class="page">
-					<%
-						for(int i = startPage; i <= endPage; i++){
-							String selected = i == currentPage ? "selected" : "";
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/questionList.jsp?currentPage=<%=i %>" class="<%=selected %>">
-								<%=i %>
-							</a>
-					<%
-						}
-					%>
-				</div>
-				<div>
-					<%
-						if(endPage != lastPage){
-					%>
-							<a href="<%=request.getContextPath() %>/cstm/questionList?currentPage=<%=endPage + 1 %>"  class="pageBtn">
-								▶
-							</a>
-					<%
-						}
-					%>
-				</div>
-			</div>	
+			<div class="flex-wrapper">
+				<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/questionList.jsp?currentPage=1">◀◀</a>
+				<%
+					if(minPage != 1){
+				%>
+						<a href="<%=request.getContextPath() %>/cstm/questionList.jsp?currentPage=<%=minPage - pagePerPage %>"  class="pageBtn">◁</a>
+				<%
+					}
+				%>
+			</div>
+			<div class="page">
+				<%
+					for(int i = minPage; i <= maxPage; i++){
+						String selected = i == currentPage ? "selected" : "";
+				%>
+						<a href="<%=request.getContextPath() %>/cstm/questionList.jsp?currentPage=<%=i %>" class="<%=selected %>">
+							<%=i %>
+						</a>
+				<%
+					}
+				%>
+			</div>
+			<div class="flex-wrapper">
+				<%
+					if(maxPage != lastPage){
+				%>
+						<a href="<%=request.getContextPath() %>/cstm/questionList?currentPage=<%=maxPage + 1 %>"  class="pageBtn">▷</a>
+				<%
+					}
+				%>
+				<a class="pageBtn" href="<%=request.getContextPath()%>/cstm/reviewList.jsp?currentPage=<%=lastPage%>">▶▶</a>
+			</div>
+		</div>
+	
+	
+	</div>
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
-
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
