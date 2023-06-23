@@ -168,5 +168,7 @@
 			<button type="button" class="style-btn" onclick="location.href='<%=request.getContextPath()%>/cstm/cstmInfo.jsp?id=<%=id%>'">뒤로가기</button>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
