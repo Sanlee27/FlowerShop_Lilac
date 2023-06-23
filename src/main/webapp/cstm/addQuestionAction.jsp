@@ -9,22 +9,24 @@
 //문의 입력 액션 페이지
 
 	//유효성 검사
-
+	if(request.getParameter("productNo") == null
+		|| request.getParameter("loginId") == null
+		|| request.getParameter("productNo").equals("")
+		|| request.getParameter("loginId").equals("")){
+		//home.jsp로
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	}
 
 	//요청값 변수에 저장
 
-	//int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int productNo = 5;
-	
-	//String id = request.getParameter("id");
-	String id = "user3";
-	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	String id = request.getParameter("loginId");
 	String qCategory = request.getParameter("qCategory");
 	String qTitle = request.getParameter("qTitle");
 	String qContent = request.getParameter("qContent");
 	
 	//디버깅
-
 	System.out.println(productNo);
 	System.out.println(id);
 	System.out.println(qCategory);
