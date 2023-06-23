@@ -83,9 +83,11 @@
 	<!-- 카테고리 리스트 -->
 	<div class="list-wrapper5">
 		<h1>카테고리 리스트</h1>
-<%-- 		<a href="<%=request.getContextPath()%>/emp/addCategory.jsp"><img src="<%=request.getContextPath() %>/images/plus.png"></a>	
- --%>	<br>
-		<div class="list-item marginTop30">
+		<a href="<%=request.getContextPath()%>/emp/addCategory.jsp" class="addBtn">
+			<img src="<%=request.getContextPath() %>/images/plus.png">
+		</a>	
+		<br>
+		<div class="list-item marginTop20">
 			<div>카테고리명</div>
 			<div>생성일</div>
 			<div>수정일</div>

@@ -105,7 +105,7 @@
 						<div><%=q.getqTitle() %></div>
 						<div><%=q.getCreatedate().substring(0, 10) %></div>
 						<div>
-							<a href="<%=request.getContextPath() %>/cstm/question.jsp?qNo=<%=q.getqNo()%>">
+							<a href="<%=request.getContextPath() %>/cstm/question.jsp?qNo=<%=q.getqNo()%>" class="style-btn">
 								답변등록
 							</a>
 						</div>

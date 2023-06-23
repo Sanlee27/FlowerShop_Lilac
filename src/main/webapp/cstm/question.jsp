@@ -174,11 +174,18 @@
 								<input type="hidden" name="qNo" value="<%=answer.getqNo()%>">
 								<div>&#8627;</div>
 								<div id = "answer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea disabled name="comment" rows="4" cols="100"><%=answer.getAnswerContent()%></textarea></div>
-								<div>답변일 : <%=answer.getCreatedate()%> 수정일 : <%=answer.getUpdatedate()%></div>
-								<div>작성자 : <%=loginId%></div>
-								<div><button type="button" id="modifyButton" data-text="<%=loginId%>">수정</button></div>
-								<div><button type="submit" id="modifyEnd" style="display: none;">수정 완료</button></div>
-								<div><button type="submit" id="deletebtn" formaction="<%=request.getContextPath()%>/emp/removeAnswerAction.jsp">삭제</button></div>
+								<div>
+									<div>
+										<div>답변일 : <%=answer.getCreatedate()%></div> 
+										<div>수정일 : <%=answer.getUpdatedate()%></div>
+									</div>
+									<div class="marginTop10">
+										<button type="button" id="modifyButton" data-text="<%=loginId%>" class="style-btn">수정</button>
+										<button type="submit" id="modifyEnd" style="display: none;" class="style-btn">완료</button>
+										<button type="submit" id="deletebtn" formaction="<%=request.getContextPath()%>/emp/removeAnswerAction.jsp" class="style-btn">삭제</button>
+									</div>
+								</div>
+								
 							</form>
 						</div>
 					<%

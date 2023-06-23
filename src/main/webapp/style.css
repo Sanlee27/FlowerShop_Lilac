@@ -33,6 +33,7 @@ del{
 .flex-wrapper{
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 .marginTop180{
 	margin-top: 180px;
@@ -48,6 +49,9 @@ del{
 }
 .marginTop20{
 	margin-top: 20px;
+}
+.marginTop10{
+	margin-top: 10px;
 }
 .style-btn{
 	padding: 5px 10px;
@@ -93,8 +97,26 @@ input:focus, textarea:focus{
 	background-color: #888888;
 }
 
+.addBtn{
+	position:absolute;
+	top: 40px;
+	right: 0;
+	display: flex;
+	padding: 5px;
+	border-radius: 4px;
+	transition: all linear 0.2s;
+}
+.addBtn:hover{
+	background-color: #888888;
+}
+.addBtn img{
+	width: 30px;
+	height: 30px;
+}
+
 /* 텍스트만 있는 리스트 */
 [class*='list-wrapper']{
+	position: relative;
 	width: 100%;
 	text-align: center;
 }
@@ -432,8 +454,12 @@ input:focus, textarea:focus{
 	width: 22px;
 	height: 22px;
 }
+.modal-container .modal .modal-body{
+	display: flex;
+	justify-content: space-around;
+}
 .modal-container .modal .product-img{
-	width: 200px;
+	height: 150px;
 }
 .modal-container .modal .modal-content{
 	width: 40%;
@@ -605,9 +631,6 @@ input:focus, textarea:focus{
 .productRight .btn-wrapper{
 	display: flex;
 }
-.productRight .flex-wrapper{
-	flex-wrap: wrap;
-}
 .productLeft {
 	display: flex;
  	justify-content: center;	
@@ -715,7 +738,7 @@ input:focus, textarea:focus{
 .order-info .order-form{
 	display: grid;
 	place-items: center;
-	grid-template-columns: 20% 20% 20% 20% 20% ;
+	grid-template-columns: 20% 15% 15% 15% 15% 15%;
 	width: 1050px;
 	padding: 7px 0;
 	border-top: 1px solid #d5d5d5;
@@ -760,6 +783,10 @@ input:focus, textarea:focus{
 
 
 /*  footer */
+footer{
+	position:relative;
+	z-index: 1;
+}
 .border-t {
   border-top-width: 1px;
 }
@@ -884,4 +911,22 @@ ul.flex li {
 
 .h-5 {
   height: 1.25rem;
+}
+
+/* 댓글 부분 */
+#answerForm > #answer + div{
+	display: flex;
+    flex-direction: column;
+	width: 850px;
+	text-align: right;
+}
+#answerForm > #answer + div > div{
+	display: flex;
+	justify-content: flex-end;
+}
+#answerForm > #answer + div > div div+div{
+	margin-left: 10px;
+}
+#answerForm > #answer + div > div button:first-child{
+	margin-right: 10px;
 }

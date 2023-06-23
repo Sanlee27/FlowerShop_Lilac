@@ -52,6 +52,9 @@
 	
 	// 포맷이 적용된 가시용 포인트
 	String userPoint = dc.format(customer.getCstmPoint());
+	
+	// 배송비계산
+	int deliveryFee = totalPrice >= 100000 ? 0 : 3000; 
 %>
 <!DOCTYPE html>
 <html>
@@ -144,13 +147,14 @@
 			<div class="font-line"></div>
 			
 			<div class="flex-wrapper">
-				<div><img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename()%>"></div>
+				<div><img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename()%>.<%=productImg.getProductFiletype()%>"></div>
 				<div>
 					<div class="order-form">
 						<div>상품명</div>
 						<div>수량</div>
 						<div>상품금액</div>
-						<div>주문금액</div>
+						<div>배송비</div>
+						<div>결제할금액</div>
 						<div>예상적립금</div>
 					</div>
 					<div class="order-form">
@@ -173,7 +177,10 @@
 							
 						</div>
 						<div>
-							<%=dc.format(totalPrice) %>원
+							<%=dc.format(deliveryFee) %>
+						</div>
+						<div>
+							<%=dc.format(totalPrice + deliveryFee) %>원
 							<%
 								if(discountRate != 0.0){
 							%>

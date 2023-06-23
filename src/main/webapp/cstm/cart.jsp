@@ -72,9 +72,9 @@
 		<% 
 			}else{
 		%>
-			<div class="flex-wrapper marginTop30">
+			<div class="modal-body marginTop30">
 				<div>
-					<img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename() %>" class="product-img">
+					<img src="<%=request.getContextPath() %>/product/<%=productImg.getProductSaveFilename() %>.<%=productImg.getProductFiletype() %>" class="product-img">
 				</div>
 				<div class="modal-content">
 					<h3><%=product.getProductName() %></h3>
