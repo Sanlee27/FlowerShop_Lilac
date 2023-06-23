@@ -172,7 +172,7 @@
 							ProductImg pi = (ProductImg)o.get("productImg");
 							double discountRate = (double)o.get("discountRate");
 							int discountPrice = (int)o.get("discountPrice"); 
-							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename();
+							String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + ".jpg";
 					%>		
 								<div onclick="productClick(<%=product.getProductNo()%>)" data-aos="fade-up" data-aos-duration="2000">
 									<img src="<%=path%>">
