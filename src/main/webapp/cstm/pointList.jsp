@@ -51,7 +51,7 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>내 포인트</h1>
+		<h1>나의 포인트</h1>
 		<div class="font-line"></div>
 		<h3>
 			보유 포인트 : <fmt:formatNumber value="<%=curPoint.getCstmPoint()%>" pattern="###,###,###"/>

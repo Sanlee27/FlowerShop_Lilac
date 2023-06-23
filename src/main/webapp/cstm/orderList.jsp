@@ -52,7 +52,7 @@
 		<jsp:include page="/inc/mainmenu.jsp"></jsp:include>
 	</div>
 	<div class="container">
-		<h1>내 주문내역</h1>
+		<h1>나의 주문내역</h1>
 		<div class="font-line"></div>
 		<br>
 		<div class="list-wrapper6">
