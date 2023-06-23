@@ -117,19 +117,19 @@
 		  
 			//nav 이동
 			$("#toDetail").click(function(){
-				window.scrollTo({top:700, behavior: "smooth"});
+				window.scrollTo({top:630, behavior: "smooth"});
 			});
 			$("#toReview").click(function(){
-				window.scrollTo({top:2030, behavior: "smooth"});
+				window.scrollTo({top:2000, behavior: "smooth"});
 			});
 			$("#toQna").click(function(){
-				window.scrollTo({top:2720, behavior: "smooth"});
+				window.scrollTo({top:2680, behavior: "smooth"});
 			});
 			
 			//스크롤 위치에 따른 네비바 색 변환
 			$(window).scroll(function() {
 				 var scrollPosition = $(this).scrollTop();
-				 var threshold = 700;
+				 var threshold = 630;
 				 var navbar = $('.navbar-wrapper');
 				 var toDetail = $('#toDetail');
 				 var toReview = $('#toReview');
@@ -140,12 +140,12 @@
 				    toDetail.removeClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= threshold && scrollPosition < 2030) { //700~2150-상세
+				  } else if (scrollPosition >= threshold && scrollPosition < 2000) { //700~2150-상세
 				    navbar.addClass('fixed');
 				    toDetail.addClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= 2030 && scrollPosition < 2720) { //2150~2650-후기
+				  } else if (scrollPosition >= 2000 && scrollPosition < 2680) { //2150~2650-후기
 				    navbar.addClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.addClass('active');
@@ -318,16 +318,15 @@
 		<!-- <h1>상세설명</h1> -->
 		<div class="productImg"><img src="<%=path%>"></div>
 		<div class="detailName"><h1><%=product.getProductName()%></h1></div>
-		<div >
+		<div class="productDetail">
 			<%
-				if(product.getProductInfo().length() < 50) {		
+				String info = product.getProductInfo();
+				String[] infoArr = info.split("\n");
+				
+				for(int i = 0; i < infoArr.length; i++){
 			%>
-				<div><%=product.getProductInfo().substring(0,product.getProductInfo().length())%></div>
-			<%
-				}else {
-			%>
-					<div class="detailFrist"><%=product.getProductInfo().substring(0,30)%></div>
-					<div><%=product.getProductInfo().substring(30)%></div>
+					<%=infoArr[i]%>
+					<br>
 			<%
 				}
 			%>
@@ -494,5 +493,7 @@
 		</div>
 	</div>
 </div>
+<!-- footer -->
+<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>

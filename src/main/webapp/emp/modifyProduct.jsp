@@ -31,7 +31,7 @@
 	ProductImg productImg = (ProductImg)map.get("productImg");
 	
 	//path 변수
-	String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename();
+	String path = request.getContextPath() + "/product/" + productImg.getProductSaveFilename() + "." + productImg.getProductFiletype();
 		System.out.println(path + "<-path");
 %>
 <!DOCTYPE html>

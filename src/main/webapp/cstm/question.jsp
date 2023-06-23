@@ -73,7 +73,9 @@
             $("#deletebtn").hide();
         });
         
-		if("<%=request.getParameter("msg")%>" != "null"){
+        if("<%=request.getParameter("msg")%>" == "답변을 입력해주세요.") {
+			swal("경고", "<%=request.getParameter("msg")%>", "warning");
+		}else if("<%=request.getParameter("msg")%>" != "null"){
 			swal("완료", "<%=request.getParameter("msg")%>", "success");
 		};
 	});
@@ -191,12 +193,13 @@
 					<%
 					} else {
 					%>	
-						<h4 class="">답변입력</h4>
+						<br>
+						<h4>답변입력</h4>
 						<form action="<%=request.getContextPath()%>/emp/addAnswerAction.jsp">
 							<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 							<input type="hidden" name="id" value="<%=one.getId()%>">
 							<textarea rows="3" cols="70" name="comment"></textarea>
-							<button type="submit">등록</button>
+							<button type="submit" class="style-btn">등록</button>
 						</form>
 				<%
 					} 

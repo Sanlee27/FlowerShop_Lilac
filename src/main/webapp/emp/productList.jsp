@@ -160,9 +160,10 @@
 				<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 			</form>
 			
-
-<%-- 		<a href="<%=request.getContextPath()%>/emp/addProduct.jsp"><img src="<%=request.getContextPath() %>/images/plus.png"></a>	
- --%>		<div class="list-item marginTop30">
+			<a href="<%=request.getContextPath()%>/emp/addProduct.jsp" class="addBtn">
+				<img src="<%=request.getContextPath() %>/images/plus.png">
+			</a>
+		<div class="list-item marginTop30">
 			<div>상품번호</div>
 			<div>카테고리명</div>
 			<div>상품명</div>
