@@ -13,9 +13,9 @@
 
 	//요청값 변수에 저장
 
-	//int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int productNo = 10;
-	//String id = "user5";
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+
+
 	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
