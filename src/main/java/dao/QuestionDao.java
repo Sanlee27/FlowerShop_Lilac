@@ -182,16 +182,21 @@ public class QuestionDao {
 	
 	//전체 문의 리스트 출력하는 메서드
 	
-	public  ArrayList <Question> questionList(int beginRow, int rowPerPage) throws Exception{
+	public  ArrayList <HashMap<String, Object>> questionList(int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
-		ArrayList<Question> list = new ArrayList<>();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
 		//db접속
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
 			//sql 전송, 결과셋 반환해 리스트에 저장
-			String sql = " SELECT q_no qNo, product_no productNo, id, q_category qCategory, q_answer qAnswer, q_title qTitle, q_content qContent, createdate, updatedate FROM question WHERE q_no ORDER BY q_no DESC LIMIT ?, ?";
+			String sql = "SELECT Q.q_no, Q.product_no, Q.id, P.product_name, Q.q_category, Q.q_answer, Q.q_title, Q.q_content, Q.createdate, Q.updatedate\r\n"
+					+ "					FROM question Q\r\n"
+					+ "					LEFT OUTER JOIN product P\r\n"
+					+ "					ON Q.product_no = P.product_no\r\n"
+					+ "					ORDER BY Q.product_no DESC\r\n"
+					+ "					LIMIT ?, ?";
 			PreparedStatement qListStmt = conn.prepareStatement(sql);
 			
 			qListStmt.setInt(1, beginRow);
@@ -199,18 +204,22 @@ public class QuestionDao {
 			ResultSet qListRs = qListStmt.executeQuery();
 			
 			while(qListRs.next()) {
-				Question q = new Question();
+					HashMap<String, Object> map = new HashMap<>();
+					Question question = new Question();
 
-					q.setqNo(qListRs.getInt("qNo"));
-					q.setProductNo(qListRs.getInt("productNo"));
-					//q.setId(qListRs.getString("setId"));
-					q.setqCategory(qListRs.getString("qCategory"));
-					q.setqAnswer(qListRs.getString("qAnswer"));
-					q.setqTitle(qListRs.getString("qTitle"));
-					q.setqContent(qListRs.getString("qContent"));
-					q.setCreatedate(qListRs.getString("createdate"));
-					q.setUpdatedate(qListRs.getString("updatedate"));
-					list.add(q);
+					question.setqNo(qListRs.getInt("q_no"));
+					question.setProductNo(qListRs.getInt("product_no"));
+					question.setqCategory(qListRs.getString("q_category"));
+					question.setqAnswer(qListRs.getString("q_answer"));
+					question.setqTitle(qListRs.getString("q_title"));
+					question.setqContent(qListRs.getString("q_content"));
+					question.setCreatedate(qListRs.getString("createdate"));
+					question.setUpdatedate(qListRs.getString("updatedate"));
+					
+					map.put("question", question);
+					map.put("productName", qListRs.getString("product_name"));
+					
+					list.add(map);
 			}
 			
 			return list;

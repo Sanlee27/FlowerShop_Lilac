@@ -4,6 +4,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
 <%@ page import = "dao.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 <%
 
@@ -17,12 +18,14 @@
 	//요청값 변수에 저장
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
 	
-	//int qNo = 2;
+	
 	String id = request.getParameter("id");
 	String qCategory = request.getParameter("qCategory");
 	String qAnswer = request.getParameter("qAnswer");
 	String qTitle = request.getParameter("qTitle");
 	String qContent = request.getParameter("qContent");
+	//메시지 변수
+	String msg = "";
 	
 	//디버깅
 	System.out.println(qNo);
@@ -50,7 +53,10 @@
 	int row = questionDao.modifyQuestion(question);
 	
 	if(row == 1){ //수정 성공
+		msg = URLEncoder.encode("문의 수정 성공!","utf-8");
 		System.out.println("문의글 수정 성공");
+		response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp?msg="+ msg);
+		return;
 	}
 	
 	//액션 끝나고 돌아가기

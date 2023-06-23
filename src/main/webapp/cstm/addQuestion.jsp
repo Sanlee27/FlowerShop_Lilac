@@ -25,14 +25,14 @@
 	//요청값 변수에 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	String loginId = (String)session.getAttribute("loginId");
-		System.out.println(loginId+"<--loginId");
-		System.out.println(productNo+"<--productNo");
+	
+	System.out.println(loginId+"<--loginId");
+	System.out.println(productNo+"<--productNo");
 
 	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	
-	//상세페이지 객체 생성
 
 	
 		
@@ -67,6 +67,8 @@
 	<div class="container">
 
 		<h1>문의 입력</h1>
+		<div class="font-line"></div>
+		<div class="flex-wrapper marginTop30"></div>
 			<form action="<%=request.getContextPath()%>/cstm/addQuestionAction.jsp" method="get">
 				<div class="form-list">
 				<input type="hidden" name="loginId" value="<%=loginId%>">
@@ -102,6 +104,8 @@
 
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 
 
 
