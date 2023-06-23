@@ -95,10 +95,11 @@
 			      ProductImg pi = (ProductImg) map.get("productImg");
 			      double discountRate = (double) map.get("discountRate");
 			      int discountPrice = (int) map.get("discountPrice");
+			      String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + ".jpg";
 			%>
 				  
 					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
-							<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>">
+							<img src="<%=path %>">
 							<div class="divide-line"></div>
 							<div class="content">
 								<%= p.getProductName() %>
@@ -121,7 +122,7 @@
 		
 		<!-- 이벤트 상품 보여주는 부분 -->
 		<div class="product-list" data-aos="fade-up" data-aos-duration="3000">
-			<h2>event</h2>
+			<h2>할인상품</h2>
 			<div class="products">
 			<%
 				ArrayList<HashMap<String, Object>> eventProducts = productDao.getDiscountProducts();
@@ -130,20 +131,21 @@
 			      ProductImg pi = (ProductImg) map.get("productImg");
 			      double discountRate = (double) map.get("discountRate");
 			      int discountPrice = (int) map.get("discountPrice");
+			      String path = request.getContextPath() + "/product/" + pi.getProductSaveFilename() + ".jpg";
 			%>
 				
 					<div data-aos="fade-up" data-aos-duration="3000" onclick="productClick(<%= p.getProductNo() %>)">
-						<img src="<%= request.getContextPath() %>/product/<%= pi.getProductSaveFilename() %>">
+						<img src="<%=path %>">
 						<div class="divide-line"></div>
 						<div class="content">
 						<%= p.getProductName() %>
 						<br>
 						<% if (discountRate > 0) { %>
-							<del><%= p.getProductPrice()*10 %> 원</del>
+							<del><%= p.getProductPrice() %> 원</del>
 							<br>
-							<span class="price"><%= discountPrice *10 %>원</span>
+							<span class="price"><%= discountPrice %>원</span>
 						<% } else { %>
-							<%= p.getProductPrice()*10%> 원
+							<%= p.getProductPrice()%> 원
 						<% } %>
 						</div>
 					</div>
