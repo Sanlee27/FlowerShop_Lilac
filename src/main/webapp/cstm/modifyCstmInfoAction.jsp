@@ -7,15 +7,16 @@
 	request.setCharacterEncoding("UTF-8");
 
 	//유효성 검사 _ 로그인전이면 로그인폼으로 돌아가게
-	if(session.getAttribute("고객") == null){ 
+	if(session.getAttribute("loginId") == null){ 
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;	
 	}
 	
-	String loginMemberId = (String)session.getAttribute("고객");
+	String loginMemberId = (String)session.getAttribute("loginId");
 	// System.out.println(loginMemberId);
 	
 	// 들어온 값 먼저 검사
+	
 	/*
 	System.out.println(request.getParameter("id"));
 	System.out.println(request.getParameter("names"));
@@ -74,6 +75,8 @@
 	modifyCstm.setId(id);
 	
 	int modifyCstmInfo = dao.updateCustomer(modifyCstm);
+	// System.out.println(modifyCstmInfo);
 	response.sendRedirect(request.getContextPath()+"/cstm/cstmInfo.jsp?id="+id);
+	return;
 	
 %>

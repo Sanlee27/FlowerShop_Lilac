@@ -199,27 +199,46 @@
 	    		}
 	    	});
 		    
-		 	// 버튼 클릭시 비밀번호 확인폼 출력
+		 	// 비밀번호 확인 버튼========================
 		 	let id = $('input[name="id"]'); // 아이디 값
 		 	ckPwButton = $('input[name="ckPw"]');
 		 	pw = $('input[name="pw"]');
 		 	let submitButton = $('button[type="submit"]');
-		    
-		 	// 비밀번호 확인 창
-		    function confirmPw(){
-	    		url = "pwCheckFormByModifyCstmInfo.jsp?id=" + id.val() + "&pw=" + encodeURIComponent(pw.val());
-				open(url, "confirm", "toolbar=no,location=no,status=no,menubar=no,scrollbars-=no,resizable=no,width=300,height=200");
-	 	    };
 	 	    
-	 	    // 클릭시 확인창 열기
-			ckPwButton.click(function() {
-				confirmPw();
-			});
-	 	    
+	 	  	function pwCkBtn(){
+	 	  		let xhr = new XMLHttpRequest();
+				let url = '<%=request.getContextPath()%>/cstm/pwCheckFormByModifyCstmInfo.jsp';
+				let params = {
+					id : "<%=cstm.getId()%>",
+					pw : $('input[name="pw"]').val()
+				};
+				xhr.open('POST', url, true);
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState === 4) {
+						if (xhr.status === 200) {
+							swal("성공", "비밀번호가 일치합니다", "success");
+							ckPwButton.prop('disabled', true);
+						} else {
+					        // 요청이 실패한 경우
+					    	swal("실패", "비밀번호가 일치하지 않습니다", "error");
+					    	$("input[name='pw']").val('');
+					    	pwMsg.text('비밀번호가 일치하지 않습니다');
+						}
+				    }
+				};
+				xhr.send($.param(params));
+			}
+	 	  	
+	 	  	ckPwButton.click(function(){
+	 	  		pwCkBtn();
+	 	  	});
+	 	  	
 	 	    // 비밀번호 확인을 안하고 저장을 먼저 눌렀을때.
-	 	    submitButton.click(function(){
+	 	    submitButton.click(function(event){
 	 	    	if(!ckPwButton.prop('disabled')){
 	 	    		event.preventDefault(); // submit막음
+	 	    		swal("경고", "비밀번호 확인을 먼저 해주세요", "warning");
 	 	    		pwMsg.text('비밀번호 확인을 먼저 해주세요');
 	 	    	} else {
 	 	    		pwMsg.text('');
@@ -330,5 +349,7 @@
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
