@@ -26,11 +26,6 @@ del{
 	height: 2px;
 	background-color: pink;
 }
-.divide-line{
-	width: 100%;
-	height: 2px;
-	background-color: pink;
-}
 .container{
 	width: 1280px;
 	margin: 120px auto 0;
@@ -38,7 +33,6 @@ del{
 .flex-wrapper{
 	display: flex;
 	justify-content: space-between;
-	flex-wrap: wrap;
 }
 .marginTop180{
 	margin-top: 180px;
@@ -49,11 +43,11 @@ del{
 .marginTop50{
 	margin-top: 50px;
 }
-.marginTop20{
-	margin-top: 20px;
-}
 .marginTop30{
 	margin-top: 30px;
+}
+.marginTop20{
+	margin-top: 20px;
 }
 .style-btn{
 	padding: 5px 10px;
@@ -98,6 +92,7 @@ input:focus, textarea:focus{
 .pmBtn:hover{
 	background-color: #888888;
 }
+
 /* 텍스트만 있는 리스트 */
 [class*='list-wrapper']{
 	width: 100%;
@@ -138,7 +133,7 @@ input:focus, textarea:focus{
 	grid-template-columns: 10% 10% 20% 40% 10% 10%;
 }
 .list-wrapper6-2 .list-item{
-	grid-template-columns: 10% 10% 40% 20% 10% 10%;
+	grid-template-columns: 10% 25% 30% 15% 10% 10%;
 }
 .list-wrapper9 .list-item{
 	grid-template-columns: 10% 15% 10% 10% 10% 10% 15% 15% 5%;
@@ -509,7 +504,7 @@ input:focus, textarea:focus{
 }
 .productOrder {
 	display: flex;
-	height : 550px;
+	height : 500px;
 	margin-top: 200px;
 	margin-bottom: 100px;
 }
@@ -610,6 +605,9 @@ input:focus, textarea:focus{
 .productRight .btn-wrapper{
 	display: flex;
 }
+.productRight .flex-wrapper{
+	flex-wrap: wrap;
+}
 .productLeft {
 	display: flex;
  	justify-content: center;	
@@ -619,7 +617,8 @@ input:focus, textarea:focus{
 	margin-right: 100px;
 }
 .productLeft img{
-	border: 3px solid #D2D3D3;
+	border: 1px solid #D2D3D3;
+	box-shadow: 5px 10px 10px 1px rgba(0,0,0,0.3); 
 	object-fit: contain;
 	width: 700px;
     height: 500px;
@@ -636,7 +635,7 @@ input:focus, textarea:focus{
 	width: 100%;
 	height: 5px;
 	background-color: #EB4646;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-bottom: 20px;
 }
 .productRight .flex-wrapper{
@@ -645,14 +644,14 @@ input:focus, textarea:focus{
 .productRight .divide-line{
 	background-color: #D2D3D3;
 }
-.totalPrice-wrapper {
+.totalPrice-wrapper{
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-top: 30px;
 	height: 30px;
 }
-.totalPrice-wrapper div {
+.totalPrice-wrapper div{
 	color: #EB4646;
 }
 .productName{
@@ -664,7 +663,7 @@ input:focus, textarea:focus{
 	color: #000;
 }
 .product-addinfo{
-	height: 100px;
+	height: 70px;
 }
 .info{
 	font-size: 15px;
