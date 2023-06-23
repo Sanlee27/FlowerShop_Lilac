@@ -62,7 +62,8 @@
 	//디버깅
 	System.out.println(path);
 	
-
+	OrderDao orderDao = new OrderDao();
+	Order order = orderDao.getOrderDetail(review.getOrderNo());
 
 %>
 
@@ -115,13 +116,7 @@
 			<form action="<%=request.getContextPath()%>/cstm/modifyReview.jsp" method="post">
 			<input type="hidden" name="orderNo" value="<%=((Review)map.get("review")).getOrderNo()%>">
 				<div class="form-list">
-					<div>
-						<div>주문 번호</div> 
-						<div><%=((Review)map.get("review")).getOrderNo()%></div>
-							<!-- 
-							reviwone 메서드의 해시맵 키"review"로부터 orderNo 값을 출력
-							 -->
-					</div>
+				
 					<div>
 						<div>제목</div> 
 						<div><%=((Review)map.get("review")).getReviewTitle()%></div>
@@ -156,6 +151,10 @@
 						<div>수정일</div> 
 						<div><%=((Review)map.get("review")).getUpdatedate().substring(0, 10)%></div>
 					</div>
+					<div>
+						<div>아이디</div> 
+						<div><%=order.getId()%></div>
+					</div>
 				</div>
 				<br>
 				
@@ -176,5 +175,7 @@
 		</div>	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>

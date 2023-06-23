@@ -24,7 +24,7 @@
 	//reviewDao 객체 선언
 		ReviewDao reviewDao = new ReviewDao();
 		ProductDao productDao = new ProductDao();
-
+		OrderDao orderDao = new OrderDao();
 
 		
 	// 요청값 변수에 저장
@@ -63,6 +63,7 @@
 	
 	//현재 페이지에 표시 할 리스트 생성
 		ArrayList<HashMap<String, Object>> list = reviewDao.reviewList( beginRow, rowPerPage);
+		
 
 		
 		
@@ -85,8 +86,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
 	<script>
-		function listItemClick(listItem) {
-			let orderNo = $(listItem).find('.orderNo').text();
+		function listItemClick(orderNo) {
 			window.location.href = "<%=request.getContextPath()%>/cstm/review.jsp?orderNo=" + orderNo;
 		}
 	</script>
@@ -103,27 +103,28 @@
 			<div class="list-wrapperql marginTop50">
 				<h2>후기게시판</h2>
 				<div class="list-item marginTop20">
-					<div>주문번호</div>
 					<div>상품명</div>
 					<div>제목</div>
 					<div>작성일</div>
 					<div>수정일</div>
+					<div>아이디</div>
 				</div>
 				
 				<%
 					for(HashMap<String, Object> map: list){
 						Review review = (Review)map.get("review");
 						String productName = (String)map.get("productName");
+						Order order = orderDao.getOrderDetail(review.getOrderNo());
 		
 				%>
-					<div class="list-item hovered" onclick="listItemClick(this)">
-						<input type="hidden" name="orderNo" value="<%=review.getOrderNo()%>">
+					<div class="list-item hovered" onclick="listItemClick(<%=review.getOrderNo()%>)">
 						
-						<div class="orderNo"><%=review.getOrderNo() %></div>
 						<div><%=productName %></div>
 						<div><%=review.getReviewTitle() %></div>
 						<div><%=review.getUpdatedate().substring(0,10) %></div>
 						<div><%=review.getCreatedate().substring(0,10) %></div>
+						<div><%=order.getId()%></div>
+		
 		
 					</div>
 			
@@ -175,5 +176,7 @@
 	
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
+	<!-- footer -->
+	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>

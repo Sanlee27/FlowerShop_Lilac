@@ -164,11 +164,7 @@ public class ReviewDao {
 			
 		}
 	
-		
 
-		
-
-	
 	//후기 상세페이지 후기 출력 ->review.jsp // hashmap(string, object)을 매개변수 //이미지가 같이 나오게
 	public HashMap<String, Object> reviewOne(int orderNo) throws Exception{
 		
