@@ -156,6 +156,7 @@
 			</div>
 		</form>
 </div>
-<div class="marginTop50"></div>
+<!-- footer -->
+<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
