@@ -756,3 +756,133 @@ input:focus, textarea:focus{
 	padding: 10px;
 	font-weight: bold;
 }
+
+
+
+
+/*  footer */
+.border-t {
+  border-top-width: 1px;
+}
+
+.border-gray-3 {
+  border-color: #888888;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.p-5 {
+  padding: 20px;
+}
+
+.lg\:px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.lg\:py-\[60px\] {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.undefined {
+  width: unset;
+}
+
+.max-w-5xl {
+  max-width: 1280px;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-5 {
+  gap: 1.25rem;
+}
+
+ul.flex {
+  display: flex;
+  gap: 18px;
+}
+
+ul.flex li {
+  display: inline;
+}
+
+.text-body3 {
+  font-size: 0.875rem;
+}
+
+.text-gray-2 {
+  color: #888888;
+}
+
+.hover\:text-gray-1:hover {
+  color: #000000;
+}
+
+.flex.flex-col.gap-25 {
+  gap: 0.625rem;
+}
+
+.flex.flex-col.gap-25 > a {
+	width: 3px;
+}
+
+.text-body3.lg\:text-body2.text-navy {
+  font-size: 0.875rem;
+  color: pink;
+}
+
+.text-h2.text-navy {
+  font-size: 2rem;
+  color: pink;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex-col.justify-between.lg\:flex {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.h-4 {
+  height: 1rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.w-8 {
+  width: 20px;
+  height: 20px;
+  padding: 20px;
+}
+
+.h-5 {
+  height: 1.25rem;
+}

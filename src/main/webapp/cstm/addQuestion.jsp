@@ -9,25 +9,32 @@
 	//인코딩 설정
 	request.setCharacterEncoding("utf-8");
 
+	//유효성 검사
+	if(request.getParameter("productNo") == null
+		|| request.getParameter("productNo").equals("")){
+		//home.jsp로
+		response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp");
+		return;
+	}
+	
 	//세션 유효성 검사
 	if(session.getAttribute("loginId")==null){
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;
 	}
-	
-
 	//요청값 변수에 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
-
+	String loginId = (String)session.getAttribute("loginId");
+		System.out.println(loginId+"<--loginId");
+		System.out.println(productNo+"<--productNo");
 
 	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	
 	//상세페이지 객체 생성
-	Question one = questionDao.questionOne(productNo);
 
-	System.out.println(one);
+	
 		
 	
 %>
@@ -61,15 +68,9 @@
 
 		<h1>문의 입력</h1>
 			<form action="<%=request.getContextPath()%>/cstm/addQuestionAction.jsp" method="get">
-				<div  class="form-list">
-					<div>
-						<div>제품 번호</div>
-						<div><%=one.getProductNo() %></div>
-					</div>
-					<div>
-						<div>id</div>
-						<div><%=one.getId() %></div>
-					</div>
+				<div class="form-list">
+				<input type="hidden" name="loginId" value="<%=loginId%>">
+				<input type="hidden" name="productNo" value="<%=productNo%>">
 					<div>
 						<div>카테고리</div>
 						<div>
@@ -83,19 +84,11 @@
 					</div>
 					<div>
 						<div>제목</div>
-						<div><input type="text" name="qTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 --></div>
+						<div><input type="text" name="qTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" placeholder="타이틀을 입력하세요" required="required"> <!-- text를 클릭하면 value 값 지워짐 --></div>
 					</div>
 					<div>
 						<div>내용</div>
-						<div><input type="text" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > </div>
-					</div>
-					<div>
-						<div>수정일</div>
-						<div><%=one.getUpdatedate() %></div>
-					</div>
-					<div>
-						<div>작성일</div>
-						<div> <%=one.getCreatedate() %></div>
+						<div><textarea rows="3" cols="100" name="qContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" placeholder="내용을 입력하세요" required="required"></textarea></div>
 					</div>
 				</div>
 				<div class="flex-wrapper marginTop20">
