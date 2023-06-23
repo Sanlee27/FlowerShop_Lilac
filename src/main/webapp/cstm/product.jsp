@@ -301,7 +301,7 @@
 			
 			<div class="flex-wrapper">
 				<div class="orderCartBtn" onclick="orderClick()"><a>주문하기</a></div>
-				<div class="orderCartBtn" onclick="orderClick()" id="cart"><a>장바구니</a></div>
+				<div class="orderCartBtn" onclick="cartClick()" id="cart"><a>장바구니</a></div>
 			</div>
 		</div>
 	</div>
