@@ -12,19 +12,16 @@
 	//유효성 검사
 
 	//요청값 변수에 저장
-	//제품에 대한 문의인데 q_no? productNo도 받아야?
-	
-	//int qNo = Integer.parseInt(request.getParameter("qNo"));
+
 	//int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int qNo = 22;
 	int productNo = 10;
-	String id = "user5";
+	//String id = "user5";
 	
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	
 	//상세페이지 객체 생성
-	Question one = questionDao.questionOne(qNo);
+	Question one = questionDao.questionOne(productNo);
 
 	System.out.println(one);
 		
@@ -61,10 +58,6 @@
 		<h1>문의 입력</h1>
 			<form action="<%=request.getContextPath()%>/cstm/addQuestionAction.jsp" method="get">
 				<div  class="form-list">
-					<div>
-						<div>문의 번호</div> 
-						<div><%=one.getqNo() %></div>
-					</div>
 					<div>
 						<div>제품 번호</div>
 						<div><%=one.getProductNo() %></div>
