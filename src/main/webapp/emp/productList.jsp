@@ -202,10 +202,10 @@
 			</div>
 			<div><%=dc.format(discountPrice)%></div>
 			<div>
-				<a href="<%=request.getContextPath()%>/emp/modifyProduct.jsp?productNo=<%=product.getProductNo()%>">수정</a>
+				<a class="style-btn" href="<%=request.getContextPath()%>/emp/modifyProduct.jsp?productNo=<%=product.getProductNo()%>">수정</a>
 			</div>
 			<div>
-				<a href="<%=request.getContextPath()%>/emp/removeProductAction.jsp?productNo=<%=product.getProductNo()%>">삭제</a>
+				<a class="style-btn" href="<%=request.getContextPath()%>/emp/removeProductAction.jsp?productNo=<%=product.getProductNo()%>">삭제</a>
 			</div>
 		</div>
 	<%
@@ -217,13 +217,13 @@
 	<div class="pagination flex-wrapper">
 		<!-- 이전 -> 최소페이지가 1보다 클 경우 이전 활성화 -->
 		<div class="flex-wrapper">
-			<%
-				if(minPageNum != 1){
-			%>
 					<!-- 제일 처음으로  -->
 					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=1">
 						◀◀
 					</a>
+			<%
+				if(minPageNum != 1){
+			%>
 					<!-- 10개 이전으로  -->
 					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=minPageNum - pagePerNum%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>" class="pageBtn">
 						◁
@@ -255,13 +255,13 @@
 					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?currentPage=<%=maxPageNum + 1%>&searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order<%=order%>">
 					▷
 					</a>
+			<%
+				}
+			%>
 					<!-- 제일 마지막으로  -->
 					<a class="pageBtn" href="<%=request.getContextPath()%>/emp/productList.jsp?searchCategory=<%=searchCategory%>&searchName=<%=searchName%>&order=<%=order%>&currentPage=<%=lastPage%>">
 					▶▶
 					</a>
-			<%
-				}
-			%>
 		</div>
 	</div>
 </div>
