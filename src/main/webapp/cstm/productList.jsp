@@ -105,13 +105,14 @@
 			    // 입력한 검색어 고정
 			    let enteredSearchName = '<%=searchName%>';
 			    if (enteredSearchName) {
-			      $('#searchName').val('<%=searchName%>');
+			      $('input[name="searchName"]').val('<%=searchName%>');
 			    }
 			    
 			    // ========= 정렬 초기화 버튼 =============
 			    $('#reset').click(function () {
 			        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
 			        $('select[name="order"] option:eq(0)').prop('selected', true);
+			        $('form').submit();
 			    });
 			     
 			    // 선택값 바로 실행
@@ -121,8 +122,10 @@
 			    
 				// ========= 검색 초기화 버튼 =============
 				$('#resetSearch').click(function(){
-					$('#searchName').val('');
+					 $('input[name="searchName"]').val('');
+					 $('form').submit();
 				});
+				
 			});
 		function productClick(productNo){
 			location.href = "<%=request.getContextPath()%>" + "/cstm/product.jsp?productNo=" + productNo;
@@ -145,7 +148,7 @@
 			<div class="product-list">
 				<h1><a href="<%=request.getContextPath()%>/cstm/productList.jsp">상품 리스트</a></h1>
 				<!-- ==============검색버튼============== -->
-				<form method="get">
+				<form>
 					<div class="marginTop30">
 						<select name="searchCategory">
 							<option value="">카테고리</option>
@@ -166,10 +169,10 @@
 							<option value="할인율높은순">할인율높은순</option>
 						</select>
 						
-						<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+						<input type="text" name="searchName" placeholder="상품을 입력하세요">
 						
-						<button type="submit" id="resetSearch" class="style-btn">검색초기화</button>
-						<button type="submit" id="reset" class="style-btn">정렬초기화</button>
+						<button type="button" id="resetSearch" class="style-btn">검색초기화</button>
+						<button type="button" id="reset" class="style-btn">정렬초기화</button>
 					</div>
 					<div class="products">
 					<%
