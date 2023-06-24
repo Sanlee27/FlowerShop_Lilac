@@ -334,14 +334,14 @@
 				<div>
 					<div>주소</div>
 					<div>
-						<textarea rows="1" cols="40" id="address" name="address1" placeholder = "주소를 선택하세요" readonly="readonly" required="required"></textarea>
+						<textarea rows="1" cols="40" id="address" name="address1" placeholder = "주소를 선택하세요" readonly="readonly" required="required" style="resize: none;"></textarea>
 						<button type="button" class="style-btn" id="address_kakao">주소 검색</button>
 					</div>
 				</div>
 				<div>
 					<div>상세주소</div>
 					<div>
-						<textarea rows="2" cols="40" name="address2" required="required" placeholder="상세주소를 입력하세요"></textarea>
+						<textarea rows="2" cols="40" name="address2" required="required" placeholder="상세주소를 입력하세요" style="resize: none;"></textarea>
 						<span id="adrMsg" style="color: red;"></span>
 					</div>
 				</div>

@@ -87,7 +87,7 @@
 			<%
 				} else if(msg != null && (msg.equals("휴면계정입니다. 다시 로그인해주세요.") || msg.equals("비밀번호를 확인하세요."))){
 			%>
-					<button type = "submit" onclick = "javascript: form.action='<%=request.getContextPath()%>/cstm/modifyActiveAction.jsp';">로그인</button>
+					<button type = "submit" onclick = "javascript: form.action='<%=request.getContextPath()%>/cstm/modifyActiveAction.jsp';" class="style-btn">로그인</button>
 			<%	
 				}
 			%>

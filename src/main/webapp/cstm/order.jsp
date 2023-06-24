@@ -203,7 +203,7 @@
 					<div class="font-line"></div>
 					<div>이름 : <%=customer.getCstmName() %></div>
 					<div>이메일 : <%=customer.getCstmEmail() %></div>
-					<div>전화번호 : <%=customer.getCstmPhone() %></div>
+					<div>전화번호 : <%=customer.getCstmPhone().substring(0, 3)%>-<%=customer.getCstmPhone().substring(3, 7)%>-<%=customer.getCstmPhone().substring(7, 11)%></div>
 					<div>
 						배송지 : <span id="address"><%=customer.getCstmAddress() %></span>
 					</div>
@@ -215,7 +215,7 @@
 				<div class="order-info" style="width:45%">
 					<h1>결제정보</h1>
 					<div class="font-line"></div>
-					<div>할인쿠폰 : 0원 <span class="price">적용 가능한 할인쿠폰이 없습니다.</span></div>
+					<div>할인쿠폰 : 0개 <span class="price">적용 가능한 할인쿠폰이 없습니다.</span></div>
 					<div>보유 포인트 : <%=userPoint %></div>
 					<div>사용할 포인트 : <input type="number" inputmode="numeric" onchange="pointInputChange(this)" id="toSpendPoint" value=0></div>
 					<div>

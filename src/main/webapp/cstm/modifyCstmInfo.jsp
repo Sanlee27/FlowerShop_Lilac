@@ -3,6 +3,7 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -324,7 +325,9 @@
 				</div>
 				<div>
 					<div>보유 포인트</div>
-					<div><%=cstm.getCstmPoint()%></div>
+					<div>
+						<fmt:formatNumber value="<%=cstm.getCstmPoint()%>" pattern="###,###,###"/>
+					</div>
 				</div>
 				<div>
 					<div>현재 등급</div>

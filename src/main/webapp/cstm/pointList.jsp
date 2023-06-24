@@ -73,7 +73,7 @@
 						<%
 							if(p.getPointPm().equals("+")){
 						%>
-								<div>적립</div>
+								<div>적립/환불</div>
 						<%
 							} else {
 						%>
@@ -82,7 +82,7 @@
 							}
 						%>
 						<div>
-							<%=p.getPointPm()+p.getPoint()%>
+							<fmt:formatNumber value="<%=p.getPointPm()+p.getPoint()%>" pattern="###,###,###"/>
 						</div>
 						<div class="product-info">
 							<img src="<%=path%>">

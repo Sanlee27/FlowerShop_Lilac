@@ -134,11 +134,6 @@
 						<div>상품사진</div>
 						<div><img src="<%=path%>" alt="ReviewSaveFilename" width="220px" height="170px"></div>
 					</div>
-					<div>
-						<div>파일타입</div>
-						<div><%=((ReviewImg)map.get("reviewImg")).getReviewFiletype()%></div>
-					</div>
-					
 					<%
 					}
 					%>

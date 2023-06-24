@@ -149,8 +149,6 @@
 				</div>
 			</div>
 			<br>
-			<h3>배송지</h3>
-			<br>
 			<button type="submit" class="style-btn">주문 취소</button>
 			<button type="button" class="style-btn" onclick="history.back()">뒤로가기</button>
 		</form>
