@@ -195,7 +195,7 @@ public class QuestionDao {
 					+ "					FROM question Q\r\n"
 					+ "					LEFT OUTER JOIN product P\r\n"
 					+ "					ON Q.product_no = P.product_no\r\n"
-					+ "					ORDER BY Q.product_no DESC\r\n"
+					+ "					ORDER BY Q.q_no DESC\r\n"
 					+ "					LIMIT ?, ?";
 			PreparedStatement qListStmt = conn.prepareStatement(sql);
 			
