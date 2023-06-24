@@ -87,7 +87,7 @@
 			<div class="form-list">
 				<div>
 					<div> 상품 번호 </div>
-					<div><input type="number" name = "productNo" value = "<%=productNo%>"></div>
+					<div><%=productNo%></div>
 				</div>
 				<div>
 					<div> 상품 카테고리 </div>
