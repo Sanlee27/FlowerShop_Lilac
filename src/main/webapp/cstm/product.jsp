@@ -358,7 +358,7 @@
 	<div class="list-wrapper3 marginTop180 productReview">
 		<h2 class="detailCate">후기</h2>
 		<span class="font-line"></span>
-		<div class="list-item">
+		<div class="list-item marginTop30">
 			<div>제목</div>
 			<div>작성자</div>
 			<div>작성일</div>
@@ -436,9 +436,9 @@
 	<div class="list-wrapper6-2 marginTop180 productQna">
 		<h2 class="detailCate">문의</h2>
 		<span class="font-line"></span>
-			<span class="product-toQ">
-				<a class="style-btn" href="<%=request.getContextPath()%>/cstm/addQuestion.jsp?productNo=<%=productNo%>">문의하기</a>
-			</span>
+		<a href="<%=request.getContextPath()%>/cstm/addQuestion.jsp?productNo=<%=productNo%>" class="addBtn">
+			<img src="<%=request.getContextPath() %>/images/plus.png">
+		</a>	
 			<div class="list-item marginTop30">
 				<div>카테고리</div>
 				<div>제목</div>
