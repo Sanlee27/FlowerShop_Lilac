@@ -97,12 +97,12 @@
 						<!-- reviewTitle -->
 						<div>
 							<div>제목</div> 
-							<div><input type="text" name="reviewTitle" onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" placeholder="타이틀을 입력하세요" required="required"> <!-- text를 클릭하면 value 값 지워짐 --></div>
+							<div><input type="text" name="reviewTitle" onclick="if(this.value=='제목을 입력하세요'){this.value=''}" placeholder="제목을 입력하세요" required="required"> <!-- text를 클릭하면 value 값 지워짐 --></div>
 						</div>
 						<!-- reviewContent -->
 						<div>
 							<div>내용</div>
-							<div><textarea rows="3" cols="50" name="reviewContent" placeholder="내용을 입력하세요" required="required" > </textarea></div>
+							<div><textarea rows="3" cols="50" name="reviewContent" placeholder="내용을 입력하세요" required="required" ></textarea></div>
 						</div>
 						<!-- fileUpload -->
 						<div>
