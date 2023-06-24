@@ -81,15 +81,15 @@
 						<!-- reviewTitle -->
 						<div>
 							<div>후기제목</div>
-							<div><input type= "hidden" name ="reviewTitle" value=<%=((Review)map.get("review")).getReviewTitle()%>>
-								 <input type= "text" name="mTitle"  onclick="if(this.value=='타이틀을 입력하세요'){this.value=''}" value="타이틀을 입력하세요"> <!-- text를 클릭하면 value 값 지워짐 -->
+							<div>
+								 <input type= "text" name="mTitle"  value="<%=((Review)map.get("review")).getReviewTitle()%>"> <!-- text를 클릭하면 value 값 지워짐 -->
 							</div>
 						</div>	
 						<!-- reviewContent -->
 						<div>
 							<div>내용</div>
-							<div><input type= "hidden" name ="reviewContent" value=<%=((Review)map.get("review")).getReviewContent()%>>
-								<input type= "text" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" value="내용을 입력하세요" > 
+							<div>
+								<textarea rows="3" cols="100" name="mContent" onclick="if(this.value=='내용을 입력하세요'){this.value=''}" placeholder="내용을 입력하세요" required="required"><%=((Review)map.get("review")).getReviewContent()%></textarea>
 							</div>
 						</div>
 						<!-- boardFile -->
