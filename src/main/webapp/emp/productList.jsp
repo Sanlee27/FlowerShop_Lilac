@@ -136,7 +136,9 @@
 <div class="container">
 	<!-- 상품 리스트 -->
 	<div class="list-wrapper10">
-		<h1>상품 리스트</h1>
+		<h1>
+			<a href="<%=request.getContextPath()%>/emp/productList.jsp">상품 리스트</a>
+		</h1>
 			<!-- 검색 -->
 			<form class="marginTop30">
 				<select id="searchCategory" name="searchCategory">
