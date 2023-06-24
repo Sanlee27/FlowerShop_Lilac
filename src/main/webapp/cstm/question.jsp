@@ -85,6 +85,11 @@
 			swal("완료", "<%=request.getParameter("msg")%>", "success");
 		};
 	});
+    function backBtnClick(){
+    	if(<%=isAdmin %>){
+    		location.href="<%=request.getContextPath() %>" + "/employees.jsp"
+    		} else {history.back()};
+    }
 	</script>
 </head>
 <body>
@@ -139,6 +144,7 @@
 						<div>작성일</div>
 						<div><%=one.getCreatedate() %></div>
 					</div>
+					<button class="style-btn marginTop20" type="button" onclick="backBtnClick()">뒤로가기</button>
 				</div>
 				<br>
 				<!-- 수정 삭제 버튼 -->
@@ -157,7 +163,6 @@
 		        }
 				%>
 				</form>	
-			</div>
 				<!-- 답변 -->
 				<%
 				if(isAdmin) {
