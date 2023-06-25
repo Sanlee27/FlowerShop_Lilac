@@ -156,7 +156,7 @@
 						수정	
 					</button>
 					<button type= "submit" formaction="<%=request.getContextPath()%>/cstm/removeQuestionAction.jsp" class="style-btn">
-							삭제
+						삭제
 					</button>
 				<%
 						}
@@ -165,21 +165,23 @@
 				</form>	
 				<!-- 답변 -->
 				<%
-				if(isAdmin) {
 					if(answer != null && one.getqNo() == answer.getqNo()) {
-					%>
+				%>
 						<!-- 답변리스트 -->
 						<div>
 							<form id="answerForm" action="<%=request.getContextPath()%>/emp/modifyAnswerAction.jsp">
 								<input type="hidden" name="answerNo" value="<%=answer.getAnswerNo()%>">
 								<input type="hidden" name="qNo" value="<%=answer.getqNo()%>">
-								<div>&#8627;</div>
+								<div>&#8618;</div>
 								<div id = "answer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea disabled name="comment" rows="4" cols="100"><%=answer.getAnswerContent()%></textarea></div>
 								<div>
 									<div>
 										<div>답변일 : <%=answer.getCreatedate()%></div> 
 										<div>수정일 : <%=answer.getUpdatedate()%></div>
 									</div>
+					<%
+						if(isAdmin) {
+					%>	
 									<div class="marginTop10">
 										<button type="button" id="modifyButton" data-text="<%=loginId%>" class="style-btn">수정</button>
 										<button type="submit" id="modifyEnd" style="display: none;" class="style-btn">완료</button>
@@ -190,10 +192,12 @@
 							</form>
 						</div>
 					<%
+					
+						} 
 					} else {
+						if(isAdmin) {
 					%>	
-						<br>
-						<h4>답변입력</h4>
+						<h4>&#8618;	답변입력</h4>
 						<form action="<%=request.getContextPath()%>/emp/addAnswerAction.jsp">
 							<input type="hidden" name="qNo" value="<%=one.getqNo()%>">
 							<input type="hidden" name="id" value="<%=one.getId()%>">
@@ -201,7 +205,7 @@
 							<button type="submit" class="style-btn">등록</button>
 						</form>
 				<%
-					} 
+					}
 				}
 				%>
 	</div>
