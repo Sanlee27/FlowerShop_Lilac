@@ -115,7 +115,7 @@ public class PointDao {
 		selectStmt.setInt(1, point.getOrderNo()); // 조회할 order_no를 지정
 		ResultSet rs = selectStmt.executeQuery();
 		
-		if(rs.next()) {
+		while(rs.next()) {
 			int orderNo = rs.getInt("order_no");
 		    String prePm = rs.getString("point_pm");
 		    int prePoint = rs.getInt("point");

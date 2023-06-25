@@ -267,8 +267,8 @@
 					</a>
 		</div>
 	</div>
-	<!-- footer -->
-	<jsp:include page="/inc/footer.jsp"></jsp:include>
 </div>
+<!-- footer -->
+<jsp:include page="/inc/footer.jsp"></jsp:include>
 </body>
 </html>
