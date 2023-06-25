@@ -164,6 +164,7 @@
 				%>
 				</form>	
 				<!-- 답변 -->
+						
 				<%
 					if(answer != null && one.getqNo() == answer.getqNo()) {
 				%>
@@ -173,7 +174,7 @@
 								<input type="hidden" name="answerNo" value="<%=answer.getAnswerNo()%>">
 								<input type="hidden" name="qNo" value="<%=answer.getqNo()%>">
 								<div>&#8618;</div>
-								<div id = "answer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea disabled name="comment" rows="4" cols="100"><%=answer.getAnswerContent()%></textarea></div>
+								<div id = "answer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea disabled name="comment" rows="4" cols="100"><%=answer.getAnswerContent()%></textarea></div>				
 								<div>
 									<div>
 										<div>답변일 : <%=answer.getCreatedate()%></div> 
@@ -187,15 +188,16 @@
 										<button type="submit" id="modifyEnd" style="display: none;" class="style-btn">완료</button>
 										<button type="submit" id="deletebtn" formaction="<%=request.getContextPath()%>/emp/removeAnswerAction.jsp" class="style-btn">삭제</button>
 									</div>
+					<%
+				
+						} 
+					
+					%>			
 								</div>
-								
 							</form>
 						</div>
 					<%
-					
-						} 
-					} else {
-						if(isAdmin) {
+					} else if(isAdmin){	
 					%>	
 						<h4>&#8618;	답변입력</h4>
 						<form action="<%=request.getContextPath()%>/emp/addAnswerAction.jsp">
@@ -204,9 +206,8 @@
 							<textarea rows="3" cols="70" name="comment"></textarea>
 							<button type="submit" class="style-btn">등록</button>
 						</form>
-				<%
+				<%	
 					}
-				}
 				%>
 	</div>
 
