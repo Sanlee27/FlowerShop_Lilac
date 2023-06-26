@@ -107,17 +107,14 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  	<script>
-  		
-  	</script>
 	<script>
 		$(document).ready(function(){
 			//상품 정보 페이드인
-		  	    $('.container').fadeIn(1000);
+		  	$('.productContainer').fadeIn(1000);
 		  
 			//nav 이동
 			$("#toDetail").click(function(){
-				window.scrollTo({top:630, behavior: "smooth"});
+				window.scrollTo({top:600, behavior: "smooth"});
 			});
 			$("#toReview").click(function(){
 				window.scrollTo({top:2000, behavior: "smooth"});
@@ -129,7 +126,7 @@
 			//스크롤 위치에 따른 네비바 색 변환
 			$(window).scroll(function() {
 				 var scrollPosition = $(this).scrollTop();
-				 var threshold = 630;
+				 var threshold = 600;
 				 var navbar = $('.navbar-wrapper');
 				 var toDetail = $('#toDetail');
 				 var toReview = $('#toReview');
@@ -140,12 +137,12 @@
 				    toDetail.removeClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= threshold && scrollPosition < 2000) { //700~2150-상세
+				  } else if (scrollPosition >= threshold && scrollPosition < 2000) { //700~2100-상세
 				    navbar.addClass('fixed');
 				    toDetail.addClass('active');
 				    toReview.removeClass('active');
 				    toQna.removeClass('active');
-				  } else if (scrollPosition >= 2000 && scrollPosition < 2680) { //2150~2650-후기
+				  } else if (scrollPosition >= 2000 && scrollPosition < 2680) { //2150~2800-후기
 				    navbar.addClass('fixed');
 				    toDetail.removeClass('active');
 				    toReview.addClass('active');
@@ -262,7 +259,7 @@
 	<!-- 장바구니 모달 -->
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
 	
-<div class="container" id="product-container">
+<div class="productContainer">
      	<!-- 상품 주문 -->
 	<div class="productOrder" >
 		<div class="productLeft">
