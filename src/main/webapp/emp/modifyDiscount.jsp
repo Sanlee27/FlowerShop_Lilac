@@ -191,25 +191,18 @@
 		    // 입력한 검색어 고정
 		    let enteredSearchName = '<%=searchName%>';
 		    if (enteredSearchName) {
-		    	$('input[name="searchName"]').val('<%=searchName%>');
+		      $('#searchName').val('<%=searchName%>');
 		    }
 		    
 		     // ========= 정렬 초기화 버튼 =============
 		    $('#reset').click(function () {
 		        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
 		        $('select[name="order"] option:eq(0)').prop('selected', true);
-		        $('form').submit();
 		    });
 		     
 		    // 선택값 바로 실행
 		    $('select[name="searchCategory"], select[name="order"]').change(function() {
 		        $('form').submit();
-			});
-		    
-		 	// ========= 검색 초기화 버튼 =============
-			$('#searchReset').click(function(){
-				 $('input[name="searchName"]').val('');
-				 $('form').submit();
 			});
 		    
 		    function submitForm() {
@@ -235,7 +228,7 @@
 			<h3>오늘 날짜 : <%=today%></h3>
 			<br>
 			<!-- ==============리스트============= -->
-			<form>
+			<form id="form" method="get">
 				<div>
 					<select name="searchCategory">
 						<option value="">카테고리</option>
@@ -256,10 +249,9 @@
 						<option value="재고많은순">재고많은순</option>
 					</select>
 					
-					<input type="text" name="searchName" placeholder="상품을 입력하세요">
+					<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
 					
-					<button type="button" id="searchReset" class="style-btn">검색초기화</button>
-					<button type="button" id="reset" class="style-btn">정렬초기화</button>
+					<button type="submit" id="reset" class="style-btn">정렬초기화</button>
 				</div>
 				<div class="list-item">
 					<div>상품 번호</div>
