@@ -538,8 +538,11 @@ input:focus, textarea:focus{
 }
 
 /*상품상세 페이지*/
-#product-container{
+.productContainer{
 	display: none;
+	flex: 1;
+	width: 1280px;
+	margin: 0 auto;
 }
 .productOrder {
 	display: flex;
