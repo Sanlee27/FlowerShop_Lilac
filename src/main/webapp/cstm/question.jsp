@@ -144,7 +144,7 @@
 						<div>작성일</div>
 						<div><%=one.getCreatedate() %></div>
 					</div>
-					<button class="style-btn marginTop20" type="button" onclick="backBtnClick()">뒤로가기</button>
+					
 				</div>
 				<br>
 				<!-- 수정 삭제 버튼 -->
@@ -162,6 +162,9 @@
 						}
 		        }
 				%>
+					<div>
+						<button class="style-btn marginTop20" type="button" onclick="backBtnClick()">뒤로가기</button>
+					</div>
 				</form>	
 				<!-- 답변 -->
 						
