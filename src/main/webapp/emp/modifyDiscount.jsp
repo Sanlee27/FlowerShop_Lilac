@@ -191,13 +191,14 @@
 		    // 입력한 검색어 고정
 		    let enteredSearchName = '<%=searchName%>';
 		    if (enteredSearchName) {
-		      $('#searchName').val('<%=searchName%>');
+		      $('input[name="searchName"]').val('<%=searchName%>');
 		    }
 		    
 		     // ========= 정렬 초기화 버튼 =============
 		    $('#reset').click(function () {
 		        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
 		        $('select[name="order"] option:eq(0)').prop('selected', true);
+		        $('form').submit();
 		    });
 		     
 		    // 선택값 바로 실행
@@ -205,6 +206,10 @@
 		        $('form').submit();
 			});
 		    
+		    $('#resetSearch').click(function(){
+		    	$('input[name="searchName"]').val('');
+		    	$('form').submit();
+		    });
 		    function submitForm() {
 		        // 정렬된 데이터를 가지고 action 페이지로 이동하기
 		        let form = document.getElementById("form");
@@ -216,6 +221,11 @@
 		    	submitForm();
 		    })
 		});
+		function handleSearch(event) {
+		    if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
+		    	$('form').submit(); // 폼 제출 처리
+		    }
+		  }
 	</script>
 </head>
 <body>
@@ -241,7 +251,7 @@
 						%>
 					</select>
 					
-					<select id="order" name="order">
+					<select name="order">
 						<option value="">정렬</option>
 						<option value="이름순">이름순</option>
 						<option value="원가높은순">원가높은순</option>
@@ -249,9 +259,10 @@
 						<option value="재고많은순">재고많은순</option>
 					</select>
 					
-					<input type="text" id="searchName" name="searchName" placeholder="상품을 입력하세요">
+					<input type="text" name="searchName" placeholder="상품을 입력하세요" onkeydown="handleSearch(event)">
 					
-					<button type="submit" id="reset" class="style-btn">정렬초기화</button>
+					<button type="button" id="resetSearch" class="style-btn">검색초기화</button>
+					<button type="button" id="reset" class="style-btn">정렬초기화</button>
 				</div>
 				<div class="list-item">
 					<div>상품 번호</div>
