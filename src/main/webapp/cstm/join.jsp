@@ -367,7 +367,7 @@
 						<select name = "email2">
 							<option value="naver.com" selected="selected">naver.com</option>
 							<option value="daum.net">daum.net</option>
-							<option value="gmail.com">gamil.com</option>
+							<option value="gmail.com">gmail.com</option>
 						</select>
 						<span id="emMsg" style="color: red;"></span>
 					</div>

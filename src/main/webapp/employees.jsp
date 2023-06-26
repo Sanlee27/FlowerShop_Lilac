@@ -3,6 +3,12 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%
+	//유효성 검사 _ 로그인전이면 로그인폼으로 돌아가게
+	if(session.getAttribute("loginId") == null){ 
+		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
+		return;		
+	}
+
 	// 요청값 저장
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null
