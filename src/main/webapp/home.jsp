@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@page import="java.text.DecimalFormat"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
@@ -12,11 +12,14 @@
 
 	//dao 객체선언
 	ProductDao productDao = new ProductDao();
+
 	
 	//dao의 리스트 가져오기
 	ArrayList<HashMap<String, Object>> list = productDao.getNewProducts();
 	ArrayList<HashMap<String, Object>> elist = productDao.getDiscountProducts();
 	
+	// 가격 표시해줄 포맷터
+	DecimalFormat dc = new DecimalFormat("###,###,###,###");
  %>	
 
 
@@ -107,11 +110,11 @@
 								<%= p.getProductName() %>
 								<br>
 								 <% if (discountRate > 0) { %>
-									<del><%= p.getProductPrice() %> 원</del>
+									<del><%= dc.format(p.getProductPrice()) %> 원</del>
 									<br>
-									<span class="price"><%= discountPrice %> 원</span>
+									<span class="price"><%= dc.format(discountPrice) %> 원</span>
 								<% } else { %>
-									<%= p.getProductPrice()%> 원
+									<%= dc.format(p.getProductPrice())%> 원
 								<% } %>
 							</div>
 						
@@ -145,11 +148,11 @@
 						<%= p.getProductName() %>
 						<br>
 						<% if (discountRate > 0) { %>
-							<del><%= p.getProductPrice() %> 원</del>
+							<del><%= dc.format(p.getProductPrice())%> 원</del>
 							<br>
-							<span class="price"><%= discountPrice %>원</span>
+							<span class="price"><%= dc.format(discountPrice)%> 원</span>
 						<% } else { %>
-							<%= p.getProductPrice()%> 원
+							<%= dc.format(p.getProductPrice())%> 원
 						<% } %>
 						</div>
 					</div>
