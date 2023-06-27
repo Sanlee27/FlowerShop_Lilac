@@ -9,23 +9,23 @@ import vo.*;
 public class QuestionDao {
 	
 	//product 상세 페이징을 위한 메서드 만들기
-		public int selectProductNoCnt(int productNo) throws Exception {
-			int row = 0;
-			
-			//db 접속
-			DBUtil dbUtil = new DBUtil();
-			Connection conn = dbUtil.getConnection();
+	public int selectProductNoCnt(int productNo) throws Exception {
+		int row = 0;
 		
-			//총 행을 구하는 sql문
-			String pageSql = "SELECT COUNT(*) FROM question where product_no=?";
-			PreparedStatement stmt = conn.prepareStatement(pageSql);
-			stmt.setInt(1, productNo);
-			ResultSet pageRs = stmt.executeQuery();
-			if(pageRs.next()) {
-				row = pageRs.getInt(1);
-			}
-			return row;
+		//db 접속
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+	
+		//총 행을 구하는 sql문
+		String pageSql = "SELECT COUNT(*) FROM question where product_no=?";
+		PreparedStatement stmt = conn.prepareStatement(pageSql);
+		stmt.setInt(1, productNo);
+		ResultSet pageRs = stmt.executeQuery();
+		if(pageRs.next()) {
+			row = pageRs.getInt(1);
 		}
+		return row;
+	}
 	
 	
 	
@@ -100,7 +100,7 @@ public class QuestionDao {
 		return list;
 	}
 	
-	// q_no 받아서 q_no에 해당하는 q_answer값 Y로 변경해주는 메서드
+	//q_answer값을 Y로 변경해주는 메서드
 	
 		public int updatdQuestionByPage(int qNo) throws Exception {
 			//sql 실행시 영향받은 행의 수
@@ -145,10 +145,9 @@ public class QuestionDao {
 	
 
 	//고객 별 문의내역 출력하는 메서드 -> cstmQnaList.jsp(id를 받아서 그 아이디에 해당하는 question리스트 불러오기)
-	//쿼리문 : SELECT q_no, product_no, id, q_category, q_answer, q_title, q_content, createdate, updatedate FROM question WHERE q_no=? ORDER BY q_no
 	public ArrayList<Question> Questioncust (String id, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
-				ArrayList<Question> list = new ArrayList<>();
+		ArrayList<Question> list = new ArrayList<>();
 				
 		//db접속
 		DBUtil dbUtil = new DBUtil();
@@ -229,11 +228,13 @@ public class QuestionDao {
 	
 
 	//상품 상세페이지에서 문의 출력하는 메서드 -> product.jsp 
-	// 매개변수에 product_no추가해서 product_no에 해당하는 리스트만 받아오도록 변경, 답변은 Y/N 관계없이 전부나오게
+	/* 매개변수에 product_no추가해서 product_no에 해당하는 리스트만 받아오도록 변경
+	 * 답변은 Y/N 관계없이 전부나오게
+	 */
 	
 	public ArrayList<Question> QuestionProduct (int productNo, int beginRow, int rowPerPage) throws Exception{
 		//반환할 리스트
-				ArrayList<Question> list = new ArrayList<>();
+		ArrayList<Question> list = new ArrayList<>();
 				
 		//db접속
 		DBUtil dbUtil = new DBUtil();
@@ -296,7 +297,6 @@ public class QuestionDao {
 	
 	
 	//문의 상세페이지 출력, 수정 폼-> question.jsp
-		//불러올 항목: q_no, product_no, id q_category, q_answer, q_title, q_content, createdate, updatedate
 	public Question questionOne(int qNo) throws Exception {
 		
 		Question question = null;
@@ -328,11 +328,8 @@ public class QuestionDao {
 		
 		
 	}
-
-	//문의글 수정 폼(상세페이지 출력과 동일) -> modifyQuestion.jsp
 	
 	//문의글 수정 액션 -> modifyQuestionAction.jsp
-	
 	public int modifyQuestion(Question question) throws Exception {
 		//sql 실행시 영향받은 행의 수
 		int row = 0;
@@ -358,7 +355,6 @@ public class QuestionDao {
 	
 	
 	//문의글 삭제 액션 -> removeQuestionAction.jsp
-	
 	public int deleteQuestion(int qNo) throws Exception {
 		//sql 실행시 영향받은 행의 수
 		int row = 0;
@@ -374,10 +370,6 @@ public class QuestionDao {
 		
 		return row;
 	}
-	
-
-	
-	
 	
 	
 }
