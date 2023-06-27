@@ -194,7 +194,7 @@
 		      $('input[name="searchName"]').val('<%=searchName%>');
 		    }
 		    
-		     // ========= 정렬 초기화 버튼 =============
+		    // ========= 정렬 초기화 버튼 =============
 		    $('#reset').click(function () {
 		        $('select[name="searchCategory"] option:eq(0)').prop('selected', true);
 		        $('select[name="order"] option:eq(0)').prop('selected', true);
@@ -206,6 +206,7 @@
 		        $('form').submit();
 			});
 		    
+			 // ========= 검색 초기화 버튼 =============
 		    $('#resetSearch').click(function(){
 		    	$('input[name="searchName"]').val('');
 		    	$('form').submit();
@@ -221,11 +222,13 @@
 		    	submitForm();
 		    })
 		});
-		function handleSearch(event) {
-		    if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
-		    	$('form').submit(); // 폼 제출 처리
-		    }
-		  }
+			// form안에 input이 1개인 경우 엔터 누르면 바로 submit
+			// 2개 이상인 경우는 submit X > 따로 이벤트함수 만들어야됨
+			function handleSearch(event) {
+			    if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
+			    	$('form').submit(); // 폼 제출 처리
+			    }
+			}
 	</script>
 </head>
 <body>
