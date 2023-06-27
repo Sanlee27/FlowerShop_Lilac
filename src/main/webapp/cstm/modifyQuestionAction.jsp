@@ -12,18 +12,16 @@
 	
 	//인코딩 설정
 	request.setCharacterEncoding("utf-8");
-	
-	//유효성 검사
-	
+
 	//요청값 변수에 저장
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
-	
 	
 	String id = request.getParameter("id");
 	String qCategory = request.getParameter("qCategory");
 	String qAnswer = request.getParameter("qAnswer");
 	String qTitle = request.getParameter("qTitle");
 	String qContent = request.getParameter("qContent");
+	
 	//메시지 변수
 	String msg = "";
 	

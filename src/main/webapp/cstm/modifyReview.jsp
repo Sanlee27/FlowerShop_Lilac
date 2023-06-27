@@ -14,14 +14,11 @@
 	//인코딩 설정
 	request.setCharacterEncoding("utf-8");
 
-	//유효성 검사 & 세션
-
 	//요청값 변수에 저장
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-
 	
 	//디버깅
-	System.out.println(orderNo+"<-modifyReview orderNo");
+	//System.out.println(orderNo+"<-modifyReview orderNo");
 	
 	//클래스 객체 생성
 	ReviewDao oneDao = new ReviewDao();
@@ -29,7 +26,7 @@
 	//수정페이지 객체 생성
 	HashMap<String, Object> map = oneDao.reviewOne(orderNo);
 
-	System.out.println(map+"<- modifyReview map");
+	//System.out.println(map+"<- modifyReview map");
 
 %>
 <!DOCTYPE html>

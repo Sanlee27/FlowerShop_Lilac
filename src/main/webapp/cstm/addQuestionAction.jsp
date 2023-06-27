@@ -27,19 +27,19 @@
 	String qTitle = request.getParameter("qTitle");
 	String qContent = request.getParameter("qContent");
 	
-	//디버깅
+	/* 
+	디버깅
 	System.out.println(productNo);
 	System.out.println(id);
 	System.out.println(qCategory);
 	System.out.println(qTitle);
 	System.out.println(qContent);
-	
+	*/
 
 	//클래스 객체 생성
 	QuestionDao questionDao = new QuestionDao();
 	
 	//객체 생성해 요청값 저장
-	
 	Question question = new Question();
 	
 	question.setId(id);
@@ -47,10 +47,10 @@
 	question.setqCategory(qCategory);
 	question.setqTitle(qTitle);
 	question.setqContent(qContent);
+	
 	//메시지 변수
 	String msg = "";
-	
-	
+
 	//문의 입력 메서드 실행
 	int row = questionDao.addQuestion(question);
 	

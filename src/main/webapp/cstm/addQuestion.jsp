@@ -12,7 +12,6 @@
 	//유효성 검사
 	if(request.getParameter("productNo") == null
 		|| request.getParameter("productNo").equals("")){
-		//home.jsp로
 		response.sendRedirect(request.getContextPath()+"/cstm/questionList.jsp");
 		return;
 	}
@@ -22,12 +21,13 @@
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
 		return;
 	}
+	
 	//요청값 변수에 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	String loginId = (String)session.getAttribute("loginId");
 	
-	System.out.println(loginId+"<--loginId");
-	System.out.println(productNo+"<--productNo");
+	//System.out.println(loginId+"<--loginId");
+	//System.out.println(productNo+"<--productNo");
 
 	
 	//클래스 객체 생성

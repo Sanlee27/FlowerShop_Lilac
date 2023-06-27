@@ -33,7 +33,7 @@
 	//상세페이지 객체 생성
 	Question one = questionDao.questionOne(qNo);
 
-	System.out.println(one);
+	//System.out.println(one);
 	
 	
 %>

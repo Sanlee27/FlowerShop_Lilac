@@ -6,12 +6,7 @@
 
 <%
 
-/*
-문의게시판-> 전체 QuestionList를 띄운다
-리스트 열람만 가능
-*/
-	
-	//유효성검사 X
+// 문의게시판
 	
 	//QuestionDao 객체 선언
 	QuestionDao questionDao = new QuestionDao();

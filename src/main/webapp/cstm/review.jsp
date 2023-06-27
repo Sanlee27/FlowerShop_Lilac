@@ -11,9 +11,6 @@
 <%
 //후기 상세 페이지
 
-
-	//요청값 변수에 저장
-
 	//세션 유효성 검사
 	if(session.getAttribute("loginId")==null){
 		response.sendRedirect(request.getContextPath()+"/cstm/login.jsp");
@@ -31,9 +28,9 @@
 	
 	//요청값 변수에 저장
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	System.out.println(orderNo + "<- orderNo");
+	//System.out.println(orderNo + "<- orderNo");
 	String loginId = (String)session.getAttribute("loginId");
-	System.out.println(loginId+ "<--loginId");
+	//System.out.println(loginId+ "<--loginId");
 	boolean isAdmin = loginId.equals("admin1") || loginId.equals("admin2") ? true : false;
 
 	
@@ -48,7 +45,7 @@
 	ReviewImg reviewImg = (ReviewImg)map.get("reviewImg");
 	
 	//디버깅
-	System.out.println(map);
+	//System.out.println(map);
 	
 	//path 경로 설정
 	String path = "";
@@ -60,7 +57,7 @@
 	//String path = request.getContextPath()+  "/review/" + reviewImg.getReviewSaveFilename();
 	
 	//디버깅
-	System.out.println(path);
+	//System.out.println(path);
 	
 	OrderDao orderDao = new OrderDao();
 	Order order = orderDao.getOrderDetail(review.getOrderNo());

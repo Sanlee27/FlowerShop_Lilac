@@ -16,10 +16,10 @@
 	//인코딩
 	request.setCharacterEncoding("utf-8");
 	
-	//string 타입 변수 선언
+	//변수 선언
 	String msg = "";
 	String dir = request.getServletContext().getRealPath("/review");
-	System.out.println(dir);
+	//System.out.println(dir);
 	
 	int max = 100*1024*1024; //100M
 	
@@ -29,7 +29,7 @@
 	//파일 업로드
 	MultipartRequest mReq = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
 	
-	System.out.println(mReq.getContentType("reviewImg"));		
+	//System.out.println(mReq.getContentType("reviewImg"));		
 			
 	//업로드 된 파일 이름 반환
 	
@@ -58,21 +58,24 @@
 	String reviewTitle = mReq.getParameter("reviewTitle");
 	String reviewContent = mReq.getParameter("reviewContent");
 
-	//디버깅
+	/* 
+	디버깅
 	System.out.println(orderNo);
 	System.out.println(reviewTitle);
 	System.out.println(reviewContent);
+	*/
 
 	//2) input type="file" 값 반환
 	String type = mReq.getContentType("reviewImg");
 	String originFilename = mReq.getOriginalFileName("reviewImg");
 	String saveFilename = mReq.getFilesystemName("reviewImg");
 	
-	//디버깅	
+	/*
+	디버깅	
 	System.out.println(type +"<-- addReviewAction type");
 	System.out.println(originFilename + "<--addReviewAction originFilename");
 	System.out.println(saveFilename+ "<--addReviewAction saveFilename");
-	
+	*/
 
 	//객체 생성해 요청값 저장
 	
@@ -88,7 +91,7 @@
 	reviewImg.setReviewSaveFilename(saveFilename);
 	reviewImg.setReviewFiletype(type);
 	
-	System.out.println(review + "<-addReviewAction reviewImg");
+	//System.out.println(review + "<-addReviewAction reviewImg");
 	
 
 	
@@ -99,6 +102,7 @@
 	
 	
 	//후기 수정 메서드 실행
+	
 	int row = reviewDao.addReview(map);
 	
 	if(row != 0){ //입력 성공

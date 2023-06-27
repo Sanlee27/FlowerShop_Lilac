@@ -5,16 +5,12 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %> 
 <%@ page import = "dao.*" %>
+<%@ page import="java.net.URLEncoder"%>
 
 <%
 
-/*
-후기게시판 -> 전체 reviewList를 띄운다
-리스트 열람만 가능, 리스트에 사진 안 띄움
-*/
-	//유효성 검사 x
-	
-	
+//후기게시판
+
 	//현재페이지
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -26,15 +22,6 @@
 		ProductDao productDao = new ProductDao();
 		OrderDao orderDao = new OrderDao();
 
-		
-	// 요청값 변수에 저장
-	//int orderNo = 0;
-	//String orderNoParam = request.getParameter("orderNo");
-	//if (orderNoParam != null && !orderNoParam.equals("")) {
-	//    orderNo = Integer.parseInt(orderNoParam);
-	//}
-	//System.out.println(orderNoParam);
-	
 	// 페이징을 위한 변수 선언
 		//총 행의 수
 		int totalRow = reviewDao.selectReviewCnt();
@@ -75,7 +62,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Lilac</title>
-
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<!-- css파일 -->
 	<link href="<%=request.getContextPath() %>/style.css" type="text/css" rel="stylesheet">
 	<!-- 브라우저 탭에 보여줄 아이콘 -->
@@ -86,6 +74,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- alert창 디자인 라이브러리 -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	
 	<script>
 
 	$(document).ready(function(){

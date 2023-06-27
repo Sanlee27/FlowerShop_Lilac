@@ -43,10 +43,10 @@
 	Answer answer = answerdao.selectAnswer(qNo);
 	HashMap<String, Object> map = productDao.getProductDetail(one.getProductNo());
 	
-		Product product = (Product) map.get("product");
+	Product product = (Product) map.get("product");
 	
 
-	System.out.println(one + "<-one");
+	//System.out.println(one + "<-one");
 	
 	
 %>

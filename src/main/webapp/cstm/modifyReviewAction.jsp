@@ -13,6 +13,7 @@
 <%
 
 //후기 입력 액션 페이지
+
 	//인코딩
 	request.setCharacterEncoding("utf-8");
 	
@@ -20,7 +21,7 @@
 	String msg = "";
 	String dir = request.getServletContext().getRealPath("/review");
 
-	System.out.println(dir+ "<-modifyReviewAction dir");
+	//System.out.println(dir+ "<-modifyReviewAction dir");
 	
 	int max = 100*1024*1024; //100M
 	
@@ -30,7 +31,7 @@
 	//파일 업로드
 	MultipartRequest mReq = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
 	
-	System.out.println(mReq.getContentType("modReviewImg"));		
+	//System.out.println(mReq.getContentType("modReviewImg"));		
 			
 	//업로드 된 파일 이름 반환
 	
@@ -39,7 +40,7 @@
 		&& mReq.getContentType("modReviewImg").equals("image/jpeg") == false){
 		
 		//넘어온 파일 확장자가 jpg가 '아닌' 경우 파일 삭제
-		System.out.println("jpg 파일이 아닙니다");
+		//System.out.println("jpg 파일이 아닙니다");
 		
 		String saveFilename = mReq.getFilesystemName("modReviewImg");
 		File f = new File(dir +"/"+saveFilename); //지우는 파일의 풀네임
@@ -60,22 +61,22 @@
 	String reviewTitle = mReq.getParameter("mTitle");
 	String reviewContent = mReq.getParameter("mContent");
 	
-	//디버깅
+	/*디버깅
 	System.out.println(orderNo);
 	System.out.println(reviewTitle);
 	System.out.println(reviewContent);
-
+	*/
 	
 	//2) input type="file" 값 반환
 	String type = mReq.getContentType("modReviewImg");
 	String originFilename = mReq.getOriginalFileName("modReviewImg");
 	String saveFilename = mReq.getFilesystemName("modReviewImg");
 	
-	//디버깅	
+	/*디버깅	
 	System.out.println(type +"<-- modifyReviewAction type");
 	System.out.println(originFilename + "<--modifyReviewAction originFilename");
 	System.out.println(saveFilename+ "<--modifyReviewAction saveFilename");
-	
+	*/
 	
 
 
@@ -96,7 +97,7 @@
 	reviewImg.setReviewSaveFilename(saveFilename);
 	reviewImg.setReviewFiletype(type);
 	
-	System.out.println(review + "<-modifyReviewAction reviewImg");
+	//System.out.println(review + "<-modifyReviewAction reviewImg");
 	
 
 	
@@ -110,8 +111,7 @@
 	int row = reviewDao.modReview(map);
 	
 	if(row == 0){ //수정 성공
-		msg = URLEncoder.encode("후기 tnwjd 성공!","utf-8");
-		System.out.println("후기 수정 성공");
+		msg = URLEncoder.encode("후기 수정 성공!","utf-8");
 		response.sendRedirect(request.getContextPath()+"/cstm/reviewList.jsp?msg="+ msg);
 		return;
 	}

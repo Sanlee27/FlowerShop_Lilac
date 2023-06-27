@@ -9,6 +9,7 @@
 
 <% 
 //포토후기 입력 페이지
+
 	//인코딩
 	request.setCharacterEncoding("utf-8");
 	
@@ -26,28 +27,22 @@
 		return;
 	}
 	
-
 	//요청값 변수에 저장
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 	String id = request.getParameter("id");
 	String reviewTitle = request.getParameter("reviewTitle");
 	String reviewContent = request.getParameter("reviewContent");
 
-
+	/*
 	System.out.println(orderNo+"<--orderNo");
 	System.out.println(reviewTitle+"<--reviewTitle");
 	System.out.println(reviewContent+"<--reviewContent");
 	System.out.println(id+"<--id");
-
+	*/
 	
-
 	//클래스 객체 생성
 	ReviewDao reviewDao = new ReviewDao(); 
 %>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -85,9 +80,7 @@
 						<div>
 							<div>주문번호</div>
 							<div><%=orderNo%></div> 
-							<!-- 
-							reviweone 메서드의 해시맵 키"review"로부터 orderNo 값을 출력
-							 -->
+
 						</div>	
 						<!-- 로그인 사용자 id -->
 						<div>
