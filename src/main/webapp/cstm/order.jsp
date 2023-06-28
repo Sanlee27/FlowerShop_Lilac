@@ -85,6 +85,11 @@
 				$(input).val(<%=customer.getCstmPoint()%>);
 				return;
 			}
+			if(nowValue > <%=totalPrice + deliveryFee%>){
+				swal("경고", "주문 금액 만큼만 사용하세요", "warning");
+				$(input).val(<%=totalPrice + deliveryFee%>);
+				return;
+			}
 		}
 		function payBtnClick(){
 			// 입력값들 유효성 검사
