@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dao.*"%>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="java.util.*"%>
 <%
 	// DAO 불러오기
@@ -66,7 +66,7 @@
 			</div>
 			<div id="content">
 				<div>상품 가격</div>
-				<div><input type="number" name = "productPrice"></div>
+				<div><input type="number" name = "productPrice" min="1"></div>
 			</div>
 			<div>
 				<div>상품 상태</div> 
@@ -79,7 +79,7 @@
 			</div>
 			<div>
 				<div>재고량</div>
-				<div><input type="number" name = "productStock"></div>
+				<div><input type="number" name = "productStock" min="0"></div>
 			</div>
 			<div>
 				<div>상품 이미지</div>
