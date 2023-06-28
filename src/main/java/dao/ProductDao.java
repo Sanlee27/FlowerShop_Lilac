@@ -154,7 +154,7 @@ public class ProductDao {
 		Connection conn = dbUtil.getConnection();
 		
 		// product 테이블에 데이터를 추가하는 쿼리
-		String productSql = "insert into product(category_name, product_name, product_price, product_status, product_info, product_stock, createdate, updatedate) values(?, ?, ?, ?, ?, ?, now(), now())";
+		String productSql = "insert into product(category_name, product_name, product_price, product_status, product_info, product_stock, product_sale_cnt, createdate, updatedate) values(?, ?, ?, ?, ?, ?, 0, now(), now())";
 		PreparedStatement productStmt = conn.prepareStatement(productSql, PreparedStatement.RETURN_GENERATED_KEYS);
 		
 		// ?값 세팅
