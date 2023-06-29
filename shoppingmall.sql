@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   CONSTRAINT `FK_answer_question` FOREIGN KEY (`q_no`) REFERENCES `question` (`q_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 테이블 데이터 shoppingmall.answer:~6 rows (대략적) 내보내기
+-- 테이블 데이터 shoppingmall.answer:~5 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
 INSERT INTO `answer` (`answer_no`, `q_no`, `id`, `answer_content`, `createdate`, `updatedate`) VALUES
 	(1, 2, 'admin1', '해외배송은 불가능합니다. 감사합니다.', '2023-05-02 00:00:00', '2023-05-02 00:00:00'),
@@ -219,9 +219,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `FK_order_id` (`id`) USING BTREE,
   CONSTRAINT `FK_order_id` FOREIGN KEY (`id`) REFERENCES `id_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_order_product` FOREIGN KEY (`product_no`) REFERENCES `product` (`product_no`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 테이블 데이터 shoppingmall.orders:~2 rows (대략적) 내보내기
+-- 테이블 데이터 shoppingmall.orders:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 INSERT INTO `orders` (`order_no`, `product_no`, `id`, `order_status`, `order_cnt`, `order_price`, `createdate`, `updatedate`) VALUES
 	(15, 1, 'user1', '취소', 2, 55860, '2023-06-27 17:39:48', '2023-06-27 17:40:05'),
@@ -239,9 +239,9 @@ CREATE TABLE IF NOT EXISTS `point_history` (
   PRIMARY KEY (`point_no`),
   KEY `FK_point_history_orders` (`order_no`),
   CONSTRAINT `FK_point_history_orders` FOREIGN KEY (`order_no`) REFERENCES `orders` (`order_no`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 테이블 데이터 shoppingmall.point_history:~7 rows (대략적) 내보내기
+-- 테이블 데이터 shoppingmall.point_history:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `point_history` DISABLE KEYS */;
 INSERT INTO `point_history` (`point_no`, `order_no`, `point_pm`, `point`, `createdate`) VALUES
 	(38, 15, '-', 300, '2023-06-27 17:39:48'),
@@ -421,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `review` (
   CONSTRAINT `FK_review_order` FOREIGN KEY (`order_no`) REFERENCES `orders` (`order_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- 테이블 데이터 shoppingmall.review:~0 rows (대략적) 내보내기
+-- 테이블 데이터 shoppingmall.review:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 INSERT INTO `review` (`order_no`, `review_title`, `review_content`, `createdate`, `updatedate`) VALUES
 	(17, '이뻐요', '좋아요', '2023-06-27 17:41:40', '2023-06-27 17:41:40');
@@ -436,13 +436,11 @@ CREATE TABLE IF NOT EXISTS `review_img` (
   `createdate` datetime NOT NULL,
   `updatedate` datetime NOT NULL,
   PRIMARY KEY (`order_no`),
-  CONSTRAINT `FK_review_img_order` FOREIGN KEY (`order_no`) REFERENCES `orders` (`order_no`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_review_img_review` FOREIGN KEY (`order_no`) REFERENCES `review` (`order_no`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- 테이블 데이터 shoppingmall.review_img:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review_img` DISABLE KEYS */;
-INSERT INTO `review_img` (`order_no`, `review_ori_filename`, `review_save_filename`, `review_filetype`, `createdate`, `updatedate`) VALUES
-	(17, 'pepe.jpg', 'pepe.jpg', 'image/jpeg', '2023-06-27 17:41:40', '2023-06-27 17:41:40');
 /*!40000 ALTER TABLE `review_img` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
