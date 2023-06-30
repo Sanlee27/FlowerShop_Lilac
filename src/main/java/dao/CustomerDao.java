@@ -338,7 +338,16 @@ public class CustomerDao {
 		return newPwRow;
 	}
 	
-	
+	// 아이디 / 비밀번호 찾기
+	/*
+	 * id_list와 customer 테이블을 join하여 customer에 있는 정보를 질의응답형식으로 표현
+	 * findId.jsp / findPw.jsp 추가
+	 * 각각 action 추가
+	 * 택 1
+	 * 1) 회원가입시 id,pw 찾기 질문문항을 추가, customer 테이블에 컬럼 추가
+	 * 2) 기존에 있던 고객 정보를 입력하여 확인하는 식(최소 2개이상)
+	 * id,pw는 전부 보여주지말고 몇개만
+	 */
 	// ===================
 	// 고객 정보 출력
 	public Customer selectCustomerInfo(String id) throws Exception {
@@ -461,10 +470,5 @@ public class CustomerDao {
 		}
 		return genList;
 	}
-	// id 성별 생일 나이 리스트
-	/*
-	SELECT id, cstm_gender, cstm_birth, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cstm_birth, '%Y') age
-	FROM customer;
-	 */
 }
 
