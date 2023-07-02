@@ -92,8 +92,8 @@
 				}
 			%>
 			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/join.jsp'" class="style-btn">회원가입</button>
-			<button type="button" onclick="location.href=''" class="style-btn">아이디 찾기</button>
-			<button type="button" onclick="location.href=''" class="style-btn">비밀번호 찾기</button>
+			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/findId.jsp'" class="style-btn">아이디 찾기</button>
+			<button type="button" onclick="location.href='<%=request.getContextPath()%>/cstm/findPw.jsp'" class="style-btn">비밀번호 찾기</button>
 		</form>
 	</div>
 	<jsp:include page="/cstm/cart.jsp"></jsp:include>
