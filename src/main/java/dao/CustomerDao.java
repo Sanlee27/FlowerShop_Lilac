@@ -346,6 +346,7 @@ public class CustomerDao {
 	 * 택 1
 	 * 1) 회원가입시 id,pw 찾기 질문문항을 추가, customer 테이블에 컬럼 추가
 	 * 2) 기존에 있던 고객 정보를 입력하여 확인하는 식(최소 2개이상)
+	 * SELECT i.id, i.last_pw FROM id_list i JOIN customer c ON i.id=c.id WHERE c.cstm_name = '이강산' AND c.cstm_email = 'sanlee@naver.com' AND c.cstm_birth = '1997-12-27';
 	 * id,pw는 전부 보여주지말고 몇개만
 	 */
 	// ===================
