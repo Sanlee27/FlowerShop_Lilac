@@ -341,13 +341,14 @@ public class CustomerDao {
 	// 아이디 / 비밀번호 찾기
 	/*
 	 * id_list와 customer 테이블을 join하여 customer에 있는 정보를 질의응답형식으로 표현
-	 * findId.jsp / findPw.jsp 추가
+	 * findId.jsp / findPw.jsp 추가 v
 	 * 각각 action 추가
-	 * 택 1
-	 * 1) 회원가입시 id,pw 찾기 질문문항을 추가, customer 테이블에 컬럼 추가
-	 * 2) 기존에 있던 고객 정보를 입력하여 확인하는 식(최소 2개이상)
-	 * SELECT i.id, i.last_pw FROM id_list i JOIN customer c ON i.id=c.id WHERE c.cstm_name = '이강산' AND c.cstm_email = 'sanlee@naver.com' AND c.cstm_birth = '1997-12-27';
-	 * id,pw는 전부 보여주지말고 몇개만
+	 * 기존에 있던 고객 정보를 입력하여 확인하는 식(최소 2개이상) // 이름 생년월일 이메일 +(비밀번호> 아이디)
+	 * id,pw는 전부 보여주지말고 일부만
+	 * 아이디
+	 * SELECT id FROM customer WHERE cstm_name = '이강산' AND cstm_email = 'sanlee@naver.com' AND cstm_phone = '01024370000'
+	 * 비밀번호
+	 * SELECT i.last_pw FROM id_list i JOIN customer c ON i.id=c.id WHERE c.id = 'user1' AND c.cstm_name = '이강산' AND c.cstm_email = 'sanlee@naver.com' AND c.cstm_birth = '1997-12-27';
 	 */
 	// ===================
 	// 고객 정보 출력
