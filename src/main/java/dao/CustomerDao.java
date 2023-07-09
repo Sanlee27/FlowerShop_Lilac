@@ -350,6 +350,25 @@ public class CustomerDao {
 	 * 비밀번호
 	 * SELECT i.last_pw FROM id_list i JOIN customer c ON i.id=c.id WHERE c.id = 'user1' AND c.cstm_name = '이강산' AND c.cstm_email = 'sanlee@naver.com' AND c.cstm_birth = '1997-12-27';
 	 */
+	public int findId(String name, String email, String birth) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 쿼리
+		String findIdSql = "SELECT id FROM customer WHERE cstm_name = ? AND cstm_email = ? AND cstm_birth = ?";
+		PreparedStatement stmt = conn.prepareStatement(findIdSql);
+		stmt.setString(1, name);
+		stmt.setString(2, email);
+		stmt.setString(3, birth);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = 1;
+		}
+		
+		return row;
+	}
 	// ===================
 	// 고객 정보 출력
 	public Customer selectCustomerInfo(String id) throws Exception {
