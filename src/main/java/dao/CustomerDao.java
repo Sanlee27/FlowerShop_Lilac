@@ -350,6 +350,7 @@ public class CustomerDao {
 	 * 비밀번호
 	 * SELECT i.last_pw FROM id_list i JOIN customer c ON i.id=c.id WHERE c.id = 'user1' AND c.cstm_name = '이강산' AND c.cstm_email = 'sanlee@naver.com' AND c.cstm_birth = '1997-12-27';
 	 */
+	// 아이디 찾기
 	public int findId(String name, String email, String birth) throws Exception {
 		int row = 0;
 		// DB메소드
@@ -367,6 +368,26 @@ public class CustomerDao {
 			row = 1;
 		}
 		
+		return row;
+	}
+	// 비밀번호 찾기
+	public int fintPw(String id, String name, String email, String birth) throws Exception {
+		int row = 0;
+		// DB메소드
+		DBUtil dbUtil = new DBUtil(); 
+		Connection conn = dbUtil.getConnection();
+		// 쿼리
+		String findPwSql = "SELECT last_pw FROM id_list i JOIN customer c ON i.id = c.id WHERE i.id = ? AND cstm_name = ? AND cstm_email = ? AND cstm_birth = ?";
+		PreparedStatement stmt = conn.prepareStatement(findPwSql);
+		stmt.setString(1, id);
+		stmt.setString(2, name);
+		stmt.setString(3, email);
+		stmt.setString(4, birth);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = 1;
+		}
 		return row;
 	}
 	// ===================
