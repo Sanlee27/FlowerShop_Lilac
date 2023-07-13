@@ -11,12 +11,12 @@
 	request.setCharacterEncoding("utf-8");
 	
 	//변수
-		String msg = "";
-		String dir = request.getServletContext().getRealPath("/product");
-			System.out.println(dir);
-		int max = 10 * 1024 * 1024; 
-		// request객체를 MultipartRequest의 API를 사용할 수 있도록 랩핑
-	 	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8");
+	String msg = "";
+	String dir = request.getServletContext().getRealPath("/product");
+		System.out.println(dir);
+	int max = 10 * 1024 * 1024; 
+	// request객체를 MultipartRequest의 API를 사용할 수 있도록 랩핑
+ 	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8");
 	
 	//productNo 유효성검사
 	if(mRequest.getParameter("productNo") == null
@@ -59,14 +59,14 @@
 				&& mRequest.getContentType("productImg").equals("image/jpeg") == false){
 				
 				//이미 저장된 파일 삭제
-				String oriFilename = mRequest.getOriginalFileName("productImg");
+				String saveFilename = mRequest.getOriginalFileName("productImg");
 					System.out.println("PNG, JPG, JEPG파일이 아닙니다.");
 
 				//파일 경로 설정
-				File f = new File(dir + "/" + oriFilename);
+				File f = new File(dir + "/" + saveFilename);
 				if(f.exists()) {
 					f.delete();
-						System.out.println(dir + "/" + oriFilename + "파일삭제");
+						System.out.println(dir + "/" + saveFilename + "파일삭제");
 				}
 				msg = URLEncoder.encode("PNG, JPG, JEPG파일로 업로드해주세요.","utf-8"); 
 				response.sendRedirect(request.getContextPath() + "/emp/modifyProduct.jsp?msg=" + msg + "&productNo=" + productNo);
